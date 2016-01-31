@@ -1,0 +1,40 @@
+{
+    "name": "dotplant/monster",
+    "description": "Here be monsters",
+    "type": "dotplant-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "bethrezen",
+            "email": "b37hr3z3n@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "devgroup/yii2-frontend-utils": "dev-master",
+        "devgroup/bh": "~4.4",
+        "devgroup/yii2-admin-utils": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "DotPlant\\Monster\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "DotPlant\\Monster\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "yii2-extension": {
+            "name": "DotPlant monster",
+            "name_ru": "DotPlant монстр",
+            "iconUrl": "https://st-1.dotplant.ru/images/monster-logo.png",
+            "description_ru": "Это расширение пока что останется секретом"
+        },
+        "migrationPath": ["src/migrations/"],
+        "bootstrap": "DevGroup\\Monster\\ExtensionBootstrap",
+        "configurables": "src/configurables.php",
+        "translationCategory": "dotplant.monster"
+    }
+}
