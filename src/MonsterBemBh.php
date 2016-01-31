@@ -131,7 +131,6 @@ php;
     {
         Yii::beginProfile('BEM BH');
 
-        //! @todo Think about adding cache here
         /*
          * bh->apply takes about 13-17 ms to compile simple block
          * html formatter takes about 0.7-1 ms to format it
