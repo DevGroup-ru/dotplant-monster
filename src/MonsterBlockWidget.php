@@ -43,6 +43,8 @@ abstract class MonsterBlockWidget extends Widget
     /** @var array Array of non-bemjson tree extends that are compiled into bem matchers */
     public $bemCustomization = [];
 
+    public $editableValues = [];
+
     /**
      * This is not the function that you should implement
      * @inheritdoc
@@ -73,7 +75,7 @@ abstract class MonsterBlockWidget extends Widget
             $bh->customize($this->bemCustomization);
         }
 
-        $result = $bh->apply($bemJson, $params);
+        $result = $bh->apply($bemJson, $params, $this->editableValues, $this->templateCacheKey());
         $bh = null;
         unset($bh);
 
@@ -88,6 +90,11 @@ abstract class MonsterBlockWidget extends Widget
         }
 
         return $result;
+    }
+
+    public function templateCacheKey()
+    {
+        return '';
     }
 
     /**

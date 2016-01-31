@@ -5,6 +5,7 @@ namespace DotPlant\Monster;
 use BEM\BH;
 use BEM\Context;
 use BEM\Json;
+use BEM\Step;
 use Yii;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
@@ -20,6 +21,8 @@ class MonsterBemBh extends Component
     public $customization = [];
 
     public $modsDelimiter = '--';
+
+    public $templateCacheDuration = 86400;
 
     public function init()
     {
@@ -45,10 +48,8 @@ class MonsterBemBh extends Component
                 $clsAdd = [];
                 $attrs = $ctx->attrs();
 
-                if (isset($json->editable)) {
-                    //! @todo if it is frontend rendering mode -> don't add editable!
-                    $attrs['data-editable'] = 'true';
-                }
+
+
                 if (isset($json->phpParam)) {
                     $ctx->content('{{phpParam:'.$json->phpParam.'}}');
                 }
@@ -66,8 +67,38 @@ class MonsterBemBh extends Component
                 }
 
                 if ($json->block) {
-                    $attrs['data-bem-match'] = $json->block . ($json->elem ? '__' . $json->elem : '');
+                    $attrs['data-bem-match'] = $bemSelector = $json->block . ($json->elem ? '__' . $json->elem : '');
+
+
+                    // if it's editable
+                    if (isset($json->editable) || isset($json->link)) {
+                        $attrs['data-editable'] = 1;
+                        // find editable prefix
+                        $attrs['data-editable-group'] = $prefix = $this->recursiveFindEditableGroup($ctx->node);
+
+                        if (empty($prefix) === false) {
+                            $value = <<<php
+{{grouppedEditableValue:$prefix::$bemSelector}}
+php;
+                        } else {
+                            $value = <<<php
+{{editableValue:$bemSelector}}
+php;
+                        }
+
+                        $ctx->content($value, true);
+
+                        if (isset($json->link)) {
+                            $ctx->tag('a');
+                            if (empty($prefix) === false) {
+                                $attrs['href'] = "{{grouppedLink:$prefix::$bemSelector}}";
+                            } else {
+                                $attrs['href'] = "{{link:$bemSelector}}";
+                            }
+                        }
+                    }
                 }
+
                 $ctx->attrs($attrs, true);
             },
             'button' => function (Context $ctx) {
@@ -78,12 +109,25 @@ class MonsterBemBh extends Component
 
     }
 
+    private function recursiveFindEditableGroup($node) {
+        if ($node === null) {
+            return "";
+        } elseif (isset($node->json->editableGroup)) {
+            return $node->json->editableGroup;
+        } elseif (isset($node->parentNode)) {
+            return $this->recursiveFindEditableGroup($node->parentNode);
+        } else {
+            return '';
+        }
+    }
+
     /**
      * @param string $bemJson
      * @param array  $params
+     * @param array  $editableValues
      * @return string
      */
-    public function apply($bemJson, $params = [])
+    public function apply($bemJson, $params = [], $editableValues = [], $templateCacheKey = '')
     {
         Yii::beginProfile('BEM BH');
 
@@ -96,17 +140,49 @@ class MonsterBemBh extends Component
          * Also, we can try twig here without preg_replace ^_^
          */
         Yii::beginProfile('apply');
-        $output = $this->bh->apply($bemJson);
+        $output = '';
+        if ($templateCacheKey !== '') {
+            $output = Yii::$app->cache->get($templateCacheKey);
+        }
+        if (empty($output)) {
+            $output = $this->bh->apply($bemJson);
+            if ($templateCacheKey !== '') {
+                Yii::$app->cache->set(
+                    $templateCacheKey,
+                    $output,
+                    $this->templateCacheDuration
+                );
+            }
+        }
         Yii::endProfile('apply');
 
         Yii::beginProfile('Replace php params');
         $output = preg_replace_callback(
-            '/{{phpParam:([^}]*)}}/U',
+            '/{{phpParam:([^}]*)}}/S',
             function ($match) use ($params) {
                 if (isset($params[$match[1]])) {
                     return $params[$match[1]];
                 }
                 return "<!-- unknown php param $match[1] -->";
+            },
+            $output
+        );
+        $output = preg_replace_callback(
+            '/{{editableValue:(?<bemSelector>[^}]*)}}/S',
+            function ($match) use ($editableValues) {
+                return isset($editableValues[$match['bemSelector']])
+                    ? $editableValues[$match['bemSelector']]
+                    : '!!Undefined bemSelector:' . $match['bemSelector'] . '!!';
+            },
+            $output
+        );
+        $output = preg_replace_callback(
+            '/{{grouppedEditableValue:(?<group>[^:]*)::(?<bemSelector>[^}]*)}}/S',
+            function ($match) use ($editableValues) {
+                return isset($editableValues[$match['group']][$match['bemSelector']])
+                    ? $editableValues[$match['group']][$match['bemSelector']]
+                    : '!!Undefined bemSelector:' . $match['bemSelector']
+                    . '@' . $match['group'] . '!!';
             },
             $output
         );
@@ -116,6 +192,8 @@ class MonsterBemBh extends Component
 
         return $output;
     }
+
+
 
     public function customize($customization)
     {
@@ -133,6 +211,7 @@ class MonsterBemBh extends Component
     public function processInstructions(Context $ctx, Json $json, $instructions)
     {
         Yii::beginProfile("Process instructions");
+
         foreach ($instructions as $what => $how) {
             switch ($what) {
                 case 'mods':

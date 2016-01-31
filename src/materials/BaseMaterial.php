@@ -13,6 +13,8 @@ class BaseMaterial extends MonsterBlockWidget
 
     public $block = '';
 
+    public $uniqueTemplateId = '';
+
     /** @inheritdoc */
     public function init()
     {
@@ -38,5 +40,10 @@ class BaseMaterial extends MonsterBlockWidget
         $params = $this->params;
         $params['__CLASS__'] = $this->className();
         return $params;
+    }
+
+    public function templateCacheKey()
+    {
+        return $this->uniqueTemplateId;
     }
 }
