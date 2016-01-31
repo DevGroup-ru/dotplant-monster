@@ -2,21 +2,30 @@
 
 namespace DotPlant\Monster\materials;
 
-use DevGroup\Frontend\monster\MonsterBlockWidget;
+use DotPlant\Monster\BemRepository;
+use DotPlant\Monster\MonsterBlockWidget;
 use Yii;
+use yii\base\InvalidConfigException;
 
 class BaseMaterial extends MonsterBlockWidget
 {
     public $params = [];
 
+    public $block = '';
+
     /** @inheritdoc */
     public function init()
     {
-        // set default bemjson to bemjson/CLASS.json
-        $className = explode('\\', $this->className());
-        $shortClassName = end($className);
-        $this->bemjson = __DIR__ . '/bemjson/' . $shortClassName . '.json';
         parent::init();
+        if (empty($this->block)) {
+            throw new InvalidConfigException('Block should be set in BaseMaterial widget call');
+        }
+        /** @var BemRepository $repository */
+        $repository = Yii::$app->get('bemRepository');
+        if (!isset($repository->materials[$this->block])) {
+            throw new InvalidConfigException("Block with name {$this->block} does not exist.");
+        }
+        $this->bemjson = $repository->materials[$this->block]->tree();
     }
 
     /**

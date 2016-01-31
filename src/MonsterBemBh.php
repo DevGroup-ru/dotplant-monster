@@ -138,6 +138,9 @@ class MonsterBemBh extends Component
                 case 'mods':
                     $ctx->mods($how);
                     break;
+                case 'content':
+                    $ctx->content($how, true);
+                    break;
                 default:
                     if (isset($json->$what)) {
                         if (is_array($json->$what)) {

@@ -37,7 +37,7 @@ abstract class MonsterBlockWidget extends Widget
      */
     public $cacheAdditionalTags = [];
 
-    /** @var string Base BEM Json file */
+    /** @var string|array Base BEM Json file */
     public $bemjson = '';
 
     /** @var array Array of non-bemjson tree extends that are compiled into bem matchers */
@@ -56,7 +56,12 @@ abstract class MonsterBlockWidget extends Widget
             }
         }
 
-        $this->bemjson = Yii::getAlias($this->bemjson);
+        if (is_string($this->bemjson)) {
+            $this->bemjson = Yii::getAlias($this->bemjson);
+            $bemJson = Json::decode(file_get_contents($this->bemjson));
+        } else {
+            $bemJson = $this->bemjson;
+        }
 
         $params = $this->produceParams();
         /** @var MonsterWebView $view */
@@ -68,7 +73,7 @@ abstract class MonsterBlockWidget extends Widget
             $bh->customize($this->bemCustomization);
         }
 
-        $result = $bh->apply(Json::decode(file_get_contents($this->bemjson)), $params);
+        $result = $bh->apply($bemJson, $params);
         $bh = null;
         unset($bh);
 

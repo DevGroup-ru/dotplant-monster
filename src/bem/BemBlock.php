@@ -83,11 +83,13 @@ class BemBlock extends BemEntity
     /** @inheritdoc */
     public function __sleep()
     {
+        if (!empty($this->bemJson)) {
+            $this->bemJson = $this->workingDirectory . $this->bemJson;
+        }
         return ArrayHelper::merge(
             parent::__sleep(),
             [
                 'bemJson',
-                'bemJsonTree',
                 'widget',
                 'widgetConfig',
                 'description',
@@ -95,6 +97,28 @@ class BemBlock extends BemEntity
                 'elements',
             ]
         );
+    }
+
+    /**
+     * Returns BEMJson tree, loads it from json file if not loaded.
+     * @return array
+     * @throws \Exception
+     */
+    public function tree()
+    {
+        if (count($this->bemJsonTree) > 0) {
+            return $this->bemJsonTree;
+        }
+        if (empty($this->bemJson) === true) {
+            return [];
+        }
+        if (is_readable($this->bemJson) === false) {
+            throw new \Exception("BemJson file {$this->bemJson} is not readable.");
+        }
+        $this->bemJsonTree = Json::decode(
+            file_get_contents($this->bemJson)
+        );
+        return $this->bemJsonTree;
     }
 
 }

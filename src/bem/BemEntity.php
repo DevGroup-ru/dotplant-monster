@@ -64,7 +64,9 @@ class BemEntity extends BemDescribable
     public function init()
     {
         parent::init();
-        $this->innerExclusive = preg_replace(Annotator::SCSS_REGEXP, '', $this->inner);
+        if (!empty($this->inner)) {
+            $this->innerExclusive = preg_replace(Annotator::SCSS_REGEXP, '', $this->inner);
+        }
     }
 
     /** @inheritdoc */
