@@ -2,10 +2,14 @@
 
 namespace DotPlant\Monster\materials;
 
+use DevGroup\TagDependencyHelper\TagDependencyTrait;
+use DotPlant\Monster\BemCustomizationRepository;
 use DotPlant\Monster\BemRepository;
 use DotPlant\Monster\MonsterBlockWidget;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 class BaseMaterial extends MonsterBlockWidget
 {
@@ -22,12 +26,20 @@ class BaseMaterial extends MonsterBlockWidget
         if (empty($this->block)) {
             throw new InvalidConfigException('Block should be set in BaseMaterial widget call');
         }
+    }
+
+    public function uncachedRun() {
         /** @var BemRepository $repository */
         $repository = Yii::$app->get('bemRepository');
         if (!isset($repository->materials[$this->block])) {
             throw new InvalidConfigException("Block with name {$this->block} does not exist.");
         }
-        $this->bemjson = $repository->materials[$this->block]->tree();
+        $this->bemJson = $repository->materials[$this->block]->tree();
+
+        /** @var BemCustomizationRepository $customizationRepository */
+        $customizationRepository = Yii::$app->get('bemRepository')->customization();
+        $globalBemCustomization = $customizationRepository->getCustomization($this->block);
+        $this->bemCustomization = ArrayHelper::merge($globalBemCustomization, $this->bemCustomization);
     }
 
     /**
@@ -44,26 +56,29 @@ class BaseMaterial extends MonsterBlockWidget
 
     public function templateCacheKey()
     {
-        /**
-         * @todo Тудушечка
-         * В репозиторий впилить 2 новые переменные:
-         * - $globalBlockCustomization - глобальная поблоковая кастомизация
-         * - $contextualBlockCustomization - контекстуальная дополнительная кастомизация
-         * Также надо добавить функцию для кеш-тегов templateCacheTags(). По-умолчанию - [].
-         *
-         * Итоговый блок будет брать кастомизацию из глобальной и подмешивать туда локальную, если определена.
-         * Ключ кеширования шаблона по-умолчанию идёт как BaseMaterial.bemTemplate::$this->block.
-         *
-         * Если для этого блока есть хотя бы какая-нибудь глобальная кастомизация:
-         * - к кеш тегам добавляется название текущего блока(для сброса кеша, когда поменяли глоб кастом)
-         * - к кеш-ключу добавляется ::Custom::$this->uniqueContextualId
-         *
-         * !!! uniqueContextualId - комбинированный ID, описывающий сущность (модель)
-         *     и место текущего блока в её представлении
-         *
-         * Кеш теги из templateCacheTags() также используются, если весь вывод(а не только шаблон) кешируются.
-         *
-         */
-        return $this->uniqueTemplateId;
+        return 'MaterialTemplate:' . $this->uniqueTemplateId;
+    }
+
+    protected function generateCacheKey()
+    {
+        return 'MaterialCache:' . $this->uniqueTemplateId;
+    }
+
+    /**
+     * This will look into all params of this material for ActiveRecords that has TagDependencyTrait
+     * @return array Cache tags array
+     */
+    public function generateCacheTags()
+    {
+        $tags = parent::generateCacheTags();
+        foreach ($this->params as $param) {
+            if ($param instanceof ActiveRecord) {
+                if ($param->hasMethod('objectTag')) {
+                    /** @var ActiveRecord|TagDependencyTrait $param */
+                    $tags[] = $param->objectTag();
+                }
+            }
+        }
+        return $tags;
     }
 }

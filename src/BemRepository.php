@@ -7,6 +7,7 @@ use DotPlant\Monster\bem\MonsterGroup;
 use DotPlant\Monster\bem\MonsterVariable;
 use Yii;
 use yii\base\Component;
+use yii\helpers\ArrayHelper;
 
 class BemRepository extends Component
 {
@@ -20,6 +21,9 @@ class BemRepository extends Component
     public $monsterStylesPath = 'src/assets/toolkit/styles/';
 
     public $monsterEntryFile = 'toolkit.scss';
+
+    public $customMaterialsPath = '@app/web/theme/assets-src/styles/';
+    public $customMaterialsEntryFile = 'theme.scss';
 
     public $customizationStoragePath = '@app/monster-custom/';
 
@@ -38,8 +42,15 @@ class BemRepository extends Component
         'class' => 'DotPlant\Monster\bem\Annotator',
     ];
 
+    public $customizationConfig = [
+        'class' => 'DotPlant\Monster\BemCustomizationRepository',
+    ];
+
     /** @var \DotPlant\Monster\bem\Annotator Annotator instance */
     private $annotator = null;
+
+    /** @var BemCustomizationRepository Customization repository instance */
+    private $customization = null;
 
     /**
      * Initializes BEM Repository component.
@@ -90,6 +101,19 @@ class BemRepository extends Component
         $workingDirectory = Yii::getAlias($this->monsterPath  . $this->monsterStylesPath);
         Yii::beginProfile('Annotate SCSS');
         $this->materials = $this->annotator()->annotate($this->monsterEntryFile, $workingDirectory);
+
+        $customPath = Yii::getAlias($this->customMaterialsPath);
+
+        if (file_exists($customPath . $this->customMaterialsEntryFile)) {
+            $custom = $this->annotator()->annotate(
+                $this->customMaterialsEntryFile,
+                $customPath
+            );
+            foreach ($custom as $blockName => $block) {
+                $this->materials[$blockName] = $block;
+            }
+        }
+
         Yii::endProfile('Annotate SCSS');
 
         Yii::beginProfile('Serialize blocks');
@@ -130,6 +154,22 @@ class BemRepository extends Component
         );
     }
 
+    /**
+     * @return \DotPlant\Monster\BemCustomizationRepository
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function customization()
+    {
+        if ($this->customization === null) {
+            $this->customization = Yii::createObject($this->customizationConfig);
+        }
+        return $this->customization;
+    }
+
+    /**
+     * @return \DotPlant\Monster\bem\Annotator
+     * @throws \yii\base\InvalidConfigException
+     */
     public function annotator()
     {
         if ($this->annotator === null) {
@@ -138,6 +178,9 @@ class BemRepository extends Component
         return $this->annotator;
     }
 
+    /**
+     * @return bool
+     */
     private function allCacheFilesExist()
     {
         return

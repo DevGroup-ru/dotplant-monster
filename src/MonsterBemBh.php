@@ -137,6 +137,7 @@ php;
          * preg_replace with params is just only about 0.1ms
          *
          * Also, we can try twig here without preg_replace ^_^
+         * UPD: twig is too slow for such use case
          */
         Yii::beginProfile('apply');
         $output = '';

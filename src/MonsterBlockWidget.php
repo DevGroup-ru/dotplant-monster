@@ -37,8 +37,8 @@ abstract class MonsterBlockWidget extends Widget
      */
     public $cacheAdditionalTags = [];
 
-    /** @var string|array Base BEM Json file */
-    public $bemjson = '';
+    /** @var array Base BEM Json */
+    public $bemJson = '';
 
     /** @var array Array of non-bemjson tree extends that are compiled into bem matchers */
     public $bemCustomization = [];
@@ -58,12 +58,7 @@ abstract class MonsterBlockWidget extends Widget
             }
         }
 
-        if (is_string($this->bemjson)) {
-            $this->bemjson = Yii::getAlias($this->bemjson);
-            $bemJson = Json::decode(file_get_contents($this->bemjson));
-        } else {
-            $bemJson = $this->bemjson;
-        }
+        $this->uncachedRun();
 
         $params = $this->produceParams();
         /** @var MonsterWebView $view */
@@ -75,7 +70,7 @@ abstract class MonsterBlockWidget extends Widget
             $bh->customize($this->bemCustomization);
         }
 
-        $result = $bh->apply($bemJson, $params, $this->editableValues, $this->templateCacheKey());
+        $result = $bh->apply($this->bemJson, $params, $this->editableValues, $this->templateCacheKey());
         $bh = null;
         unset($bh);
 
@@ -90,6 +85,11 @@ abstract class MonsterBlockWidget extends Widget
         }
 
         return $result;
+    }
+
+    public function uncachedRun()
+    {
+
     }
 
     public function templateCacheKey()
@@ -128,16 +128,13 @@ abstract class MonsterBlockWidget extends Widget
      * Returns cache dependency for this widget
      * @return \yii\caching\TagDependency
      */
-    protected function generateCacheDependency()
+    public function generateCacheDependency()
     {
         $tags = $this->generateCacheTags();
 
         $tags = ArrayHelper::merge($tags, $this->cacheAdditionalTags);
 
         $dependencies = [
-            'bemJson' => new FileDependency([
-                'fileName' => $this->bemjson,
-            ]),
             'tags' => new TagDependency([
                 'tags' => $tags,
             ]),
@@ -148,6 +145,4 @@ abstract class MonsterBlockWidget extends Widget
             'dependencies' => $dependencies,
         ]);
     }
-
-
 }

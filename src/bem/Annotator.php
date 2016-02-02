@@ -125,7 +125,7 @@ class Annotator extends Component
             }
 
             if ($instance !== null) {
-                $result[] = $instance;
+                $result[$instance->name] = $instance;
             } elseif (strlen($originalInner) > 0) {
                 // current scss section is some non bemmy stuff, just go deeper
                 $children = $this->recursiveAnnotate($originalInner, '', $workingDirectory);
