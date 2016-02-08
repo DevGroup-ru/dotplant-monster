@@ -54,6 +54,7 @@ abstract class MonsterBlockWidget extends Widget
         if ($this->cacheable === true && $this->cacheOn === true) {
             $result = Yii::$app->cache->get($this->generateCacheKey());
             if ($result !== false) {
+                Yii::trace("Serving block widget {$this->generateCacheKey()} from cache");
                 return $result;
             }
         }

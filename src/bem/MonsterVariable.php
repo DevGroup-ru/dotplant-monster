@@ -3,6 +3,7 @@
 namespace DotPlant\Monster\bem;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class MonsterVariable is a representation of SCSS variable that affects bem entities or look'n'feel of design.
@@ -52,6 +53,36 @@ class MonsterVariable extends BemDescribable
      *                        Therefore we can't allow local scss variables have the same name as global.
      */
     public static $globalIdentityMap = [];
+
+    /**
+     * Array of values for json serialization
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return ArrayHelper::merge(
+            parent::jsonSerialize(),
+            [
+                'name' => $this->name,
+                'type' => $this->type,
+                'value' => $this->value,
+            ]
+        );
+    }
+
+    /**
+     * @return array
+     */
+    public function __sleep()
+    {
+        $this->serializationGroupMapper = iterator_to_array($this->getGroupMapper());
+
+        return [
+            'name',
+            'type',
+            'value',
+        ];
+    }
 
     /**
      * Returns MonsterVariable instance on name if exists in global identity map

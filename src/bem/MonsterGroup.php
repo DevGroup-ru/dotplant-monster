@@ -26,6 +26,8 @@ class MonsterGroup extends Object
      */
     public $isCustomization = false;
 
+    public $isInternal = false;
+
     /**
      * @var MonsterGroup[] Global entity map for all MonsterGroup objects. Array keys - group name.
      */
@@ -36,6 +38,7 @@ class MonsterGroup extends Object
         parent::init();
         $this->isGlobal = $this->name === 'global';
         $this->isCustomization = $this->name === 'custom';
+        $this->isInternal = $this->name === 'internal';
     }
 
     /**

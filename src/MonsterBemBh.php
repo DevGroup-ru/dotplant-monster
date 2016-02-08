@@ -6,8 +6,10 @@ use BEM\BH;
 use BEM\Context;
 use BEM\Json;
 use BEM\Step;
+use DotPlant\Monster\materials\BaseMaterial;
 use Yii;
 use yii\base\Component;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
@@ -42,13 +44,12 @@ class MonsterBemBh extends Component
             'modsDelimiter' => $this->modsDelimiter,
             'indent' => $this->formatHtml,
         ]);
+
         $bh->match([
             '$after' => function (Context $ctx, Json $json) {
 
                 $clsAdd = [];
                 $attrs = $ctx->attrs();
-
-
 
                 if (isset($json->phpParam)) {
                     $ctx->content('{{phpParam:'.$json->phpParam.'}}');
@@ -68,7 +69,6 @@ class MonsterBemBh extends Component
 
                 if ($json->block) {
                     $attrs['data-bem-match'] = $bemSelector = $json->block . ($json->elem ? '__' . $json->elem : '');
-
 
                     // if it's editable
                     if (isset($json->editable) || isset($json->link)) {
@@ -145,6 +145,50 @@ php;
             $output = Yii::$app->cache->get($templateCacheKey);
         }
         if (empty($output)) {
+
+            $this->bh->match([
+                '$before' => function (Context $ctx, Json $json) use ($editableValues, $params, $templateCacheKey) {
+                    if (isset($json->repeatable)) {
+                        $repeatable = $json->repeatable;
+
+                        $block = isset($repeatable['block']) ? $repeatable['block'] : $json->block;
+                        /** @var BemRepository $repository */
+                        $repository = Yii::$app->get('bemRepository');
+                        if (!isset($repository->materials[$block])) {
+                            throw new InvalidConfigException("Block with name {$block} does not exist.");
+                        }
+                        if (isset($repeatable['elem'])) {
+                            if (!isset($repository->materials[$block]->elements[$repeatable['elem']])) {
+                                throw new InvalidConfigException(
+                                    "Elem with name {$repeatable['elem']} in block {$block} does not exist."
+                                );
+                            }
+                            $tree = $repository->materials[$block]->elements[$repeatable['elem']]->tree();
+                            $block .= '__' . $repeatable['elem'];
+                        } else {
+                            $tree = $repository->materials[$block];
+                        }
+                        $content = '';
+
+                        $where = isset($editableValues[$repeatable['iterateOver']]) ?
+                            $editableValues[$repeatable['iterateOver']] :
+                            $params[$repeatable['iterateOver']];
+                        if (!is_array($where)) {
+                            throw new InvalidConfigException(
+                                "Unable to find iteratable variable {$repeatable['iterateOver']}"
+                            );
+                        }
+                        foreach ($where as $param) {
+                            $result = $ctx->bh->apply($tree);
+                            $result = $this->postProcess($result, $param, $param);
+                            $content .= "$result\n\n";
+                        }
+                        $ctx->bem(false);
+                        $ctx->html($content, true);
+                    }
+                },
+            ]);
+
             $output = $this->bh->apply($bemJson);
             if ($templateCacheKey !== '') {
                 Yii::$app->cache->set(
@@ -157,6 +201,32 @@ php;
         Yii::endProfile('apply');
 
         Yii::beginProfile('Replace php params');
+
+        $output = $this->postProcess($output, $params, $editableValues);
+
+        Yii::endProfile('Replace php params');
+
+        Yii::endProfile('BEM BH');
+
+        return $output;
+    }
+
+    public function postProcess($output, $params = [], $editableValues = [])
+    {
+        $output = preg_replace_callback(
+            '/{{phpParam:(?<group>[^:]*)::(?<param>[^}]*)}}/S',
+            function ($match) use ($params) {
+                if (isset($params[$match['group']])) {
+                    if (isset($params[$match['group']][$match['param']])) {
+                        return $params[$match['group']][$match['param']];
+                    }
+                    return "<!-- unknown php param {$match['param']} in group {$match['group']} -->";
+                }
+                return "<!-- unknown php param group {$match['group']} -->";
+            },
+            $output
+        );
+
         $output = preg_replace_callback(
             '/{{phpParam:([^}]*)}}/S',
             function ($match) use ($params) {
@@ -186,14 +256,8 @@ php;
             },
             $output
         );
-        Yii::endProfile('Replace php params');
-
-        Yii::endProfile('BEM BH');
-
         return $output;
     }
-
-
 
     public function customize($customization)
     {

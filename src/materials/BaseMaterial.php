@@ -20,21 +20,24 @@ class BaseMaterial extends MonsterBlockWidget
     public $uniqueTemplateId = '';
 
     /** @inheritdoc */
-    public function init()
+    public function run()
     {
-        parent::init();
         if (empty($this->block)) {
             throw new InvalidConfigException('Block should be set in BaseMaterial widget call');
         }
+        return parent::run();
     }
 
     public function uncachedRun() {
-        /** @var BemRepository $repository */
-        $repository = Yii::$app->get('bemRepository');
-        if (!isset($repository->materials[$this->block])) {
-            throw new InvalidConfigException("Block with name {$this->block} does not exist.");
+
+        if (empty($this->bemJson)) {
+            /** @var BemRepository $repository */
+            $repository = Yii::$app->get('bemRepository');
+            if (!isset($repository->materials[$this->block])) {
+                throw new InvalidConfigException("Block with name {$this->block} does not exist.");
+            }
+            $this->bemJson = $repository->materials[$this->block]->tree();
         }
-        $this->bemJson = $repository->materials[$this->block]->tree();
 
         /** @var BemCustomizationRepository $customizationRepository */
         $customizationRepository = Yii::$app->get('bemRepository')->customization();
@@ -51,6 +54,7 @@ class BaseMaterial extends MonsterBlockWidget
     {
         $params = $this->params;
         $params['__CLASS__'] = $this->className();
+        $params['__BLOCK_NAME__'] = $this->block;
         return $params;
     }
 

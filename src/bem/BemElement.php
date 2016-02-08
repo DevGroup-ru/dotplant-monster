@@ -5,7 +5,7 @@ namespace DotPlant\Monster\bem;
 use Yii;
 use yii\helpers\ArrayHelper;
 
-class BemElement extends BemEntity
+class BemElement extends BemTemplatable
 {
     /** @var BemModifier[] Modifiers for this BEM Element */
     public $modifiers = [];

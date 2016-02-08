@@ -115,11 +115,14 @@ class Annotator extends Component
             ) {
                 /** @var BemBlock|BemElement $instance */
                 $children = $this->recursiveAnnotate($originalInner, $instance->bemSelector, $workingDirectory);
-                foreach ($children as $child) {
+                foreach ($children as $index => $child) {
                     if ($child instanceof BemModifier) {
                         $instance->modifiers[$child->name] = $child;
-                    } else {
+                    } elseif ($child instanceof BemElement) {
                         $instance->elements[$child->name] = $child;
+                        if (empty($child->bemJson) === false) {
+                            $result[$child->bemSelector] = $child;
+                        }
                     }
                 }
             }
