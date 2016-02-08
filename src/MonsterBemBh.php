@@ -148,8 +148,8 @@ php;
 
             $this->bh->match([
                 '$before' => function (Context $ctx, Json $json) use ($editableValues, $params, $templateCacheKey) {
-                    if (isset($json->repeatable)) {
-                        $repeatable = $json->repeatable;
+                    if (isset($json->content[0]->repeatable)) {
+                        $repeatable = $json->content[0]->repeatable;
 
                         $block = isset($repeatable['block']) ? $repeatable['block'] : $json->block;
                         /** @var BemRepository $repository */
@@ -164,7 +164,6 @@ php;
                                 );
                             }
                             $tree = $repository->materials[$block]->elements[$repeatable['elem']]->tree();
-                            $block .= '__' . $repeatable['elem'];
                         } else {
                             $tree = $repository->materials[$block];
                         }
@@ -181,10 +180,14 @@ php;
                         foreach ($where as $param) {
                             $result = $ctx->bh->apply($tree);
                             $result = $this->postProcess($result, $param, $param);
-                            $content .= "$result\n\n";
+                            $content .= "$result\n";
                         }
-                        $ctx->bem(false);
-                        $ctx->html($content, true);
+                        $ctx->content(
+                            "\n<!-- repeatable {$repeatable['iterateOver']} -->" .
+                            $content .
+                            "<!-- /repeatable {$repeatable['iterateOver']} -->",
+                            true
+                        );
                     }
                 },
             ]);
