@@ -41,7 +41,7 @@ class BemTemplatable extends BemEntity
             parent::jsonSerialize(),
             [
                 'bemJson' => $this->bemJson,
-                'bemJsonTree' => $this->bemJsonTree,
+//                'bemJsonTree' => $this->bemJsonTree,
             ]
         );
     }

@@ -1,4 +1,5 @@
 <?php
+/** @var \yii\web\View $this */
 Yii::$app->cache->flush();
 //\yii\helpers\VarDumper::dump(
 //    Yii::$app->bemRepository->materials,//['monster-section-selector'],
@@ -6,24 +7,29 @@ Yii::$app->cache->flush();
 //    true
 //);
 //die();
+\kartik\icons\Icon::map($this);
 $builder = new \DotPlant\Monster\MonsterContent([
     'uniqueContentId' => 'visual-builder',
     'materials' => [
         [
             'block' => 'monster-visual-builder',
             'params' => [
-                'sections' => [
+                'environments' => [
                     [
-                        'text' => 'A',
-                        'link' => '#A',
+                        'icon' => \kartik\icons\Icon::show('list-ul'),
+                        'environment' => 'structure',
                     ],
                     [
-                        'text' => 'B',
-                        'link' => '#B',
+                        'icon' => \kartik\icons\Icon::show('list-alt'),
+                        'environment' => 'materials',
                     ],
                     [
-                        'text' => 'C',
-                        'link' => '#C',
+                        'icon' => \kartik\icons\Icon::show('paint-brush'),
+                        'environment' => 'customization',
+                    ],
+                    [
+                        'icon' => \kartik\icons\Icon::show('link'),
+                        'environment' => 'action',
                     ],
                 ],
             ],
@@ -32,4 +38,15 @@ $builder = new \DotPlant\Monster\MonsterContent([
 
 ]);
 echo $builder->render();
+/** @var \DotPlant\Monster\BemRepository $repository */
+$repository = Yii::$app->bemRepository;
+$groups = \yii\helpers\Json::encode($repository->groups);
+$materials = \yii\helpers\Json::encode($repository->materials);
+$js = <<<js
+    window.VisualBuilderSettings = {
+      groups: $groups,
+      materials: $materials
+    };
+js;
+$this->registerJs($js, \yii\web\View::POS_BEGIN);
 ?>
