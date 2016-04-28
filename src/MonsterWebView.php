@@ -2,16 +2,14 @@
 
 namespace DotPlant\Monster;
 
-use DotPlant\Monster\bem\BemBlock;
-use DotPlant\Monster\bem\BemElement;
 use SplStack;
-use Yii;
+use yii;
 use yii\web\View;
 
 class MonsterWebView extends View
 {
     /** @var SplStack */
-    public $bemBlockStack = null;
+    public $bemBlockStack;
 
     public $nestingStackSize = 0;
     public $nestedBemOutput = '    ';
@@ -40,7 +38,7 @@ class MonsterWebView extends View
     /**
      * @var MonsterBemBh
      */
-    public $bh = null;
+    public $bh;
 
     public function init()
     {
@@ -78,41 +76,6 @@ class MonsterWebView extends View
         $this->endContent();
     }
 
-    public function bemBlock($blockName, $modifiers = [], $additionalClasses = '')
-    {
-        BemBlock::begin([
-            'blockName' => $blockName,
-            'modifiers' => $modifiers,
-            'additionalClasses' => $additionalClasses,
-        ]);
-    }
-
-    public function endBemBlock()
-    {
-        $this->nestingStackSize++;
-        BemBlock::end();
-        $this->nestingStackSize--;
-        echo "\n";
-    }
-
-    public function bemElement($elementName, $modifiers = [], $additionalClasses = '', $blockName = false)
-    {
-        BemElement::begin([
-            'elementName' => $elementName,
-            'blockName' => $blockName,
-            'modifiers' => $modifiers,
-            'additionalClasses' => $additionalClasses,
-        ]);
-    }
-
-    public function endBemElement()
-    {
-        $this->nestingStackSize++;
-        BemElement::end();
-        $this->nestingStackSize--;
-        echo "\n";
-    }
-
     public function nestedOutput($content)
     {
         if ($this->nestedBemOutput) {
@@ -127,7 +90,8 @@ class MonsterWebView extends View
      * Setter for renderMode
      * @param $renderMode
      */
-    public function setRenderMode($renderMode) {
+    public function setRenderMode($renderMode)
+    {
         $this->renderMode = $renderMode;
     }
 
@@ -136,7 +100,8 @@ class MonsterWebView extends View
      *
      * @return string
      */
-    public function getRenderMode() {
+    public function getRenderMode()
+    {
         return $this->renderMode;
     }
 }

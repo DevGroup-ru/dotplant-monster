@@ -2,7 +2,7 @@
 
 namespace DotPlant\Monster\bem;
 
-use Yii;
+use yii;
 use yii\base\Object;
 
 /**
@@ -73,7 +73,7 @@ class BemDescribable extends Object implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'class' => $this->className(),
+            'class' => static::className(),
             'description' => $this->description,
             'groupMapper' => $this->groupMapper,
         ];

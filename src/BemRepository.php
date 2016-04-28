@@ -5,9 +5,8 @@ namespace DotPlant\Monster;
 use DotPlant\Monster\bem\BemBlock;
 use DotPlant\Monster\bem\MonsterGroup;
 use DotPlant\Monster\bem\MonsterVariable;
-use Yii;
+use yii;
 use yii\base\Component;
-use yii\helpers\ArrayHelper;
 
 class BemRepository extends Component
 {

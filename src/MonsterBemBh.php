@@ -266,12 +266,19 @@ php;
     {
         $this->customization = $customization;
         foreach ($customization as $bemSelector => $instructions) {
-            $this->bh->match(
-                $bemSelector,
-                function (Context $ctx, Json $json) use($instructions) {
-                    $this->processInstructions($ctx, $json, $instructions);
-                }
-            );
+            if (is_array($instructions)) {
+                $this->bh->match(
+                    $bemSelector,
+                    function (Context $ctx, Json $json) use ($instructions) {
+                        $this->processInstructions($ctx, $json, $instructions);
+                    }
+                );
+            } else {
+                $this->bh->match(
+                    $bemSelector,
+                    $instructions
+                );
+            }
         }
     }
 

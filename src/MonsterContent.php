@@ -2,16 +2,18 @@
 
 namespace DotPlant\Monster;
 
+use BEM\Context;
+use BEM\Json;
 use DotPlant\Monster\materials\BaseMaterial;
-use Yii;
+use yii;
 use yii\base\InvalidConfigException;
-use yii\base\Object;
 use yii\caching\ChainedDependency;
 use yii\caching\TagDependency;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\VarDumper;
 
-class MonsterContent extends Object
+class MonsterContent extends yii\base\Widget
 {
     /** @var BaseMaterial[] */
     public $materials = [];
@@ -20,6 +22,9 @@ class MonsterContent extends Object
 
     private $cacheKey = '';
     private $minCacheDuration = 2592000;
+
+    public $contentDescription = 'Content';
+    public static $perPageCounter = [];
 
     /**
      * Special caching strategy CACHE_ENTIRE_RESULT_ONLY:
@@ -53,11 +58,44 @@ class MonsterContent extends Object
         if (empty($this->uniqueContentId)) {
             throw new InvalidConfigException("uniqueContentId must be set for MonsterContent");
         }
+        if (isset(static::$perPageCounter[$this->contentDescription]) === false) {
+            static::$perPageCounter[$this->contentDescription] = 1;
+        } else {
+            static::$perPageCounter[$this->contentDescription]++;
+        }
+        if (static::$perPageCounter[$this->contentDescription] > 1) {
+            $this->contentDescription .= ' [' . static::$perPageCounter[$this->contentDescription] . ']';
+        }
+
     }
 
-    public function render()
+    public function editModeOn()
     {
-        $result = '';
+        /**
+         * WARNING
+         *
+         * Edit mode is not yet implemented.
+         * If edit mode is on - we should use another cache key so it ensures that all data-attributes exist.
+         * Data-attributes for now are not splitted from output for non-edit mode.
+         *
+         * @todo Implement EDIT MODE!
+         */
+
+        return true;
+    }
+
+    public function run()
+    {
+        if ($this->editModeOn()) {
+            $contentDescription = Html::encode($this->contentDescription);
+
+            $result = "<div class=\"m-monster-content\" data-unique-content-id=\"{$this->uniqueContentId}\""
+                . " data-content-description=\"$contentDescription\""
+                . ">";
+        } else {
+            $result = '';
+        }
+
         // on this stage $this->materials is array of configurations
         $cacheable = $this->cacheable();
         if ($cacheable === true && $this->cacheStrategy !== self::CACHE_RELY_ON_MATERIAL) {
@@ -77,6 +115,7 @@ class MonsterContent extends Object
             }
             $result .= $material->run();
         }
+        $result .= $this->editModeOn() ? '</div>' : '';
 
         if ($cacheable === true && $this->cacheStrategy !== self::CACHE_RELY_ON_MATERIAL) {
             Yii::beginProfile('MonsterContent -> gather cache dependency');
@@ -135,15 +174,31 @@ class MonsterContent extends Object
 
     private function makeMaterials()
     {
+        //! @todo Test if caching here is a good idea when all base materials are implemented
         $materials = [];
-        foreach ($this->materials as $materialConfiguration) {
+        foreach ($this->materials as $index => $materialConfiguration) {
+            //! @todo Materials widget class can be written inside scss
             $className = ArrayHelper::getValue(
                 $materialConfiguration,
                 'class',
                 'DotPlant\Monster\materials\BaseMaterial'
             );
             $materialConfiguration['class'] = $className;
-            $materials[] = Yii::createObject($materialConfiguration);
+            /** @var BaseMaterial $material */
+            $material = Yii::createObject($materialConfiguration);
+            if ($this->editModeOn()) {
+
+                $material->bemCustomization = [
+                    '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
+                        if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
+                            $json->attrs['data-is-material'] = '1';
+                            $json->attrs['data-material-index'] = $index;
+                            $json->attrs['data-material-block'] = $materialConfiguration['block'];
+                        }
+                    }
+                ];
+            }
+            $materials[] = $material;
         }
         $this->materials = $materials;
     }
