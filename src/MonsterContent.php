@@ -4,6 +4,7 @@ namespace DotPlant\Monster;
 
 use BEM\Context;
 use BEM\Json;
+use DotPlant\Monster\assets\VisualBuilder;
 use DotPlant\Monster\materials\BaseMaterial;
 use yii;
 use yii\base\InvalidConfigException;
@@ -88,6 +89,7 @@ class MonsterContent extends yii\base\Widget
     {
         if ($this->editModeOn()) {
             $contentDescription = Html::encode($this->contentDescription);
+            VisualBuilder::register($this->view);
 
             $result = "<div class=\"m-monster-content\" data-unique-content-id=\"{$this->uniqueContentId}\""
                 . " data-content-description=\"$contentDescription\""
@@ -177,30 +179,36 @@ class MonsterContent extends yii\base\Widget
         //! @todo Test if caching here is a good idea when all base materials are implemented
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
-            //! @todo Materials widget class can be written inside scss
-            $className = ArrayHelper::getValue(
-                $materialConfiguration,
-                'class',
-                'DotPlant\Monster\materials\BaseMaterial'
-            );
-            $materialConfiguration['class'] = $className;
-            /** @var BaseMaterial $material */
-            $material = Yii::createObject($materialConfiguration);
-            if ($this->editModeOn()) {
 
-                $material->bemCustomization = [
-                    '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
-                        if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
-                            $json->attrs['data-is-material'] = '1';
-                            $json->attrs['data-material-index'] = $index;
-                            $json->attrs['data-material-block'] = $materialConfiguration['block'];
-                        }
-                    }
-                ];
-            }
-            $materials[] = $material;
+            $materials[] = self::makeMaterial($index, $materialConfiguration, $this->editModeOn());
         }
         $this->materials = $materials;
+    }
+
+    public static function makeMaterial($index, $materialConfiguration, $editModeOn = false)
+    {
+        //! @todo Materials widget class can be redefined inside scss - check if we take care of it
+        $className = ArrayHelper::getValue(
+            $materialConfiguration,
+            'class',
+            'DotPlant\Monster\materials\BaseMaterial'
+        );
+        $materialConfiguration['class'] = $className;
+        /** @var BaseMaterial $material */
+        $material = Yii::createObject($materialConfiguration);
+        if ($editModeOn === true) {
+
+            $material->bemCustomization = [
+                '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
+                    if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
+                        $json->attrs['data-is-material'] = '1';
+                        $json->attrs['data-material-index'] = $index;
+                        $json->attrs['data-material-block'] = $materialConfiguration['block'];
+                    }
+                }
+            ];
+        }
+        return $material;
     }
 
     /**

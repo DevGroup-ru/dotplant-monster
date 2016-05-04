@@ -2,7 +2,6 @@
 /** @var \yii\web\View $this */
 use yii\helpers\Json;
 use yii\helpers\Url;
-
 Yii::$app->cache->flush();
 //\yii\helpers\VarDumper::dump(
 //    Yii::$app->bemRepository->materials,//['monster-section-selector'],

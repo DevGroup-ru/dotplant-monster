@@ -29,17 +29,19 @@ class VisualBuilderController extends Controller
 
     public function actionNewBlock()
     {
-        if (isset($_POST['block'], $_POST['uniqueContentId']) === false || Yii::$app->request->isAjax === false) {
+        if (
+            isset($_POST['block'], $_POST['uniqueContentId'], $_POST['materialIndex']) === false
+            || Yii::$app->request->isAjax === false
+        ) {
             throw new yii\web\BadRequestHttpException;
         }
-        $content = \DotPlant\Monster\MonsterContent::widget([
-            'uniqueContentId' => $_POST['uniqueContentId'],
-            'materials' => [
-                [
-                    'block' => $_POST['block'],
-                ],
+        $content = \DotPlant\Monster\MonsterContent::makeMaterial(
+            $_POST['materialIndex'],
+            [
+                'block' => $_POST['block'],
             ],
-        ]);
+            true
+        )->run();
         return $this->renderAjax('new-block', ['content' => $content]);
     }
 }
