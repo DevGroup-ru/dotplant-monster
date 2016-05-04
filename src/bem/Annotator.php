@@ -34,7 +34,6 @@ class Annotator extends Component
         $workingDirectory = dirname($filename) . '/';
 
 
-
         $content = file_get_contents($filename);
 
         Yii::beginProfile('Recursive annotate ' . $filename);
@@ -75,14 +74,15 @@ class Annotator extends Component
             $imports,
             PREG_SET_ORDER
         );
+
         foreach ($imports as $import) {
             $importedTree = $this->annotate($import['file'] . '.scss', $workingDirectory);
             foreach ($importedTree as $item) {
-                if (isset($result[$item->bemSelector])) {
-                 //   throw new \Exception("Bem entity {$item->bemSelector} redefined from import {$import['file']}");
-                } else {
+//                if (isset($result[$item->bemSelector])) {
+//                    throw new \Exception("Bem entity {$item->bemSelector} redefined from import {$import['file']}");
+//                } else {
                     $result[$item->bemSelector] = $item;
-                }
+//                }
             }
         }
 
@@ -107,7 +107,7 @@ class Annotator extends Component
             $match['inner'] = $this->trimAllLines($match['inner']);
             static::findRelatedStuff($match['comment'], $match);
             $this->parseDefinition($match['definition'], $match, $parentBemSelector);
-            if (isset($match['non-bem'])) {
+            if (isset($match['non-bem']) && !empty($parentBemSelector)) {
                 continue;
             }
 
@@ -135,16 +135,12 @@ class Annotator extends Component
                 $result[$instance->name] = $instance;
             } elseif (strlen($originalInner) > 0) {
                 // current scss section is some non bemmy stuff, just go deeper
-//                if (preg_match('#^padding\-top: \$stepbar001\-line\-he#', $originalInner)) {
-//                    echo "<pre>$originalInner</pre>";
-//                    var_dump($parentBemSelector, $workingDirectory, $match, $instance);
-//                    die();
-//                }
+
                 $children = $this->recursiveAnnotate($originalInner, '', $workingDirectory);
 
                 foreach ($children as $child) {
                     if (isset($result[$child->bemSelector])) {
-                        throw new \Exception("Bem entity redefined: {$child->bemSelector}");
+                        //throw new \Exception("Bem entity redefined: {$child->bemSelector}");
                     }
                     $result[$child->bemSelector] = $child;
                 }
@@ -190,6 +186,7 @@ class Annotator extends Component
             $matches,
             PREG_SET_ORDER
         );
+
         if (isset($matches[0]['type'], $matches[0]['name'])) {
             $result['name'] = $matches[0]['name'];
             $result['bem-type'] = $matches[0]['type'];
