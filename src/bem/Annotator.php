@@ -79,9 +79,10 @@ class Annotator extends Component
             $importedTree = $this->annotate($import['file'] . '.scss', $workingDirectory);
             foreach ($importedTree as $item) {
                 if (isset($result[$item->bemSelector])) {
-                    throw new \Exception("Bem entity {$item->bemSelector} redefined from import {$import['file']}");
+                 //   throw new \Exception("Bem entity {$item->bemSelector} redefined from import {$import['file']}");
+                } else {
+                    $result[$item->bemSelector] = $item;
                 }
-                $result[$item->bemSelector] = $item;
             }
         }
 
@@ -105,7 +106,10 @@ class Annotator extends Component
             $originalInner = $match['inner'];
             $match['inner'] = $this->trimAllLines($match['inner']);
             static::findRelatedStuff($match['comment'], $match);
-            $this->parseDefinition($match['definition'], $match);
+            $this->parseDefinition($match['definition'], $match, $parentBemSelector);
+            if (isset($match['non-bem'])) {
+                continue;
+            }
 
             $instance = BemEntity::unpack($match, $parentBemSelector, $workingDirectory);
 
@@ -114,7 +118,7 @@ class Annotator extends Component
                 && ($instance instanceof BemBlock || $instance instanceof BemElement)
             ) {
                 /** @var BemBlock|BemElement $instance */
-                $children = $this->recursiveAnnotate($originalInner, $instance->bemSelector, $workingDirectory);
+                $children = $this->recursiveAnnotate($originalInner, $instance->bemSelector, $workingDirectory, $match['definition']);
                 foreach ($children as $index => $child) {
                     if ($child instanceof BemModifier) {
                         $instance->modifiers[$child->name] = $child;
@@ -131,6 +135,11 @@ class Annotator extends Component
                 $result[$instance->name] = $instance;
             } elseif (strlen($originalInner) > 0) {
                 // current scss section is some non bemmy stuff, just go deeper
+//                if (preg_match('#^padding\-top: \$stepbar001\-line\-he#', $originalInner)) {
+//                    echo "<pre>$originalInner</pre>";
+//                    var_dump($parentBemSelector, $workingDirectory, $match, $instance);
+//                    die();
+//                }
                 $children = $this->recursiveAnnotate($originalInner, '', $workingDirectory);
 
                 foreach ($children as $child) {
@@ -173,7 +182,7 @@ class Annotator extends Component
      * @param string $definition
      * @param array $result
      */
-    public function parseDefinition($definition, &$result)
+    public function parseDefinition($definition, &$result, $parentBemSelector)
     {
         preg_match_all(
             '#^@include (?P<type>block|element|modifier|state)\s*\([\'"]?(?P<name>[^\'"]+)[\'"]?\)$#',
@@ -184,6 +193,8 @@ class Annotator extends Component
         if (isset($matches[0]['type'], $matches[0]['name'])) {
             $result['name'] = $matches[0]['name'];
             $result['bem-type'] = $matches[0]['type'];
+        } else {
+            $result['non-bem'] = true;
         }
     }
 
