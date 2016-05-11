@@ -1,0 +1,25 @@
+{
+  "foo": "bar",
+  "tree": [
+    {
+      "label": "One",
+      "children": [
+        {
+          "label": "1.1"
+        },
+        {
+          "label": "1.2",
+          "children": [
+            {
+              "label": "1.2.1",
+              "red": true
+            },
+            {
+              "label": "1.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

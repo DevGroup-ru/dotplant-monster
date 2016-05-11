@@ -1,0 +1,27 @@
+{
+  "block": "test",
+  "content": [
+    {
+      "block": "foo-tst",
+      "content": "Hello, <?= $data['foo'] ?>"
+    },
+    {
+      "block": "nav",
+      "tag": "ul",
+      "recursive": "$data[\"tree\"]",
+      "itemTemplate": {
+        "elem": "item",
+        "tag": "li",
+        "content": "<?= $item[\"label\"] ?>"
+      },
+      "wrapTemplate": {
+        "elem": "subnav",
+        "tag": "ul",
+        "mods": {
+          "nest": "<?=$recursiveNestingLevel?>"
+        }
+      },
+      "childrenAttribute": "children"
+    }
+  ]
+}

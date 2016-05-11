@@ -2,10 +2,8 @@
 
 namespace DotPlant\Monster;
 
-use BEM\Context;
-use BEM\Json;
 use DotPlant\Monster\assets\VisualBuilder;
-use DotPlant\Monster\materials\BaseMaterial;
+use DotPlant\Monster\Bundle\Material;
 use yii;
 use yii\base\InvalidConfigException;
 use yii\caching\ChainedDependency;
@@ -16,7 +14,7 @@ use yii\helpers\VarDumper;
 
 class MonsterContent extends yii\base\Widget
 {
-    /** @var BaseMaterial[] */
+    /** @var BaseMaterialize[] */
     public $materials = [];
 
     public $uniqueContentId = '';
@@ -82,7 +80,7 @@ class MonsterContent extends yii\base\Widget
          * @todo Implement EDIT MODE!
          */
 
-        return true;
+        return Yii::$app instanceof yii\web\Application;
     }
 
     public function run()
@@ -111,7 +109,6 @@ class MonsterContent extends yii\base\Widget
         $this->makeMaterials();
 
         foreach ($this->materials as $index => $material) {
-            $material->uniqueTemplateId = $this->uniqueContentId . ":material:$index";
             if ($cacheable === true && $this->cacheStrategy === self::CACHE_ENTIRE_RESULT_ONLY) {
                 $material->cacheOn = false;
             }
@@ -176,37 +173,50 @@ class MonsterContent extends yii\base\Widget
 
     private function makeMaterials()
     {
-        //! @todo Test if caching here is a good idea when all base materials are implemented
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
-
-            $materials[] = self::makeMaterial($index, $materialConfiguration, $this->editModeOn());
+            $materials[] = self::makeMaterial(
+                $this->uniqueContentId,
+                $index,
+                $materialConfiguration,
+                $this->editModeOn()
+            );
         }
         $this->materials = $materials;
     }
 
-    public static function makeMaterial($index, $materialConfiguration, $editModeOn = false)
+    /**
+     * @return Repository
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function repository()
     {
-        //! @todo Materials widget class can be redefined inside scss - check if we take care of it
-        $className = ArrayHelper::getValue(
-            $materialConfiguration,
-            'class',
-            'DotPlant\Monster\materials\BaseMaterial'
-        );
-        $materialConfiguration['class'] = $className;
-        /** @var BaseMaterial $material */
+        return Yii::$app->get('monsterRepository');
+    }
+
+    public static function makeMaterial($uniqueContentId, $index, $materialConfiguration, $editModeOn = false)
+    {
+        if (isset($materialConfiguration['material']) === false) {
+            throw new \RuntimeException("Material should be set in MonsterContent materials");
+        }
+        $material = static::repository()->material($materialConfiguration['material']);
+        $materialConfiguration['class'] = $material->widget;
+        $materialConfiguration['material'] = $material;
+        $materialConfiguration['uniqueContentId'] = $uniqueContentId;
+        $materialConfiguration['materialIndex'] = $index;
+        /** @var BaseMaterialize $material */
         $material = Yii::createObject($materialConfiguration);
         if ($editModeOn === true) {
 
-            $material->bemCustomization = [
-                '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
-                    if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
-                        $json->attrs['data-is-material'] = '1';
-                        $json->attrs['data-material-index'] = $index;
-                        $json->attrs['data-material-block'] = $materialConfiguration['block'];
-                    }
-                }
-            ];
+//            $material->bemCustomization = [
+//                '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
+//                    if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
+//                        $json->attrs['data-is-material'] = '1';
+//                        $json->attrs['data-material-index'] = $index;
+//                        $json->attrs['data-material-block'] = $materialConfiguration['block'];
+//                    }
+//                }
+//            ];
         }
         return $material;
     }

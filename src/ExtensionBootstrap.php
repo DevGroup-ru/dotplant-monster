@@ -2,7 +2,7 @@
 
 namespace DotPlant\Monster;
 
-use Yii;
+use yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
 
@@ -16,10 +16,6 @@ class ExtensionBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $app->setComponents([
-            'bemRepository' => [
-                'class' => BemRepository::className(),
-            ]
-        ]);
+        
     }
 }

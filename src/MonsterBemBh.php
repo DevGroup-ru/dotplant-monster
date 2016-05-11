@@ -12,7 +12,23 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
-
+/*
+ * Переписать нахуй
+ *
+ * bemjson с синтаксическим сахаром рендерится в php файл
+ * в php файле вся шаблонизированная логика:
+ * - foreach
+ * - params
+ * - links
+ *
+ * При изменении сахарного bemjson - перегенерируем php файл, очищая принудительно opcache по нему
+ *
+ * Для рекурсии даём вызывать блок в контексте сущности
+ * Сам блок уже готовый лежит в php файле
+ *
+ * @related https://github.com/bem/bem-forum-content-ru/issues/894#issuecomment-189892952
+ *
+ */
 class MonsterBemBh extends Component
 {
     /** @var \BEM\BH */

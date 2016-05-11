@@ -1,0 +1,1 @@
+<div class="test"><div class="foo-tst">Hello, <?= $data['foo'] ?></div><ul class="nav"></ul></div>
