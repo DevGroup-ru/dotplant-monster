@@ -6,6 +6,7 @@ use DotPlant\Monster\Bundle;
 use DotPlant\Monster\MonsterBh;
 use DotPlant\Monster\MonsterContent;
 use yii;
+use yii\helpers\FileHelper;
 use yii\helpers\Json;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +19,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     public function testRepositoryCache()
     {
         // clear cache
-        yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
         /** @var ExtendedRepository $repository */
         $repository = Yii::$app->get('monsterRepository');
         static::assertTrue($repository->bundlesReloaded, 'Cold start must reload bundles');
@@ -167,6 +168,8 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function testMonsterContent()
     {
+        // clear cache
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
         $out = MonsterContent::widget([
             'uniqueContentId' => 'site-index',
             'materials' => [
