@@ -14,7 +14,7 @@
       backgroudn: green;
       lost-column: 1/2;
       @media (--mobile) {
-        lost-column: 1/1;
+        lost-column: 1;
         font-weight: bold;
       }
     }

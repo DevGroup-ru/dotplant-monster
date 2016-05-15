@@ -1,0 +1,100 @@
+:root {
+    /* grid */
+    /* typography */
+}
+/* custom media queries */
+/* lost grid conf */
+/*@lost flexbox flex;*/
+/*@lost cycle none;*/
+:root {
+    /* grid */
+    /* typography */
+}
+/* custom media queries */
+/* lost grid conf */
+/*@lost flexbox flex;*/
+/*@lost cycle none;*/
+/** @define content-block-001 */
+.m-wrapper .content-block-001 {}
+.m-wrapper .content-block-001__left {
+    background: red;
+    width: calc(99.99% * 1/2 - (1.25em - 1.25em * 1/2))
+}
+.m-wrapper .content-block-001__left:nth-child(1n) {
+    float: left;
+    margin-right: 1.25em;
+    clear: none
+}
+.m-wrapper .content-block-001__left:last-child {
+    margin-right: 0
+}
+.m-wrapper .content-block-001__left:nth-child(2n) {
+    margin-right: 0;
+    float: right
+}
+.m-wrapper .content-block-001__left:nth-child(2n + 1) {
+    clear: left
+}
+.m-wrapper .content-block-001__right {
+    backgroudn: green;
+    width: calc(99.99% * 1/2 - (1.25em - 1.25em * 1/2))
+}
+.m-wrapper .content-block-001__right:nth-child(1n) {
+    float: left;
+    margin-right: 1.25em;
+    clear: none
+}
+.m-wrapper .content-block-001__right:last-child {
+    margin-right: 0
+}
+.m-wrapper .content-block-001__right:nth-child(2n) {
+    margin-right: 0;
+    float: right
+}
+.m-wrapper .content-block-001__right:nth-child(2n + 1) {
+    clear: left
+}
+@media (max-width: 39.9375em) {
+    .m-wrapper .content-block-001__left {
+        width: calc(99.99% * 1/1 - (1.25em - 1.25em * 1/1));
+        font-weight: bold
+    }
+    .m-wrapper .content-block-001__left:nth-child(1n) {
+        float: left;
+        margin-right: 1.25em;
+        clear: none
+    }
+    .m-wrapper .content-block-001__left:last-child {
+        margin-right: 0
+    }
+    .m-wrapper .content-block-001__left:nth-child(1n) {
+        margin-right: 0;
+        float: right
+    }
+    .m-wrapper .content-block-001__left:nth-child(1n + 1) {
+        clear: left
+    }
+}
+@media (max-width: 39.9375em) {
+    .m-wrapper .content-block-001__right {
+        width: calc(99.99% * 1 - (1.25em - 1.25em * 1));
+        font-weight: bold
+    }
+    .m-wrapper .content-block-001__right:nth-child(1n) {
+        float: left;
+        margin-right: 1.25em;
+        clear: none
+    }
+    .m-wrapper .content-block-001__right:last-child {
+        margin-right: 0
+    }
+    .m-wrapper .content-block-001__right:nth-child(undefinedn) {
+        margin-right: 0;
+        float: right
+    }
+    .m-wrapper .content-block-001__right:nth-child(undefinedn + 1) {
+        clear: left
+    }
+}
+
+/*# sourceMappingURL=styles.css.map*/

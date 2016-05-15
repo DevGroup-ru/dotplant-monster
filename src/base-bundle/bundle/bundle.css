@@ -1,1 +1,2 @@
-@import url(_bootstrap.css);
+@import "_bootstrap.css";
+@import "content-blocks/group.css";
