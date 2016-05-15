@@ -1,0 +1,7 @@
+@import "_typography-helpers.css";
+
+.m-wrapper {
+  @mixin type-setting "text";
+  font-size: 1rem !important;
+  margin: 0;
+}

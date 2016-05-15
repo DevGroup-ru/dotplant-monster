@@ -1,0 +1,32 @@
+:root {
+  /* grid */
+  --gutter-standard: 1.25em;
+  --breakpoint-width-fix: 0.0625em;
+  /* typography */
+  --base-font-size: map(typography, base-font-size);
+  --base-line-height: map(typography, base-line-height);
+  --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+/* custom media queries */
+@custom-media --big (width > 83.9375em);
+@custom-media --desktop-wide (width <= 83.9375em);
+@custom-media --default (width <= 83.9375em);
+
+@custom-media --desktop (width <= 74.9375em);
+@custom-media --tablet (width <= 59.9375em);
+@custom-media --mobile (width <= 39.9375em);
+@custom-media --null-breakpoint (width >= 1em);
+
+
+@custom-media --greater-than-desktop-wide (width >= 83.9375em);
+@custom-media --greater-than-default (width >= 83.9375em);
+
+@custom-media --greater-than-desktop (width >= 74.9375em);
+@custom-media --greater-than-tablet (width >= 59.9375em);
+@custom-media --greater-than-mobile (width >= 39.9375em);
+@custom-media --null-breakpoint (width >= 1em);
+
+/* lost grid conf */
+@lost gutter 1.25em;
+@lost flexbox flex;
+/*@lost cycle none;*/

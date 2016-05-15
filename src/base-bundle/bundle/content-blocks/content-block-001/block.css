@@ -1,0 +1,22 @@
+@import "../../_bootstrap.css";
+.m-wrapper {
+  /** @define content-block-001 */
+  @b content-block-001 {
+    @e left {
+      background: red;
+      lost-column: 1/2;
+      @media (--mobile) {
+        lost-column: 1/1;
+        font-weight: bold;
+      }
+    }
+    @e right {
+      backgroudn: green;
+      lost-column: 1/2;
+      @media (--mobile) {
+        lost-column: 1/1;
+        font-weight: bold;
+      }
+    }
+  }
+}

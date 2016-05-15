@@ -1,0 +1,45 @@
+:root {
+  --window-gutter: 1em;
+}
+
+.m-wrapper {
+  font-family: map(typography, font-family);
+}
+
+html, body, .m-container {
+  @media (--mobile) {
+    min-width: 20em;
+  }
+}
+.m-container {
+  zoom: 1;
+}
+
+
+.m-row {
+  outline: 1px solid green;
+  lost-flex-container: row;
+  margin-right: auto;
+  margin-left: auto;
+
+  @media (--null-breakpoint) {
+    width: 320px;
+  }
+  @media (--greater-than-mobile) {
+    width: 39.9375em;
+  }
+  @media (--greater-than-tablet) {
+    width: calc(59.9375em - var(--window-gutter) * 2);
+  }
+  @media (--greater-than-desktop) {
+    width: calc(74.9375em - var(--window-gutter) * 2);
+  }
+  @media (--greater-than-desktop-wide) {
+    width: calc(83.9375em - var(--window-gutter) * 2);
+  }
+}
+
+
+@define-mixin grid-clear {
+  lost-utility: clearfix;
+}
