@@ -6,6 +6,8 @@
   --base-font-size: map(typography, base-font-size);
   --base-line-height: map(typography, base-line-height);
   --font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /*vertical rhytm*/
+  --base-line-height: 0.625rem;
 }
 /* custom media queries */
 @custom-media --big (width > 83.9375em);
