@@ -121,6 +121,8 @@ php;
         $content = $this->renderFile($templateFilename, ['data' => &$this->data]);
 
         $this->trigger(static::EVENT_AFTER_MATERIALIZE, $event);
+        
+        $this->material->publishAssets();
 
         return $content;
     }

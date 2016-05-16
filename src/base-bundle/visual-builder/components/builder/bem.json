@@ -72,7 +72,9 @@
             "content": "<?= $item['icon'] ?>",
             "attrs": {
               "href": "#",
-              "data-environment-name": "<?= $item['environment'] ?>"
+              "data-environment-name": {
+                "unsafe": "<?= $item['environment'] ?>"
+              }
             }
           }
         }

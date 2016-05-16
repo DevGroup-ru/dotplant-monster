@@ -40,6 +40,14 @@ class Manifest
             }
             $content = file_get_contents($this->getFsLocation());
             $content = yii\helpers\Json::decode($content);
+
+            if (array_key_exists('autoloadJs', $content) && $content['autoloadJs']) {
+                $content['hasJs'] = true;
+            }
+            if (array_key_exists('autoloadCss', $content) && $content['autoloadCss']) {
+                $content['hasCss'] = true;
+            }
+
             foreach ($content as $key => $value) {
                 if (property_exists($this, $key)) {
                     $this->$key = $value;
@@ -48,6 +56,7 @@ class Manifest
                     $this->parentEntity->$key = $value;
                 }
             }
+            
             $this->manifestLoaded = true;
         }
     }

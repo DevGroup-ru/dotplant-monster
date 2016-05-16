@@ -138,6 +138,8 @@ class Repository extends Component
      */
     public function bundle($path)
     {
+        list($namespace, $id) = explode('.', $path . ".\1");
+        $path = "$namespace.$id";
         foreach ($this->bundles as &$bundle) {
             if ($path === $bundle->namespace . '.' . $bundle->id) {
                 return $bundle;

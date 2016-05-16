@@ -56,7 +56,7 @@ if (!dev) {
 	);
 }
 module.exports = {
-		cache: true,
+		cache: false,
 		entry: bundles,
 		stats: {
         colors: true,
@@ -75,8 +75,8 @@ module.exports = {
 					exclude: /(node_modules|prism\.js|bower_components)/,
 					loader: 'babel',
 					query: {
-	          plugins: ['transform-runtime'],
-          	cacheDirectory: true
+	          //plugins: ['transform-runtime'],
+          	// cacheDirectory: true
 					}
 				},
 				{

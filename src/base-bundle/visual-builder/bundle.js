@@ -1,9 +1,5 @@
 import './bundle.css';
 
-class Builder {
-  foo() {
-    return 'bar';
-  }
-}
+import FrontendMonster from './FrontendMonster';
 
-window.b = new Builder();
+window.FrontendMonster = new FrontendMonster();

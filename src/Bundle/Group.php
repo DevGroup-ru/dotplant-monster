@@ -3,6 +3,7 @@
 namespace DotPlant\Monster\Bundle;
 
 use DotPlant\Monster\BundleEntity;
+use DotPlant\Monster\Repository;
 use yii;
 
 class Group extends BundleEntity
@@ -68,5 +69,18 @@ class Group extends BundleEntity
             return $this->materials[$id];
         }
         return null;
+    }
+
+    public function publishAssets()
+    {
+        /** @var Repository $repository */
+        $repository = Yii::$app->get('monsterRepository');
+        $bundle = $repository->bundle($this->fullPath);
+        if ($bundle !== null) {
+            $bundle->publishAssets();
+        } else {
+            Yii::error("Can't find bundle for group {$this->fullPath}. That's weird");
+        }
+        $this->publishEntityAssets();
     }
 }

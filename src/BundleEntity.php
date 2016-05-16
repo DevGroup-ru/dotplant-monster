@@ -19,6 +19,12 @@ abstract class BundleEntity
 
     /** @var Manifest */
     private $manifest;
+
+    public $autoloadJs = false;
+    public $autoloadCss = false;
+
+    public $hasJs = false;
+    public $hasCss = false;
     
     const MANIFEST_FILENAME = 'monster.json';
 
@@ -58,12 +64,61 @@ abstract class BundleEntity
         }
         $this->manifest = new Manifest($this->getFsLocation() . static::MANIFEST_FILENAME, $this);
         $this->manifest->ensureManifestLoaded();
+        $this->postProcessManifest();
+
         if ($this->id === null) {
             if ($this instanceof Bundle) {
                 $this->id = basename(dirname($this->getFsLocation()));
             } else {
                 $this->id = basename($this->getFsLocation());
             }
+        }
+    }
+
+    protected function postProcessManifest()
+    {
+        if ($this->hasCss === false && file_exists($this->stylesFilename())) {
+            $this->hasCss = true;
+        }
+        if ($this->hasJs === false && file_exists($this->scriptsFilename())) {
+            $this->hasJs = true;
+        }
+    }
+
+    public function scriptsFilename()
+    {
+        return $this->getFsLocation() . (YII_ENV === 'dev' ? 'scripts.js' : 'scripts.min.js');
+    }
+
+    public function stylesFilename()
+    {
+        return $this->getFsLocation() . (YII_ENV === 'dev' ? 'styles.js' : 'styles.min.js');
+    }
+
+    abstract public function publishAssets();
+
+    public function publishEntityAssets()
+    {
+        if ($this->hasJs) {
+            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->scriptsFilename());
+            if (file_exists($publishedPath) === false) {
+                Yii::$app->assetManager->publish($this->scriptsFilename());
+            }
+            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->scriptsFilename());
+
+            Yii::$app->view->registerJsFile($publishedUrl);
+
+        }
+
+        if ($this->hasCss) {
+            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->stylesFilename());
+            if (file_exists($publishedPath) === false) {
+                Yii::$app->assetManager->publish($this->stylesFilename());
+            }
+            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->stylesFilename());
+
+            Yii::$app->view->registerCssFile($publishedUrl);
+
         }
     }
 
@@ -87,7 +142,10 @@ abstract class BundleEntity
 
             foreach ($finder as $directory) {
                 /** @var SplFileInfo $directory */
-                $this->childrenDirectories[] = $directory->getRealPath();
+                $realPath = $directory->getRealPath();
+                if (file_exists("$realPath/".static::MANIFEST_FILENAME)) {
+                    $this->childrenDirectories[] = $realPath;
+                }
             }
         }
         return $this->childrenDirectories;
@@ -103,6 +161,10 @@ abstract class BundleEntity
             'name',
             'id',
             'fullPath',
+            'hasJs',
+            'hasCss',
+            'autoloadJs',
+            'autoloadCss',
         ];
 
         if (count($this->css) > 0) {

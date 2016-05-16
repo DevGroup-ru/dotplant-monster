@@ -47,17 +47,20 @@ class Bundle extends BundleEntity
         $this->groups = [];
         foreach ($groupsDirectories as $directory) {
             $group = $this->newChild($directory);
-            
-            $group->process($this->fullPath);
-            if ($group->id === null) {
-                Yii::error(
-                    "Group for path $directory is in unknown format(no id or bad manifest)" .
-                    " - bundle: {$this->id}"
-                );
-                unset($group);
-                continue;
+            try {
+                $group->process($this->fullPath);
+                if ($group->id === null) {
+                    Yii::error(
+                        "Group for path $directory is in unknown format(no id or bad manifest)" .
+                        " - bundle: {$this->id}"
+                    );
+                    unset($group);
+                    continue;
+                }
+                $this->groups[$group->id] = $group;
+            } catch (\RuntimeException $e) {
+                Yii::warning($e);
             }
-            $this->groups[$group->id] = $group;
         }
     }
 
@@ -93,5 +96,12 @@ class Bundle extends BundleEntity
             return $this->groups[$id];
         }
         return null;
+    }
+
+    public function publishAssets()
+    {
+        Yii::trace("Publish assets!");
+        Yii::trace(yii\helpers\VarDumper::dumpAsString($this));
+        $this->publishEntityAssets();
     }
 }

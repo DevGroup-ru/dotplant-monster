@@ -3,6 +3,7 @@
 namespace DotPlant\Monster\Bundle;
 
 use DotPlant\Monster\BundleEntity;
+use DotPlant\Monster\Repository;
 use yii;
 use yii\helpers\Json;
 
@@ -72,4 +73,16 @@ class Material extends BundleEntity
         return Json::decode(file_get_contents($rawBemJsonFilename));
     }
 
+    public function publishAssets()
+    {
+        /** @var Repository $repository */
+        $repository = Yii::$app->get('monsterRepository');
+        $group = $repository->group($this->fullPath);
+        if ($group !== null) {
+            $group->publishAssets();
+        } else {
+            Yii::error("Can't find group for material {$this->fullPath}. That's weird");
+        }
+        $this->publishEntityAssets();
+    }
 }
