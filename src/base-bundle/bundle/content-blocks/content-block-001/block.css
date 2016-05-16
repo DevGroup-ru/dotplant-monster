@@ -10,7 +10,7 @@
       }
     }
     @e right {
-      backgroudn: green;
+      background: green;
       lost-column: 1/2;
       @media (--mobile) {
         lost-column: 1;
