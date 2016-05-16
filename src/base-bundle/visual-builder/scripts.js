@@ -46,10 +46,6 @@
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
 	var _classCallCheck2 = __webpack_require__(8);
 	
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -76,7 +72,7 @@
 	  return Builder;
 	}();
 	
-	exports.default = Builder;
+	window.b = new Builder();
 
 /***/ },
 /* 1 */

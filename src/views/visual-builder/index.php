@@ -2,7 +2,7 @@
 /** @var \yii\web\View $this */
 use yii\helpers\Json;
 use yii\helpers\Url;
-Yii::$app->cache->flush();
+//Yii::$app->cache->flush();
 //\yii\helpers\VarDumper::dump(
 //    Yii::$app->bemRepository->materials,//['monster-section-selector'],
 //    30,
@@ -14,8 +14,8 @@ echo \DotPlant\Monster\MonsterContent::widget([
     'uniqueContentId' => 'visual-builder',
     'materials' => [
         [
-            'block' => 'monster-visual-builder',
-            'params' => [
+            'material' => 'core.visual-builder.components.builder',
+            'data' => [
                 'environments' => [
                     [
                         'icon' => \kartik\icons\Icon::show('list-ul'),
@@ -44,10 +44,10 @@ echo \DotPlant\Monster\MonsterContent::widget([
 
 ]);
 
-/** @var \DotPlant\Monster\BemRepository $repository */
-$repository = Yii::$app->bemRepository;
-$groups = Json::encode($repository->groups);
-$materials = Json::encode($repository->materials);
+/** @var \DotPlant\Monster\Repository $repository */
+$repository = Yii::$app->get('monsterRepository');
+$groups = Json::encode([]);
+$materials = Json::encode([]);
 $newBlockUrl = Json::encode(Url::to(['/monster/visual-builder/new-block']));
 $js = <<<js
     window.VisualBuilderSettings = {

@@ -1,0 +1,194 @@
+$top-pane-height: 40px;
+$left-pane-width: 64px;
+$base-z-index: 12000;
+
+$editor-base-bg: #1E1B35;
+$editor-light-bg: #3B3752;
+
+$editor-text-color: #F7F7FC;
+$editor-inactive-color: #666773;
+$editor-link-color: #3FB2FF;
+$editor-section-color: #4FD18A;
+$editor-accent-color: #EC5035;
+
+.m-wrapper {
+
+  @b monster-visual-builder {
+    line-height: $base-line-height * 2;
+    font-size: $base-font-size;
+
+
+    @e top-pane {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      line-height: $top-pane-height;
+      height: $top-pane-height;
+      padding-left: $left-pane-width;
+      background: $editor-light-bg;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+
+    @e left-pane {
+      background: $editor-base-bg;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: $left-pane-width;
+    }
+
+  }
+
+
+  @b monster-stackable-container {
+    z-index: $base-z-index;
+    position: fixed;
+    left: $left-pane-width;
+    top: $top-pane-height;
+    bottom: 0;
+    min-width: 200px;
+    color: $editor-text-color;
+    @e pane {
+      background: $editor-base-bg;
+      min-width: 300px;
+      float: left;
+      height: 100%;
+      bottom: 0;
+      top: 0;
+      overflow-y: auto;
+      @m first {
+        background: $editor-light-bg;
+        min-width: 200px;
+      }
+    }
+
+  }
+
+  @b monster-environment-selector {
+
+    @e environment-link {
+      display: block;
+      text-align: center;
+      width: $left-pane-width;
+      height: $left-pane-width;
+      line-height: $left-pane-width;
+      color: $editor-inactive-color;
+      cursor: pointer;
+      text-decoration: none;
+
+      &:hover {
+        color: $editor-text-color;
+      }
+
+      @m active {
+        background-color: $editor-light-bg;
+        color: $editor-text-color;
+      }
+    }
+  }
+
+  @b resolution-switcher {
+    background: $editor-text-color;
+    float: left;
+    padding: 0 20px;
+
+    @e resolution-link {
+      color: $editor-base-bg;
+      cursor: pointer;
+
+      @m active {
+        color: $editor-link-color;
+      }
+    }
+  }
+
+  @b monster-visual-frame {
+    z-index: -10;
+    position: fixed;
+    right: 10px;
+    top: $top-pane-height+1px;
+
+    height: calc(100% - #{$top-pane-height + 2px});
+
+    outline: 1px solid $editor-inactive-color;
+    min-width: 340px;
+    background: #fff;
+    width: 990px;
+    border: 0;
+  }
+
+  @b materials-groups {
+    list-style: none;
+    padding-left: 0;
+    li {
+      display: block;
+    }
+
+    @e switch-group {
+      color: $editor-text-color;
+      padding: 1rem;
+      display: block;
+      border-left: 0.2rem solid $editor-light-bg;
+      text-decoration: none;
+      @m active {
+        font-weight: bold;
+        background: $editor-base-bg;
+        border-left: 0.2rem solid $editor-link-color;
+
+      }
+    }
+  }
+
+  @b materials-list {
+    display: none;
+    padding-left: 0;
+
+    @m active {
+      display: block;
+      list-style: none;
+    }
+  }
+  @b m-monster-content {
+    @e material {
+      @m highlighted {
+        box-shadow: inset 0 0 0 2px $editor-link-color;
+      }
+      @m active {
+        box-shadow: inset 0 0 0 2px $editor-section-color;
+      }
+    }
+  }
+
+}
+
+@b monster-block-handlers {
+  position: absolute;
+  background-color: $editor-section-color;
+  color: $editor-text-color;
+  min-width: 150px;
+  text-align: center;
+  line-height: $base-line-height*3;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 0 $base-line-height;
+  a {
+    color: $editor-text-color;
+    text-decoration: none;
+    display: inline-block;
+    width: $base-line-height*3;
+    text-align: center;
+    &:hover {
+      background-color: $editor-accent-color;
+    }
+  }
+  @m disabled {
+    a,a:hover {
+      background-color: $editor-section-color;
+      cursor: pointer;
+      color: $editor-inactive-color;
+    }
+  }
+}

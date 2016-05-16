@@ -17,7 +17,7 @@ class Repository extends Component
     /** @var bool  */
     public $bundlesLoaded = false;
 
-    public $coreBundleLocation = '@vendor/devgroup/frontend-monster/';
+    public $coreBundlesLocation = '';
 
     public $bundlesLocation = '@app/monster/bundles/';
     
@@ -28,6 +28,9 @@ class Repository extends Component
     public function init()
     {
         parent::init();
+        if ($this->coreBundlesLocation === '') {
+            $this->coreBundlesLocation = __DIR__ . '/base-bundle/';
+        }
         
         if (count($this->bundles) !== 0) {
             $this->bundlesLoaded = true;
@@ -55,13 +58,20 @@ class Repository extends Component
     public function reloadBundles()
     {
         $this->bundles = [];
-        if ($this->coreBundleLocation !== false) {
-            $this->loadBundle(
-                HasFilesystemRepresentation::normalizePath(
-                    Yii::getAlias($this->coreBundleLocation)
-                ) .
-                'bundle/'
+        if ($this->coreBundlesLocation !== false) {
+            $normalizedCoreBundles = HasFilesystemRepresentation::normalizePath(
+                Yii::getAlias($this->coreBundlesLocation)
             );
+            $coreBundles = [
+                'bundle',
+                'core',
+                'visual-builder',
+            ];
+            foreach ($coreBundles as $bundle) {
+                $this->loadBundle(
+                    $normalizedCoreBundles . $bundle
+                );
+            }
         }
 
         // load third-party bundles

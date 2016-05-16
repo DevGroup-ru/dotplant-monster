@@ -56,6 +56,7 @@ class MonsterBh extends Component
         if ($this->bh === null) {
             $this->bh = new BH();
             $this->configureBhBase($this->bh);
+            $this->loadMatchersFile(__DIR__ . '/base-bundle/core.bh.php', $this->bh);
         }
         return $this->bh;
     }
@@ -79,6 +80,11 @@ class MonsterBh extends Component
         return Yii::$app->get($this->expander);
     }
 
+    /**
+     * @param \DotPlant\Monster\Bundle\Material $material
+     *
+     * @return \BEM\Json
+     */
     public function expandedBemJson(Material $material)
     {
         $cacheKey = $this->expander()->cacheKey($material);
@@ -90,5 +96,16 @@ class MonsterBh extends Component
             $bemJson = $this->expander()->expandMaterial($material);
         }
         return $bemJson;
+    }
+
+    /**
+     * @param string $fileName
+     * @param BH     $bh
+     *
+     * @return array
+     */
+    public function loadMatchersFile($fileName, &$bh)
+    {
+        return $bh->addMatcherList(include($fileName));
     }
 }

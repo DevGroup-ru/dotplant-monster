@@ -1,0 +1,89 @@
+{
+  "block": "monster-visual-builder",
+  "content": [
+    {
+      "elem": "top-pane",
+      "content": [
+        {
+          "block": "resolution-switcher",
+          "content": [
+            {
+              "elem": "resolution-link",
+              "mods": ["active"],
+              "content": "100%",
+              "tag": "a",
+              "attrs": {
+                "data-resolution-width": "100%"
+              }
+            },
+            {
+              "elem": "resolution-link",
+              "content": "dw",
+              "tag": "a",
+              "attrs": {
+                "data-resolution-width": "83.9375em",
+                "title": "desktop-wide"
+              }
+            },
+            {
+              "elem": "resolution-link",
+              "content": "d",
+              "tag": "a",
+              "attrs": {
+                "data-resolution-width": "74.9375em",
+                "title": "desktop"
+              }
+            },
+            {
+              "elem": "resolution-link",
+              "content": "t",
+              "tag": "a",
+              "attrs": {
+                "data-resolution-width": "59.9375em",
+                "title": "tablet"
+              }
+            },
+            {
+              "elem": "resolution-link",
+              "content": "m",
+              "tag": "a",
+              "attrs": {
+                "data-resolution-width": "39.9375em",
+                "title": "mobile"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "elem": "left-pane",
+      "content": [
+        {
+          "block": "monster-stackable-container",
+          "content": "Stackable here"
+        },
+        {
+          "block": "monster-environment-selector",
+          "recursive": "$data['environments']",
+          "itemTemplate": {
+            "elem": "environment-link",
+            "tag": "a",
+            "content": "<?= $item['icon'] ?>",
+            "attrs": {
+              "href": "#",
+              "data-environment-name": "<?= $item['environment'] ?>"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "block": "monster-visual-frame",
+      "tag": "iframe",
+      "attrs": {
+        "src": "/#hashApi:%5B%7B%22func%22%3A%22VisualFrame-init%22%2C%22args%22%3A%7B%7D%7D%5D:/hashApi"
+      }
+    }
+  ]
+}
