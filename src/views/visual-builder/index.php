@@ -55,6 +55,9 @@ $js = <<<js
       materials: $materials,
       'new-block-url': $newBlockUrl
     };
+    $(function(){
+      window.FrontendMonster.builder;
+    });
 js;
 $this->registerJs($js, \yii\web\View::POS_BEGIN);
 ?>

@@ -1,14 +1,7 @@
 :root {
     /* grid */
     /* typography */
-}
-/* custom media queries */
-/* lost grid conf */
-/*@lost flexbox flex;*/
-/*@lost cycle none;*/
-:root {
-    /* grid */
-    /* typography */
+    /*vertical rhytm*/
 }
 /* custom media queries */
 /* lost grid conf */
@@ -36,7 +29,7 @@
     clear: left
 }
 .m-wrapper .content-block-001__right {
-    backgroudn: green;
+    background: green;
     width: calc(99.99% * 1/2 - (1.25em - 1.25em * 1/2))
 }
 .m-wrapper .content-block-001__right:nth-child(1n) {
