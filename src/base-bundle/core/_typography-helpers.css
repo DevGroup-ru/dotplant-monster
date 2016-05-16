@@ -13,7 +13,7 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 700;
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
 
         font-size: 1rem;
 
@@ -24,7 +24,7 @@
   @if $type == "text" {
     font-size: 0.875rem;
     line-height: 1.25rem;
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
         font-size: 1rem;
     }
   }
@@ -32,7 +32,7 @@
   @if $type == "accent-text" {
     font-size: 1rem;
     line-height: 1.25rem;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 1.1875rem;
     }
   }
@@ -40,7 +40,7 @@
   @if $type == "section" {
     font-size: 1.1875rem;
     line-height: 1.25rem;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 1.5rem;
       line-height: 1.875rem;
     }
@@ -49,10 +49,10 @@
   @if $type == "sub-heading" {
     font-size: 1.5rem;
     line-height: 1.875rem;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 1.625rem;
     }
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
       font-size: 1.875rem;
     }
   }
@@ -60,11 +60,11 @@
   @if $type == "heading" {
     font-size: 1.75rem;
     line-height: 1.875rem;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 2.25rem;
       line-height: 2.5rem;
     }
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
       font-size: 2.5rem;
     }
   }
@@ -73,11 +73,11 @@
     font-size: 1.75rem;
     line-height: 1.875rem;
     font-weight: 500;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 2.25rem;
       line-height: 2.5rem;
     }
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
       font-size: 2.5rem;
     }
   }
@@ -85,11 +85,11 @@
   @if $type == "slider-heading" {
     font-size: 1.75rem;
     line-height: 1.875rem;
-    @media (--tablet) {
+    @media (--greater-than-tablet) {
       font-size: 2.25rem;
       line-height: 3.75rem;
     }
-    @media (--desktop) {
+    @media (--greater-than-desktop) {
       font-size: 3.5rem;
     }
   }

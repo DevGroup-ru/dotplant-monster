@@ -1,4 +1,3 @@
-@import "../../_bootstrap.css";
 .m-wrapper {
   /** @define content-block-001 */
   @b content-block-001 {
@@ -11,7 +10,7 @@
       }
     }
     @e right {
-      backgroudn: green;
+      background: green;
       lost-column: 1/2;
       @media (--mobile) {
         lost-column: 1;
