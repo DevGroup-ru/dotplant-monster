@@ -1,3 +1,11 @@
+@custom-selector :--header1 h1, .h1;
+@custom-selector :--header2 h2, .h2;
+@custom-selector :--header3 h3, .h3;
+@custom-selector :--header4 h4, .h4;
+@custom-selector :--header5 h5, .h5;
+@custom-selector :--header6 h6, .h6;
+@custom-selector :--paragraph p, .p;
+
 @define-mixin type-setting $type {
   @if $type == "smallest-text" {
     font-size: 0.75rem;

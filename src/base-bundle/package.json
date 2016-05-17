@@ -8,7 +8,7 @@
     "build": "node_modules/.bin/webpack",
     "start": "ENV=dev node_modules/.bin/webpack",
     "test": "npm run build",
-    "dev-server": "ENV=dev node_modules/.bin/webpack-dev-server",
+    "dev-server": "ENV=dev node_modules/.bin/webpack-dev-server --host 0.0.0.0",
     "dev": "ENV=dev npm install && npm run build && npm run dev-server",
     "watch": "ENV=dev node_modules/.bin/webpack --watch"
   },
@@ -21,6 +21,8 @@
     "csso-loader": "^0.2.0",
     "doiuse": "^2.3.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "gulp": "^3.9.1",
+    "gulp-postcss": "^6.1.1",
     "lost": "^6.8.0",
     "postcss-bem": "^0.4.1",
     "postcss-bem-linter": "^2.5.1",

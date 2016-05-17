@@ -10,3 +10,7 @@ html, body {
 *, *:before, *:after {
   box-sizing: border-box;
 }
+/* ie11 hack */
+_:-ms-fullscreen {
+  width: 100%;
+}

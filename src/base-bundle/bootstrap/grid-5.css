@@ -1,0 +1,82 @@
+@b m-row {
+  /* grid is in context of row, no dependency for columns count, but for max-width */
+  display: inline-block;
+  display: flex;
+  /*ie7-hack-display: inline;*/
+  zoom: 1;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  letter-spacing: -0.31em !important;
+  /*ie7-hack-letter-spacing: normal !important;*/
+  word-spacing: -0.43em !important;
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+  &:before, &:after {
+    max-width: 100%;
+  }
+  &:before, &:after, *:before, *:after {
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+  }
+  & .m-row {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    flex: 1 1 auto;
+  }
+  list-style-type: none;
+}
+
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+/* generate grid mixins */
+@define-mixin col_1_of_5 {
+  width: 20%;
+}
+@define-mixin col_2_of_5 {
+  width: 40%;
+}
+@define-mixin col_3_of_5 {
+  width: 60%;
+}
+@define-mixin col_4_of_5 {
+  width: 80%;
+}
+@define-mixin col_5_of_5 {
+  width: 100%;
+}
+@define-mixin col_auto {
+  /*ie10 needs auto*/
+  -ms-flex: 1 0 auto;
+  -webkit-flex: 1 0 0px;
+  flex: 1 0 0px;
+  width: auto !important;
+  max-width: 100%;
+}
+/* grid order helpers */
+@define-mixin col_order $index {
+  order: $index;
+}

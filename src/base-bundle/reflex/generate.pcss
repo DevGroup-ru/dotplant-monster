@@ -1,0 +1,17 @@
+
+/* generate grid mixins */
+@for $index from 1 to $(reflex-columns) {
+  \@define-mixin col_$(index)_of_$(reflex-columns) {
+    col-width: $index/$reflex-columns;
+  }
+}
+\@define-mixin col_auto {
+  @mixin flex 1, 0, 0px;
+  width: auto !important;
+  max-width: 100%;
+}
+
+/* grid order helpers */
+\@define-mixin col_order $index {
+  order: $index;
+}

@@ -1,4 +1,4 @@
-@import "../bundle/_bootstrap.css";
+@import "../bootstrap/_bootstrap.pcss";
 @import "_reset.css";
 @import "_fundation.css";
 @import "_typography.css";

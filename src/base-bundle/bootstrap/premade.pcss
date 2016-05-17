@@ -1,0 +1,53 @@
+@define-mixin flex $grow: 0, $shrink: 1, $basis: auto {
+  @if $basis == 0px {
+    /*ie10 needs auto*/
+    -ms-flex: $grow $shrink auto;
+  }
+  @else {
+    -ms-flex: $grow $shrink $basis;
+  }
+  -webkit-flex: $grow $shrink $basis;
+  flex: $grow $shrink $basis;
+
+}
+@define-mixin setupCols $element {
+  @e $element {
+    /* display flex */
+    display: inline-block;
+    display: flex;
+    /* flex-direction */
+    zoom: 1;
+    flex-direction: column;
+    /* reset text align */
+    text-align: left;
+    text-align: start;
+    text-align: initial;
+    -moz-text-align-last: left;
+    -moz-text-align-last: start;
+    -moz-text-align-last: initial;
+    text-align-last: left;
+    text-align-last: start;
+    text-align-last: initial;
+    /* reset whitespace */
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+    /* other */
+    position: relative;
+    width: 100%;
+    vertical-align: top;
+    padding: 1.25em; /* gutter! */
+  }
+}
+
+@define-mixin cell $element {
+  @e $(element)-cell {
+    position: relative;
+    display: block;
+    @mixin flex 1, 1, auto;
+    /* ie11 hack */
+    :root & {
+      width: 100%;
+    }
+  }
+}

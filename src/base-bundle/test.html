@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <title>Base bundle test</title>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-	  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="MobileOptimized" content="320"/>
+    <meta name="HandheldFriendly" content="true"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
     <link rel="stylesheet" href="core/styles.css">
     <link rel="stylesheet" href="bundle/styles.css">
@@ -14,12 +16,14 @@
 <body>
     <div class="m-wrapper">
       <div class="m-container">
-        <div class="m-row content-block-001">
-          <div class="content-block-001__left">
+        <div class="m-row content-block-101">
+          <div class="content-block-101__nested">
             This should be on the left
           </div>
-          <div class="content-block-001__right">
-            This should be on the right
+          <div class="content-block-101__nested">
+            <div class="content-block-101__nested-cell">
+              This should be on the right
+            </div>
           </div>
         </div>
       </div>

@@ -72,7 +72,7 @@ module.exports = {
         exclude: /(node_modules|prism\.js|bower_components)/,
         loader: 'babel',
         query: {
-          plugins: ['transform-runtime'],
+          // plugins: ['transform-runtime'],
           cacheDirectory: true
         }
       },
@@ -114,9 +114,15 @@ module.exports = {
       }),
       precss(),
       cssnext({
-        browsers: supportedBrowsers
+        browsers: supportedBrowsers,
+        features: {
+          autoprefixer: false
+        }
       }),
       lost(),
+      cssnext({
+        browsers: supportedBrowsers
+      }),
       reporter({clearMessages:true})
     ];
   },

@@ -1,13 +1,3 @@
-@import "_typography-helpers.css";
-
-@custom-selector :--header1 h1, .h1;
-@custom-selector :--header2 h2, .h2;
-@custom-selector :--header3 h3, .h3;
-@custom-selector :--header4 h4, .h4;
-@custom-selector :--header5 h5, .h5;
-@custom-selector :--header6 h6, .h6;
-@custom-selector :--paragraph p, .p;
-
 .m-wrapper {
   @mixin type-setting "text";
   font-size: 1rem !important;
@@ -69,7 +59,7 @@
   .small-text {
     @mixin type-setting "small-text";
   }
-  
+
   .smallest-text {
     @mixin type-setting "smallest-text";
   }
@@ -85,4 +75,3 @@
     padding-left: 2rem;
   }
 }
-/* Need to port typography/base.scss */

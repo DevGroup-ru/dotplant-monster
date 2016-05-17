@@ -18,10 +18,7 @@ html, body, .m-container {
 
 .m-row {
   outline: 1px solid green;
-  lost-flex-container: row;
-  margin-right: auto;
-  margin-left: auto;
-
+  /* removed margin-left|right: auto */
   @media (--null-breakpoint) {
     width: 320px;
   }
@@ -37,9 +34,4 @@ html, body, .m-container {
   @media (--greater-than-desktop-wide) {
     width: calc(83.9375em - var(--window-gutter) * 2);
   }
-}
-
-
-@define-mixin grid-clear {
-  lost-utility: clearfix;
 }

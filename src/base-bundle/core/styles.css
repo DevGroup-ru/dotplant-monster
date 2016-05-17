@@ -4,9 +4,128 @@
     /*vertical rhytm*/
 }
 /* custom media queries */
-/* lost grid conf */
-/*@lost flexbox flex;*/
-/*@lost cycle none;*/
+.m-row {
+    /* grid is in context of row, no dependency for columns count, but for max-width */
+    display: inline-block;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    /*ie7-hack-display: inline;*/
+    zoom: 1;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    letter-spacing: -0.31em !important;
+    /*ie7-hack-letter-spacing: normal !important;*/
+    word-spacing: -0.43em !important;
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+    list-style-type: none;
+}
+.m-row:before, .m-row:after, .m-row *:before, .m-row *:after {
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+}
+.m-row:before, .m-row:after {
+    max-width: 100%;
+}
+.m-row .m-row {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    -webkit-box-flex: 1;
+            flex: 1 1 auto;
+}
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+/* generate grid mixins */
+/* grid order helpers */
+.m-row {
+    /* grid is in context of row, no dependency for columns count, but for max-width */
+    display: inline-block;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    /*ie7-hack-display: inline;*/
+    zoom: 1;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    letter-spacing: -0.31em !important;
+    /*ie7-hack-letter-spacing: normal !important;*/
+    word-spacing: -0.43em !important;
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+    list-style-type: none;
+}
+.m-row:before, .m-row:after, .m-row *:before, .m-row *:after {
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
+}
+.m-row:before, .m-row:after {
+    max-width: 100%;
+}
+.m-row .m-row {
+    -ms-flex: 1 1 auto;
+    -webkit-flex: 1 1 auto;
+    -webkit-box-flex: 1;
+            flex: 1 1 auto;
+}
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+/* generate grid mixins */
+/* grid order helpers */
 body {
     margin: 0;
     padding: 0;
@@ -18,6 +137,10 @@ html, body {
 }
 *, *:before, *:after {
     box-sizing: border-box;
+}
+/* ie11 hack */
+_:-ms-fullscreen {
+    width: 100%;
 }
 .m-wrapper {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -33,10 +156,7 @@ html, body, .m-container {}
 }
 .m-row {
     outline: 1px solid green;
-    display: flex;
-    flex-flow: row wrap;
-    margin-right: auto;
-    margin-left: auto;
+    /* removed margin-left|right: auto */
 }
 @media (min-width: 1em) {
     .m-row {
@@ -210,6 +330,5 @@ html, body, .m-container {}
         font-size: 1rem;
     }
 }
-/* Need to port typography/base.scss */
 
 /*# sourceMappingURL=styles.css.map*/

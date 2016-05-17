@@ -1,0 +1,47 @@
+$reflex-prefix: "grid-12";
+
+$reflex-columns: 12;
+$reflex-max-width: 100%;
+
+
+$reflex-xs: 480px !default;
+$reflex-sm: 768px !default;
+$reflex-md: 992px !default;
+$reflex-lg: 1200px !default;
+$reflex-xlg: 1600px !default;
+
+
+$reflex-grid-spacing:       1.25em !default;
+
+$reflex-cell-spacing-sm:    ($reflex-grid-spacing / 2);
+$reflex-cell-spacing-md:    $reflex-grid-spacing;
+$reflex-cell-spacing-lg:    ($reflex-grid-spacing * 2);
+
+
+@import "helpers.pcss";
+
+@b m-row {
+  @import "make-grid.pcss";
+}
+
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+@import "generate.pcss";

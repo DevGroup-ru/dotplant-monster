@@ -1,0 +1,43 @@
+@define-mixin displayFlex {
+  display: inline-block;
+  display: flex;
+  /*ie7-hack-display: inline;*/
+  zoom: 1;
+}
+
+@define-mixin setupWhitespace {
+  letter-spacing: -0.31em !important;
+  /*ie7-hack-letter-spacing: normal !important;*/
+  word-spacing: -0.43em !important;
+}
+
+@define-mixin resetWhitespace {
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+}
+
+@define-mixin flex $grow: 0, $shrink: 1, $basis: auto {
+  @if $basis == 0px {
+    /*ie10 needs auto*/
+    -ms-flex: $grow $shrink auto;
+  }
+  @else {
+    -ms-flex: $grow $shrink $basis;
+  }
+  -webkit-flex: $grow $shrink $basis;
+  flex: $grow $shrink $basis;
+
+}
+
+@define-mixin resetTextAlign {
+  text-align: left;
+  text-align: start;
+  text-align: initial;
+  -moz-text-align-last: left;
+  -moz-text-align-last: start;
+  -moz-text-align-last: initial;
+  text-align-last: left;
+  text-align-last: start;
+  text-align-last: initial;
+}

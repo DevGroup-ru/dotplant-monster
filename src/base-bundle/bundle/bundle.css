@@ -1,2 +1,21 @@
-@import "_bootstrap.css";
+@import "../bootstrap/_bootstrap.pcss";
 @import "content-blocks/group.css";
+/*
+2
+*/
+/***************
+ *
+ *    TEST
+ *
+ ***************/
+
+
+@b content-block-101 {
+
+  @mixin setupCols nested;
+  @mixin cell nested;
+
+  @e nested {
+    @mixin col_6_of_12;
+  }
+}
