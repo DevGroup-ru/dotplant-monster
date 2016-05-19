@@ -1,0 +1,48 @@
+.m-wrapper {
+  /*@group global*/
+
+  @b g {
+
+    /*@desc No margin helper*/
+    @e no-margin {
+      /*@desc No margin from bottom*/
+      @m bottom {
+        margin-bottom: 0;
+      }
+      /*@desc No margin from top*/
+      @m top {
+        margin-top: 0;
+      }
+      /*@desc No margin from both top and bottom*/
+      @m top-bottom {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    /*@desc Vertical rhythm one line margin helper*/
+    @e one-line {
+      /*@desc One vertical rhythm line margin from top*/
+      @m top {
+        margin-top: calc(var(--base-line-height) * 2);
+      }
+      /*@desc One vertical rhythm line margin from bottom*/
+      @m bottom {
+        margin-bottom: calc(var(--base-line-height) * 2);
+      }
+      /*@desc One vertical rhythm line margin from both top and bottom*/
+      @m top-bottom {
+        margin-top: calc(var(--base-line-height) * 6);
+        margin-bottom: calc(var(--base-line-height) * 6);
+      }
+    }
+
+    /*@desc Text alignment helper*/
+    @e text {
+      @m center {
+        text-align: center;
+      }
+    }
+
+  }
+}
