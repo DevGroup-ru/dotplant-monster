@@ -16,10 +16,12 @@ class ExtensionBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        $app->on(yii\base\Application::EVENT_BEFORE_ACTION, function () use($app) {
-            /** @var Repository $repository */
-            $repository = $app->get('monsterRepository');
-            $repository->autoloadAssets();
-        });
+        if ($app instanceof yii\web\Application) {
+            $app->on(yii\base\Application::EVENT_BEFORE_ACTION, function () use ($app) {
+                /** @var Repository $repository */
+                $repository = $app->get('monsterRepository');
+                $repository->autoloadAssets();
+            });
+        }
     }
 }

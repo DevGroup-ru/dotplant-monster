@@ -178,7 +178,7 @@ $editor-accent-color: #EC5035;
     color: $editor-text-color;
     text-decoration: none;
     display: inline-block;
-    width: $base-line-height*3;
+    width: calc($base-line-height*3);
     text-align: center;
     &:hover {
       background-color: $editor-accent-color;
