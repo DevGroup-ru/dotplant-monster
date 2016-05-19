@@ -36,9 +36,10 @@ class VisualBuilderController extends Controller
             throw new yii\web\BadRequestHttpException;
         }
         $content = \DotPlant\Monster\MonsterContent::makeMaterial(
+            uniqid('monsterContentUNIQUE', true),
             $_POST['materialIndex'],
             [
-                'block' => $_POST['block'],
+                'material' => $_POST['block'],
             ],
             true
         )->run();

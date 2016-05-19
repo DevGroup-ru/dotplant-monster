@@ -81,6 +81,10 @@ class MonsterContent extends yii\base\Widget
          *
          * @todo Implement EDIT MODE!
          */
+        // register VisualBuilder(for FrameApi at least)
+        /** @var Repository $repository */
+        $repository = Yii::$app->get('monsterRepository');
+        $repository->material('core.visual-builder.components.builder')->publishAssets();
 
         return Yii::$app instanceof yii\web\Application;
     }
