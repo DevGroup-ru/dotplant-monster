@@ -1,0 +1,13 @@
+.m-wrapper {
+  /** @define accordion-tabs */
+	@b accordion-tabs {
+
+	  @e content {
+	    display: none;
+
+	    &.active{
+	      display: block;
+	    }
+	  }
+	}
+}

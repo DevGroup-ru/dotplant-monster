@@ -1,0 +1,285 @@
+/*Add files with fonts somewhere and write correctly path*/
+
+:root {
+  --font-color-defalt: #000;
+  --font-color-path-1: rgb(235, 27, 88);
+  --font-color-path-2: rgb(66, 36, 77);
+  --font-color-path-3: rgb(255, 255, 255);
+  --font-color-path-4: rgb(156, 156, 157);
+  --font-color-path-5: rgb(156, 156, 157);
+  --font-color-path-6: rgb(156, 156, 157);
+  --font-color-path-7: rgb(156, 156, 157);
+
+  --icon-star: "\e801";
+  --icon-arr-right: "\e809";
+  --icon-arr-left: "\e808";
+  --icon-arr-right-end: "\e80d";
+  --icon-arr-left-end: "\e80c";
+  --icon-arr-up: "\e80a";
+  --icon-arr-down: "\e80b";
+  --icon-arr-long-right: "\e80f";
+  --icon-arr-long-left: "\e80e";
+  --icon-basket: "\e807";
+  --icon-cancel: "\e819";
+  --icon-help-circled: "\e802";
+  --icon-info-circled: "\e803";
+  --icon-twitter: "\e815";
+  --icon-vkontakte: "\e816";
+  --icon-facebook: "\e812";
+  --icon-gplus: "\e813";
+  --icon-mail-alt: "\e800";
+  --icon-download: "\e81a";
+  --icon-menu: "\e817";
+  --icon-phone: "\e806";
+  --icon-search: "\e818";
+  --icon-lock: "\e81e";
+  --icon-zoom: "\e81b";
+  --icon-braille: "\e81c";
+  --icon-user: "\e81d";
+  --icon-question: "\e81f";
+  --icon-ok: "\e820";
+}
+
+@font-face {
+  font-family: "basic";
+  src: url("/fonts/basic.eot");
+  src: url("/fonts/basic.eot") format("embedded-opentype"),
+    url("/fonts/basic.woff") format("woff"),
+    url("/fonts/basic.ttf") format("truetype"),
+    url("/fonts/basic.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "project-bw";
+  src: url("/fonts/project-bw.eot");
+  src: url("/fonts/project-bw.eot") format("embedded-opentype"),
+    url("/fonts/project-bw.woff") format("woff"),
+    url("/fonts/project-bw.ttf") format("truetype"),
+    url("/fonts/project-bw.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "project-color";
+  src: url("/fonts/project-color.eot");
+  src: url("/fonts/project-color.eot") format("embedded-opentype"),
+    url("/fonts/project-color.woff") format("woff"),
+    url("/fonts/project-color.ttf") format("truetype"),
+    url("/fonts/project-color.svg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+[class^="icon-basic-"],
+[class*=" icon-basic-"] {
+  font-family: "basic";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@define-mixin basic_icon {
+  font-family: "basic";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+[class^="icon-project-bw-"],
+[class*=" icon-project-bw-"] {
+  font-family: "project-bw";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-icon]:before {
+  font-family: "project-bw";
+  content: attr(data-icon);
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-project-color-"],
+[class*=" icon-project-color-"] {
+  font-family: "project-color";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-basic-star:before {
+  content: var(--icon-star);
+}
+
+.icon-basic-arrow-right:before {
+  content: var(--icon-arr-right);
+}
+
+.icon-basic-arrow-left:before {
+  content: var(--icon-arr-left);
+}
+
+.icon-basic-arrow-left-end:before {
+  content: var(--icon-arr-left-end);
+}
+
+.icon-basic-arrow-right-end:before {
+  content: var(--icon-arr-right-end);
+}
+
+.icon-basic-basket:before {
+  content: var(--icon-basket);
+}
+
+.icon-basic-right:before {
+  content: var(--icon-arr-long-right);
+}
+
+.icon-basic-left:before {
+  content: var(--icon-arr-long-left);
+}
+
+.icon-basic-cancel:before {
+  content: var(--icon-cancel);
+}
+
+.icon-basic-help-circled:before {
+  content: var(--icon-help-circled);
+}
+
+.icon-basic-info-circled:before {
+  content: var(--icon-info-circled);
+}
+
+.icon-basic-twitter:before {
+  content: var(--icon-twitter);
+}
+
+.icon-basic-vkontakte:before {
+  content: var(--icon-vkontakte);
+}
+
+.icon-basic-facebook:before {
+  content: var(--icon-facebook);
+}
+
+.icon-basic-gplus:before {
+  content: var(--icon-gplus);
+}
+
+.icon-basic-mail-alt:before {
+  content: var(--icon-mail-alt);
+}
+
+.icon-basic-arr-up:before {
+  content: var(--icon-arr-up);
+}
+
+.icon-basic-arr-down:before {
+  content: var(--icon-arr-down);
+}
+
+.icon-basic-download:before {
+  content: var(--icon-download);
+}
+
+.icon-basic-menu:before {
+  content: var(--icon-menu);
+}
+
+.icon-basic-phone:before {
+  content: var(--icon-phone);
+}
+
+.icon-basic-search:before {
+  content: var(--icon-search);
+}
+
+.icon-basic-lock:before {
+  content: var(--icon-lock);
+}
+
+.icon-basic-user:before {
+  content: var(--icon-user);
+}
+
+.icon-basic-question:before {
+  content: var(--icon-question);
+}
+
+.icon-basic-ok:before {
+  content: var(--icon-user);
+}
+
+.icon-project-color-001-consultation .path1:before {
+  content: "\e600";
+  color: var(--font-color-path-1);
+}
+
+.icon-project-color-001-consultation .path2:before {
+  content: "\e601";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-2);
+}
+
+.icon-project-color-001-consultation .path3:before {
+  content: "\e602";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-3);
+}
+
+.icon-project-color-001-consultation .path4:before {
+  content: "\e603";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-4);
+}
+
+.icon-project-color-001-consultation .path5:before {
+  content: "\e604";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-5);
+}
+
+.icon-project-color-001-consultation .path6:before {
+  content: "\e605";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-6);
+}
+
+.icon-project-color-001-consultation .path7:before {
+  content: "\e606";
+  margin-left: -1.3330078125em;
+  color: var(--font-color-path-7);
+}
