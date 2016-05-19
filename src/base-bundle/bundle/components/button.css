@@ -1,0 +1,57 @@
+:root {
+  --button-simple-fon: #eee;
+  --button-simple-fon-hover: #aaa;
+  --button-simple-border-radius: 1.25rem;
+
+  --button-ghost-border-width: calc(var(--base-line-height) / 10);
+  --button-ghost-border-color: #aaa;
+  --button-ghost-fon: transparent;
+  --button-ghost-fon-hover: #aaa;
+  --button-ghost-border-radius: 1.25rem;
+}
+
+.m-wrapper {
+  /** @define buttons */
+  @b button-simple {
+    @mixin type-setting "text";
+    display: inline-block;  
+    outline: none;
+    border: none;
+    background: var(--button-simple-fon);
+    min-width: calc(var(--base-line-height) * 12);
+    text-align: center;
+    text-decoration: none;
+    padding: var(--base-line-height);
+
+    &:hover{
+      background: var(--button-simple-fon-hover);
+    }
+
+    @m round {
+      border-radius: var(--button-simple-border-radius);
+    }
+  }
+
+  @b button-ghost {
+    @mixin type-setting "text";
+    display: inline-block;  
+    outline: none;
+    border: none;
+    min-width: calc(var(--base-line-height) * 12);
+    text-align: center;
+    text-decoration: none;
+    background: var(--button-ghost-fon);
+    border: var(--button-ghost-border-width) solid var(--button-ghost-border-color);
+    padding: calc(var(--base-line-height) - var(--button-ghost-border-width));
+
+    &:hover{
+      background: var(--button-ghost-fon-hover);
+    }
+
+    @m round {
+      border-radius: var(--button-ghost-border-radius);
+    }
+  }
+}
+
+

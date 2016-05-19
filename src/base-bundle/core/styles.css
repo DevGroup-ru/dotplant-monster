@@ -332,5 +332,201 @@ html, body, .m-container {}
 .m-wrapper .g__text--center {
     text-align: center;
 }
+/*Add files with fonts somewhere and write correctly path*/
+@font-face {
+    font-family: "basic";
+    src: url("/fonts/basic.eot");
+    src: url("/fonts/basic.eot") format("embedded-opentype"),
+    url("/fonts/basic.woff") format("woff"),
+    url("/fonts/basic.ttf") format("truetype"),
+    url("/fonts/basic.svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "project-bw";
+    src: url("/fonts/project-bw.eot");
+    src: url("/fonts/project-bw.eot") format("embedded-opentype"),
+    url("/fonts/project-bw.woff") format("woff"),
+    url("/fonts/project-bw.ttf") format("truetype"),
+    url("/fonts/project-bw.svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: "project-color";
+    src: url("/fonts/project-color.eot");
+    src: url("/fonts/project-color.eot") format("embedded-opentype"),
+    url("/fonts/project-color.woff") format("woff"),
+    url("/fonts/project-color.ttf") format("truetype"),
+    url("/fonts/project-color.svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+[class^="icon-basic-"], [class*=" icon-basic-"] {
+    font-family: "basic";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-feature-settings: normal, normal;
+            font-feature-settings: normal, normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+[class^="icon-project-bw-"], [class*=" icon-project-bw-"] {
+    font-family: "project-bw";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-feature-settings: normal, normal;
+            font-feature-settings: normal, normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+[data-icon]:before {
+    font-family: "project-bw";
+    content: attr(data-icon);
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-feature-settings: normal, normal;
+            font-feature-settings: normal, normal;
+    font-variant: normal;
+    text-transform: none;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+[class^="icon-project-color-"], [class*=" icon-project-color-"] {
+    font-family: "project-color";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-feature-settings: normal, normal;
+            font-feature-settings: normal, normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.icon-basic-star:before {
+    content: "\E801";
+}
+.icon-basic-arrow-right:before {
+    content: "\E809";
+}
+.icon-basic-arrow-left:before {
+    content: "\E808";
+}
+.icon-basic-arrow-left-end:before {
+    content: "\E80C";
+}
+.icon-basic-arrow-right-end:before {
+    content: "\E80D";
+}
+.icon-basic-basket:before {
+    content: "\E807";
+}
+.icon-basic-right:before {
+    content: "\E80F";
+}
+.icon-basic-left:before {
+    content: "\E80E";
+}
+.icon-basic-cancel:before {
+    content: "\E819";
+}
+.icon-basic-help-circled:before {
+    content: "\E802";
+}
+.icon-basic-info-circled:before {
+    content: "\E803";
+}
+.icon-basic-twitter:before {
+    content: "\E815";
+}
+.icon-basic-vkontakte:before {
+    content: "\E816";
+}
+.icon-basic-facebook:before {
+    content: "\E812";
+}
+.icon-basic-gplus:before {
+    content: "\E813";
+}
+.icon-basic-mail-alt:before {
+    content: "\E800";
+}
+.icon-basic-arr-up:before {
+    content: "\E80A";
+}
+.icon-basic-arr-down:before {
+    content: "\E80B";
+}
+.icon-basic-download:before {
+    content: "\E81A";
+}
+.icon-basic-menu:before {
+    content: "\E817";
+}
+.icon-basic-phone:before {
+    content: "\E806";
+}
+.icon-basic-search:before {
+    content: "\E818";
+}
+.icon-basic-lock:before {
+    content: "\E81E";
+}
+.icon-basic-user:before {
+    content: "\E81D";
+}
+.icon-basic-question:before {
+    content: "\E81F";
+}
+.icon-basic-ok:before {
+    content: "\E81D";
+}
+.icon-project-color-001-consultation .path1:before {
+    content: "\E600";
+    color: rgb(235, 27, 88);
+}
+.icon-project-color-001-consultation .path2:before {
+    content: "\E601";
+    margin-left: -1.3330078125em;
+    color: rgb(66, 36, 77);
+}
+.icon-project-color-001-consultation .path3:before {
+    content: "\E602";
+    margin-left: -1.3330078125em;
+    color: rgb(255, 255, 255);
+}
+.icon-project-color-001-consultation .path4:before {
+    content: "\E603";
+    margin-left: -1.3330078125em;
+    color: rgb(156, 156, 157);
+}
+.icon-project-color-001-consultation .path5:before {
+    content: "\E604";
+    margin-left: -1.3330078125em;
+    color: rgb(156, 156, 157);
+}
+.icon-project-color-001-consultation .path6:before {
+    content: "\E605";
+    margin-left: -1.3330078125em;
+    color: rgb(156, 156, 157);
+}
+.icon-project-color-001-consultation .path7:before {
+    content: "\E606";
+    margin-left: -1.3330078125em;
+    color: rgb(156, 156, 157);
+}
 
 /*# sourceMappingURL=styles.css.map*/

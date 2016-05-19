@@ -1,0 +1,193 @@
+:root {
+  --scroll-width: var(--base-line-height);
+  --scroll-border-radius: 0;
+  --scroll-width-rail: var(--base-line-height);
+  --scroll-rail-border-radius: 0;
+  --scroll-fon: #000;
+  --scroll-rail-fon: #eee;
+  --scroll-hor-height: var(--base-line-height);
+  --scroll-hor-height-rail: var(--base-line-height);
+}
+
+.mCSB_scrollTools {
+  z-index: 100;
+  position: absolute;
+  width: var(--scroll-width);
+  height: auto;
+  left: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  .mCSB_draggerRail {
+    width: var(--scroll-width-rail);
+    background: var(--scroll-rail-fon);
+    border-radius: var(--scroll-rail-border-radius);
+    height: 100%;
+    margin: 0 auto;
+  }
+
+  .mCSB_dragger {
+    cursor: pointer;
+    width: 100%;
+    height: calc(var(--base-line-height) * 3);
+    z-index: 1;
+  }
+
+  .mCSB_dragger_bar {
+    position: relative;
+    height: 100%;
+    margin: 0 auto;
+    text-align: center;
+    background: var(--scroll-fon);
+    border-radius: var(--scroll-border-radius);
+  }
+
+  .mCSB_draggerContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: auto;
+  }
+
+  a + .mCSB_draggerContainer {
+    margin: calc(var(--base-line-height) * 2) 0;
+  }
+
+  &.mCSB_scrollTools_horizontal {
+    width: auto;
+    height: var(--scroll-hor-height);
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    .mCSB_draggerContainer {
+
+      @if var(--scroll-hor-height) > var(--scroll-hor-height-rail) {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    a + .mCSB_draggerContainer {
+      margin: 0 calc(var(--base-line-height) * 2);
+    }
+
+    .mCSB_draggerRail {
+      width: 100%;
+      height: var(--scroll-hor-height-rail);
+    }
+
+    .mCSB_dragger {
+      width: calc(var(--base-line-height) * 3);
+      height: 100%;
+      left: 0;
+      top: 0;
+    }
+
+    .mCSB_dragger_bar {
+      width: 100%;
+      height: var(--scroll-hor-height);
+      margin: 0 auto;
+    }
+  }
+}
+
+.mCustomScrollbar {
+  touch-action: none;
+
+  &.mCS_no_scrollbar {
+    touch-action: auto;
+  }
+}
+
+.mCustomScrollBox {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  max-width: 100%;
+  outline: none;
+  direction: ltr;
+}
+
+.mCSB_container {
+  overflow: hidden;
+  width: auto;
+  height: auto;
+
+  &.mCS_no_scrollbar_y.mCS_y_hidden {
+    margin-right: 0;
+  }
+}
+
+.mCSB_inside > .mCSB_container {
+  margin-right: var(--scroll-width);
+}
+
+.mCS-dir-rtl > .mCSB_inside > .mCSB_container {
+  margin-right: 0;
+  margin-left: calc(var(--base-line-height) * 3);
+
+  &.mCS_no_scrollbar_y.mCS_y_hidden {
+    margin-left: 0;
+  }
+}
+
+.mCSB_outside + .mCSB_scrollTools {
+  right: calc(-var(--base-line-height) * 3);
+}
+
+.mCS-dir-rtl > .mCSB_inside > .mCSB_scrollTools,
+.mCS-dir-rtl > .mCSB_outside + .mCSB_scrollTools {
+  right: auto;
+  left: 0;
+}
+
+.mCS-dir-rtl > .mCSB_outside + .mCSB_scrollTools {
+  left: calc(-var(--base-line-height) * 3);
+}
+
+.mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_dragger_onDrag_expanded .mCSB_dragger_bar,
+.mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_draggerContainer:hover .mCSB_dragger_bar {
+  width: var(--base-line-height);
+}
+
+.mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_dragger.mCSB_dragger_onDrag_expanded + .mCSB_draggerRail,
+.mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_draggerContainer:hover .mCSB_draggerRail {
+  width: var(--base-line-height);
+}
+
+/*horizontal*/
+
+.mCSB_horizontal.mCSB_inside > .mCSB_container {
+  margin-right: 0;
+  margin-bottom: calc(var(--base-line-height) * 3);
+}
+
+.mCSB_horizontal > .mCSB_container.mCS_no_scrollbar_x.mCS_x_hidden {
+  margin-bottom: 0;
+}
+
+.mCustomScrollBox + .mCSB_scrollTools.mCSB_scrollTools_horizontal,
+.mCustomScrollBox + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal {
+  bottom: calc(-var(--base-line-height) * 4);
+}
+
+.mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_dragger_onDrag_expanded .mCSB_dragger_bar,
+.mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_draggerContainer:hover .mCSB_dragger_bar {
+  height: var(--base-line-height);
+  margin: calc(var(--base-line-height) / 5) auto;
+}
+
+.mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_dragger.mCSB_dragger_onDrag_expanded + .mCSB_draggerRail,
+.mCSB_scrollTools_horizontal.mCSB_scrollTools_onDrag_expand .mCSB_draggerContainer:hover .mCSB_draggerRail {
+  height: var(--base-line-height);
+  margin: calc(var(--base-line-height) / 2) 0;
+}
+
+.mCSB_horizontal.mCSB_outside + .mCSB_scrollTools {
+  right: 0;
+}
