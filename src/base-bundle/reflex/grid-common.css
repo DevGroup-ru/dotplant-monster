@@ -1,0 +1,30 @@
+$reflex-max-width: 100%;
+@import "helpers.pcss";
+@b m-row {
+  /* grid is in context of row, no dependency for columns count, but for max-width */
+  @mixin displayFlex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  /*width: 100%;*/
+  max-width: $reflex-max-width;
+
+
+  @mixin setupWhitespace;
+  @mixin resetWhitespace;
+
+  &:before, &:after {
+    max-width: 100%;
+  }
+  &:before, &:after, *:before, *:after {
+    @mixin resetWhitespace;
+  }
+  & .m-row {
+    @mixin flex 1, 1, auto;
+  }
+
+  list-style-type: none;
+
+  margin: 0 auto;
+}

@@ -50,6 +50,17 @@ class Repository extends Component
             // no cache provided - reload bundles from scratch
             $this->reloadBundles();
         }
+
+    }
+    
+    public function autoloadAssets()
+    {
+        Yii::trace("Autoload assets");
+        foreach ($this->bundles as $bundle) {
+            if ($bundle->autoloadCss || $bundle->autoloadJs) {
+                $bundle->publishAssets();
+            }
+        }
     }
 
     /**

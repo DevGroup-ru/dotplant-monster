@@ -1,0 +1,4 @@
+{
+  "block": "content-block-001",
+  "content": "Hello, <?= $data['user'] ?>!"
+}

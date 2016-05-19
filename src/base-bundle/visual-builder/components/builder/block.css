@@ -14,7 +14,7 @@ $editor-accent-color: #EC5035;
 .m-wrapper {
 
   @b monster-visual-builder {
-    line-height: $base-line-height * 2;
+    line-height: calc($base-line-height * 2);
     font-size: $base-font-size;
 
 
@@ -109,9 +109,9 @@ $editor-accent-color: #EC5035;
     z-index: -10;
     position: fixed;
     right: 10px;
-    top: $top-pane-height+1px;
+    top: calc($top-pane-height+1px);
 
-    height: calc(100% - #{$top-pane-height + 2px});
+    height: calc(100% - $(top-pane-height) - 2px);
 
     outline: 1px solid $editor-inactive-color;
     min-width: 340px;
@@ -170,7 +170,7 @@ $editor-accent-color: #EC5035;
   color: $editor-text-color;
   min-width: 150px;
   text-align: center;
-  line-height: $base-line-height*3;
+  line-height: calc($base-line-height*3);
   left: 50%;
   transform: translate(-50%, 0);
   padding: 0 $base-line-height;

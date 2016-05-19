@@ -47,6 +47,17 @@ gulp.task('css-5', function () {
   .pipe( gulp.dest('./bootstrap/') );
 });
 
+gulp.task('css-common', function () {
+  return gulp.src('reflex/grid-common.css')
+  .pipe( postcss([
+
+    require('precss'),
+    GeneratorPlugin,
+
+  ]) )
+  .pipe( gulp.dest('./core/') );
+});
+
 gulp.task('default', ['css-12', 'css-5'], function (){
-  
+
 })

@@ -1,9 +1,58 @@
-@improt "../bootstrap/_bootstrap.pcss";
-.m-wrapper .monster-visual-builder{
-    line-height: $base-line-height * 2;
+:root {
+    /* grid */
+    /* typography */
+    /*vertical rhytm*/
+}
+/* custom media queries */
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+/* generate grid mixins */
+/* grid order helpers */
+/*
+  Every m-row block MUST use setupCols!
+  $element is the name of element-column
+
+  Example
+  =======
+  If we have content-block-001
+  with 2 nested columns-elements of 1/2 width content-block-001__nested
+  We MUST use the following post css code:
+
+  ```
+  @b content-block-001 {
+    @mixin setupCols nested;
+
+    @e nested {
+      @extend grid_6_of_12;
+    }
+  }
+  ```
+*/
+/* generate grid mixins */
+/* grid order helpers */
+.m-wrapper .monster-visual-builder {
+    line-height: calc($base-line-height * 2);
     font-size: $base-font-size;
 }
-.m-wrapper .monster-visual-builder__top-pane{
+.m-wrapper .monster-visual-builder__top-pane {
     position: fixed;
     top: 0;
     right: 0;
@@ -14,7 +63,7 @@
     background: #3B3752;
     border-bottom: 1px solid rgba(255,255,255,0.2);
 }
-.m-wrapper .monster-visual-builder__left-pane{
+.m-wrapper .monster-visual-builder__left-pane {
     background: #1E1B35;
     position: fixed;
     top: 0;
@@ -22,7 +71,7 @@
     bottom: 0;
     width: 4rem;
 }
-.m-wrapper .monster-stackable-container{
+.m-wrapper .monster-stackable-container {
     z-index: 12000;
     position: fixed;
     left: 64px;
@@ -31,7 +80,7 @@
     min-width: 200px;
     color: #F7F7FC;
 }
-.m-wrapper .monster-stackable-container__pane{
+.m-wrapper .monster-stackable-container__pane {
     background: #1E1B35;
     min-width: 300px;
     float: left;
@@ -40,12 +89,12 @@
     top: 0;
     overflow-y: auto;
 }
-.m-wrapper .monster-stackable-container__pane--first{
+.m-wrapper .monster-stackable-container__pane--first {
     background: #3B3752;
     min-width: 200px;
 }
-.m-wrapper .monster-environment-selector{}
-.m-wrapper .monster-environment-selector__environment-link{
+.m-wrapper .monster-environment-selector {}
+.m-wrapper .monster-environment-selector__environment-link {
     display: block;
     text-align: center;
     width: 4rem;
@@ -55,95 +104,95 @@
     cursor: pointer;
     text-decoration: none;
 }
-.m-wrapper .monster-environment-selector__environment-link:hover{
+.m-wrapper .monster-environment-selector__environment-link:hover {
     color: #F7F7FC;
 }
-.m-wrapper .monster-environment-selector__environment-link--active{
+.m-wrapper .monster-environment-selector__environment-link--active {
     background-color: #3B3752;
     color: #F7F7FC;
 }
-.m-wrapper .resolution-switcher{
+.m-wrapper .resolution-switcher {
     background: #F7F7FC;
     float: left;
     padding: 0 20px;
 }
-.m-wrapper .resolution-switcher__resolution-link{
+.m-wrapper .resolution-switcher__resolution-link {
     color: #1E1B35;
     cursor: pointer;
 }
-.m-wrapper .resolution-switcher__resolution-link--active{
+.m-wrapper .resolution-switcher__resolution-link--active {
     color: #3FB2FF;
 }
-.m-wrapper .monster-visual-frame{
+.m-wrapper .monster-visual-frame {
     z-index: -10;
     position: fixed;
     right: 10px;
-    top: 40px+1px;
-    height: calc(100% - #{40px + 2px});
+    top: 41px;
+    height: calc(100% - 40px - 2px);
     outline: 1px solid #666773;
     min-width: 340px;
     background: #fff;
     width: 61.875rem;
     border: 0;
 }
-.m-wrapper .materials-groups{
+.m-wrapper .materials-groups {
     list-style: none;
     padding-left: 0;
 }
-.m-wrapper .materials-groups li{
+.m-wrapper .materials-groups li {
     display: block;
 }
-.m-wrapper .materials-groups__switch-group{
+.m-wrapper .materials-groups__switch-group {
     color: #F7F7FC;
     padding: 1rem;
     display: block;
     border-left: 0.2rem solid #3B3752;
     text-decoration: none;
 }
-.m-wrapper .materials-groups__switch-group--active{
+.m-wrapper .materials-groups__switch-group--active {
     font-weight: bold;
     background: #1E1B35;
     border-left: 0.2rem solid #3FB2FF;
 }
-.m-wrapper .materials-list{
+.m-wrapper .materials-list {
     display: none;
     padding-left: 0;
 }
-.m-wrapper .materials-list--active{
+.m-wrapper .materials-list--active {
     display: block;
     list-style: none;
 }
-.m-wrapper .m-monster-content{}
-.m-wrapper .m-monster-content__material{}
-.m-wrapper .m-monster-content__material--highlighted{
+.m-wrapper .m-monster-content {}
+.m-wrapper .m-monster-content__material {}
+.m-wrapper .m-monster-content__material--highlighted {
     box-shadow: inset 0 0 0 2px #3FB2FF;
 }
-.m-wrapper .m-monster-content__material--active{
+.m-wrapper .m-monster-content__material--active {
     box-shadow: inset 0 0 0 2px #4FD18A;
 }
-.monster-block-handlers{
+.monster-block-handlers {
     position: absolute;
     background-color: #4FD18A;
     color: #F7F7FC;
     min-width: 150px;
     text-align: center;
-    line-height: $base-line-height*3;
+    line-height: calc($base-line-height*3);
     left: 50%;
     -webkit-transform: translate(-50%, 0);
             transform: translate(-50%, 0);
     padding: 0 $base-line-height;
 }
-.monster-block-handlers a{
+.monster-block-handlers a {
     color: #F7F7FC;
     text-decoration: none;
     display: inline-block;
     width: $base-line-height*3;
     text-align: center;
 }
-.monster-block-handlers a:hover{
+.monster-block-handlers a:hover {
     background-color: #EC5035;
 }
-.monster-block-handlers--disabled a, .monster-block-handlers--disabled a:hover{
+.monster-block-handlers--disabled a, .monster-block-handlers--disabled a:hover {
     background-color: #4FD18A;
     cursor: pointer;
     color: #666773;

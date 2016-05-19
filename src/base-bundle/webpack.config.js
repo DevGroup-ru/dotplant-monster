@@ -22,6 +22,7 @@ var postbem = require('postcss-bem');
 var nested = require('postcss-nested');
 // var bemLinter = require('postcss-bem-linter');
 var pxtorem = require('postcss-pxtorem');
+var postcssImport = require('postcss-partial-import');
 var cssnext = require('postcss-cssnext');
 var precss = require('precss');
 var flexbugs = require('postcss-flexbugs-fixes');
@@ -87,10 +88,10 @@ module.exports = {
     return [
       stylelint(),
       flexbugs(),
-      precss(),
       map({
         maps: ['settings.yml']
       }),
+      precss(),
       postbem({
           defaultNamespace: undefined, // default namespace to use, none by default
           style: 'bem', // suit or bem, suit by default,

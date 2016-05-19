@@ -2,6 +2,7 @@
   "id": "frontend-monster-core",
   "isCore": true,
   "namespace": "core",
-  "autoload": true,
+  "autoloadCss": true,
+  "autoloadJs": true,
   "hidden": true
 }

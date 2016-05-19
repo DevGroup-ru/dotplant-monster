@@ -92,7 +92,7 @@ abstract class BundleEntity
 
     public function stylesFilename()
     {
-        return $this->getFsLocation() . (YII_ENV === 'dev' ? 'styles.js' : 'styles.min.js');
+        return $this->getFsLocation() . (YII_ENV === 'dev' ? 'styles.css' : 'styles.min.css');
     }
 
     abstract public function publishAssets();

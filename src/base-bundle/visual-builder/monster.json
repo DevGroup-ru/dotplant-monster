@@ -1,6 +1,5 @@
 {
   "id": "visual-builder",
   "namespace": "core",
-  "autoAssets": false,
   "hidden": true
 }

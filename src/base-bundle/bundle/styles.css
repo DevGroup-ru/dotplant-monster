@@ -4,86 +4,6 @@
   /*vertical rhytm*/
 }
 /* custom media queries */
-/*@group global*/
-.m-wrapper .g {
-  /*@desc No margin helper*/
-  /*@desc Vertical rhythm one line margin helper*/
-  /*@desc Text alignment helper*/
-}
-.m-wrapper .g__no-margin {
-  /*@desc No margin from bottom*/
-  /*@desc No margin from top*/
-  /*@desc No margin from both top and bottom*/
-}
-.m-wrapper .g__no-margin--bottom {
-  margin-bottom: 0;
-}
-.m-wrapper .g__no-margin--top {
-  margin-top: 0;
-}
-.m-wrapper .g__no-margin--top-bottom {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-.m-wrapper .g__one-line {
-  /*@desc One vertical rhythm line margin from top*/
-  /*@desc One vertical rhythm line margin from bottom*/
-  /*@desc One vertical rhythm line margin from both top and bottom*/
-}
-.m-wrapper .g__one-line--top {
-  margin-top: 1.25rem;
-}
-.m-wrapper .g__one-line--bottom {
-  margin-bottom: 1.25rem;
-}
-.m-wrapper .g__one-line--top-bottom {
-  margin-top: 3.75rem;
-  margin-bottom: 3.75rem;
-}
-.m-wrapper .g__text {}
-.m-wrapper .g__text--center {
-  text-align: center;
-}
-.m-row {
-  /* grid is in context of row, no dependency for columns count, but for max-width */
-  display: inline-block;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  /*ie7-hack-display: inline;*/
-  zoom: 1;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  /*width: 100%;*/
-  max-width: 100%;
-  letter-spacing: -0.31em !important;
-  /*ie7-hack-letter-spacing: normal !important;*/
-  word-spacing: -0.43em !important;
-  letter-spacing: normal;
-  word-spacing: normal;
-  white-space: normal;
-  list-style-type: none;
-  margin: 0 auto;
-}
-.m-row:before, .m-row:after, .m-row *:before, .m-row *:after {
-  letter-spacing: normal;
-  word-spacing: normal;
-  white-space: normal;
-}
-.m-row:before, .m-row:after {
-  max-width: 100%;
-}
-.m-row .m-row {
-  -ms-flex: 1 1 auto;
-  -webkit-flex: 1 1 auto;
-  -webkit-box-flex: 1;
-          flex: 1 1 auto;
-}
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -106,46 +26,6 @@
 */
 /* generate grid mixins */
 /* grid order helpers */
-.m-row {
-  /* grid is in context of row, no dependency for columns count, but for max-width */
-  display: inline-block;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  /*ie7-hack-display: inline;*/
-  zoom: 1;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  /*width: 100%;*/
-  max-width: 100%;
-  letter-spacing: -0.31em !important;
-  /*ie7-hack-letter-spacing: normal !important;*/
-  word-spacing: -0.43em !important;
-  letter-spacing: normal;
-  word-spacing: normal;
-  white-space: normal;
-  list-style-type: none;
-  margin: 0 auto;
-}
-.m-row:before, .m-row:after, .m-row *:before, .m-row *:after {
-  letter-spacing: normal;
-  word-spacing: normal;
-  white-space: normal;
-}
-.m-row:before, .m-row:after {
-  max-width: 100%;
-}
-.m-row .m-row {
-  -ms-flex: 1 1 auto;
-  -webkit-flex: 1 1 auto;
-  -webkit-box-flex: 1;
-          flex: 1 1 auto;
-}
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -324,23 +204,7 @@
 
 
 .content-block-101__nested {
-  width: 100%;
-  padding-bottom: 0;
+  width: 50%;
 }
-
-
-@media (min-width: 39.9375em) {
-  .content-block-101__nested {
-    width: 25%;
-  }
-}
-
-
-.content-block-101__nested-cell {
-  background: #eee;
-  border: 1px solid;
-  padding: 1.25rem;
-}
-
 
 /*# sourceMappingURL=styles.css.map*/

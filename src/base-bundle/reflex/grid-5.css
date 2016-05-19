@@ -20,10 +20,7 @@ $reflex-cell-spacing-lg:    ($reflex-grid-spacing * 2);
 
 @import "helpers.pcss";
 
-@b m-row {
-  @import "make-grid.pcss";
-  margin: 0 auto;
-}
+
 
 /*
   Every m-row block MUST use setupCols!

@@ -1,4 +1,6 @@
 @import "../bootstrap/_bootstrap.pcss";
 @import "_reset.css";
+@import "../reflex/grid-common.css";
 @import "_fundation.css";
 @import "_typography.css";
+@import "_global.pcss";
