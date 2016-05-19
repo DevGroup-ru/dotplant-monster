@@ -85,4 +85,16 @@ class Material extends BundleEntity
         }
         $this->publishEntityAssets();
     }
+
+    /**
+     * @return array
+     */
+    public function dataForBuilder()
+    {
+        $result = [
+            'name' => $this->name,
+            'fullPath' => $this->fullPath,
+        ];
+        return $result;
+    }
 }

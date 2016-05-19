@@ -12,4 +12,7 @@ trait DescribableBundleEntity
 
     /** @var array Array of JS files relative to baseDirectory() */
     public $js = [];
+
+    /** @var bool If entity should be hidden in listings and visual editor */
+    public $hidden = false;
 }

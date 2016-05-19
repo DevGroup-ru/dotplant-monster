@@ -37,8 +37,7 @@ class VisualBuilder {
     const settings = {
       'element-selector': '.monster-visual-builder',
       'frame-selector': '.monster-visual-frame',
-      'materials': {},
-      'groups': {},
+      'bundles': {},
       'stackable-container-class': 'monster-stackable-container',
       'new-block-url': '/monster/visual-builder/new-block',
     };

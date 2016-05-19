@@ -179,4 +179,16 @@ class Repository extends Component
         }
         return $group->material($materialId);
     }
+
+    public function dataForBuilder()
+    {
+        $result = [];
+        foreach ($this->bundles as $bundle) {
+            if ($bundle->hidden) {
+                continue;
+            }
+            $result [] = $bundle->dataForBuilder();
+        }
+        return $result;
+    }
 }

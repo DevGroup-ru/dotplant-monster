@@ -17,6 +17,8 @@ class MonsterContent extends yii\base\Widget
     /** @var BaseMaterialize[] */
     public $materials = [];
 
+    public $data = [];
+
     public $uniqueContentId = '';
 
     private $cacheKey = '';
@@ -175,6 +177,9 @@ class MonsterContent extends yii\base\Widget
     {
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
+            if (!isset($materialConfiguration['data'])) {
+                $materialConfiguration['data'] = $this->data;
+            }
             $materials[] = self::makeMaterial(
                 $this->uniqueContentId,
                 $index,
@@ -204,6 +209,7 @@ class MonsterContent extends yii\base\Widget
         $materialConfiguration['material'] = $material;
         $materialConfiguration['uniqueContentId'] = $uniqueContentId;
         $materialConfiguration['materialIndex'] = $index;
+
         /** @var BaseMaterialize $material */
         $material = Yii::createObject($materialConfiguration);
         if ($editModeOn === true) {

@@ -41,6 +41,12 @@ class Bundle extends BundleEntity
         if ($this->namespace === '' || $this->namespace === null) {
             $this->namespace = 'unknown';
         }
+        if (empty($this->name)) {
+            $this->name = $this->id;
+        }
+        if (empty($this->name)) {
+            $this->name = basename($this->getFsLocation());
+        }
         $this->fullPath = $this->namespace . '.' . $this->id;
 
         $groupsDirectories = $this->getChildrenDirectories();
@@ -81,6 +87,7 @@ class Bundle extends BundleEntity
             [
                 'groups',
                 'namespace',
+                'isCore',
             ]
         );
     }
@@ -103,5 +110,25 @@ class Bundle extends BundleEntity
         Yii::trace("Publish assets!");
         Yii::trace(yii\helpers\VarDumper::dumpAsString($this));
         $this->publishEntityAssets();
+    }
+
+    /**
+     * @return array
+     */
+    public function dataForBuilder()
+    {
+        $result = [
+            'name' => $this->name,
+            'fullPath' => $this->fullPath,
+            'groups' => [],
+            'isCore' => $this->isCore,
+        ];
+        foreach ($this->groups as $group) {
+            if ($group->hidden) {
+                continue;
+            }
+            $result['groups'][] = $group->dataForBuilder();
+        }
+        return $result;
     }
 }

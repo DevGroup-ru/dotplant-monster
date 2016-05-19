@@ -22,7 +22,7 @@ return [
                  * @todo wrapTemplate - контекстуальный или нет(применять $ctx->process?)
                  */
                 $wrapChildrenJson['content'] =
-                    "<?php $uniq(\$item['$childrenAttribute'], \$recursiveNestingLevel+1); ?>";
+                    "<?php if (isset(\$item['$childrenAttribute'])) {\n$uniq(\$item['$childrenAttribute'], \$recursiveNestingLevel+1); \n}\n?>";
                 $goRecursive = $ctx->bh->apply($ctx->process($wrapChildrenJson));
 
                 $php = <<<PHP

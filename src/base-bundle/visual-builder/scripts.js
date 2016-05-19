@@ -350,8 +350,7 @@
 	      var settings = {
 	        'element-selector': '.monster-visual-builder',
 	        'frame-selector': '.monster-visual-frame',
-	        'materials': {},
-	        'groups': {},
+	        'bundles': {},
 	        'stackable-container-class': 'monster-stackable-container',
 	        'new-block-url': '/monster/visual-builder/new-block'
 	      };
@@ -565,44 +564,92 @@
 	      this.$materialsGroups = $('<ul class="materials-groups"></ul>');
 	      this.$materialsList = [];
 	
-	      for (var groupName in this.visualBuilder.settings.groups) {
-	        if (this.visualBuilder.settings.groups.hasOwnProperty(groupName)) {
-	          var materials = this.visualBuilder.settings.groups[groupName];
-	          var i18nGroupName = typeof polyglot !== 'undefined' ? polyglot.t(groupName) : groupName;
-	          var $li = $('\n      <li class="materials-groups__item">\n        <a href="#" data-group-name="' + groupName + '" class="materials-groups__switch-group">\n          ' + i18nGroupName + ' <span class="materials-groups__count">(' + materials.length + ')</span>\n        </a>\n      </li>');
-	          this.$materialsGroups.append($li);
-	          var $list = $('<ul class="materials-list" data-group-name="' + groupName + '"></ul>');
-	          var items = [];
-	          var _iteratorNormalCompletion = true;
-	          var _didIteratorError = false;
-	          var _iteratorError = undefined;
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+	
+	      try {
+	        for (var _iterator = this.visualBuilder.settings.bundles[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var bundle = _step.value;
+	
+	          var i18nBundleName = typeof polyglot !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
+	
+	          var $bundleTitle = '\n      <li class="materials-groups__item.materials-groups__item--bundle-label">\n        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""' + bundle.fullPath + '>\n            ' + i18nBundleName + '      \n        </a>\n      </li>\n      ';
+	          this.$materialsList.push($bundleTitle);
+	
+	          var _iteratorNormalCompletion2 = true;
+	          var _didIteratorError2 = false;
+	          var _iteratorError2 = undefined;
 	
 	          try {
-	            for (var _iterator = materials[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	              var materialName = _step.value;
+	            for (var _iterator2 = bundle.groups[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	              var group = _step2.value;
 	
-	              // const material = this.visualBuilder.materialByName(materialName);
-	              var i18nMaterialName = typeof polyglot !== 'undefined' ? polyglot.t(materialName) : materialName;
-	              var $item = $('\n  <li>\n    <a href="#" class="materials-list__item" data-material-name="' + materialName + '">' + i18nMaterialName + '</a>\n  </li>\n  ');
-	              items.push($item);
+	              var groupName = group.name;
+	              var materials = group.materials;
+	              var i18nGroupName = typeof polyglot !== 'undefined' ? polyglot.t(groupName) : groupName;
+	              var $li = $('\n    <li class="materials-groups__item">\n      <a href="#" data-group-path="' + group.fullPath + '" class="materials-groups__switch-group">\n        ' + i18nGroupName + ' <span class="materials-groups__count">(' + materials.length + ')</span>\n      </a>\n    </li>');
+	              this.$materialsGroups.append($li);
+	              var $list = $('<ul class="materials-list" data-group-path="' + group.fullPath + '"></ul>');
+	              var items = [];
+	              var _iteratorNormalCompletion3 = true;
+	              var _didIteratorError3 = false;
+	              var _iteratorError3 = undefined;
+	
+	              try {
+	                for (var _iterator3 = materials[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+	                  var material = _step3.value;
+	
+	                  var materialName = material.name;
+	                  var i18nMaterialName = typeof polyglot !== 'undefined' ? polyglot.t(materialName) : materialName;
+	                  var $item = $('\n<li>\n  <a href="#" class="materials-list__item" data-material-path="' + material.fullPath + '">' + i18nMaterialName + '</a>\n</li>\n');
+	                  items.push($item);
+	                }
+	              } catch (err) {
+	                _didIteratorError3 = true;
+	                _iteratorError3 = err;
+	              } finally {
+	                try {
+	                  if (!_iteratorNormalCompletion3 && _iterator3.return) {
+	                    _iterator3.return();
+	                  }
+	                } finally {
+	                  if (_didIteratorError3) {
+	                    throw _iteratorError3;
+	                  }
+	                }
+	              }
+	
+	              $list.append(items);
+	              this.$materialsList.push($list);
 	            }
 	          } catch (err) {
-	            _didIteratorError = true;
-	            _iteratorError = err;
+	            _didIteratorError2 = true;
+	            _iteratorError2 = err;
 	          } finally {
 	            try {
-	              if (!_iteratorNormalCompletion && _iterator.return) {
-	                _iterator.return();
+	              if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	                _iterator2.return();
 	              }
 	            } finally {
-	              if (_didIteratorError) {
-	                throw _iteratorError;
+	              if (_didIteratorError2) {
+	                throw _iteratorError2;
 	              }
 	            }
 	          }
-	
-	          $list.append(items);
-	          this.$materialsList.push($list);
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
 	        }
 	      }
 	
@@ -611,7 +658,7 @@
 	        var $this = $(this);
 	        var activeClass = 'materials-groups__switch-group--active';
 	        $this.toggleClass(activeClass);
-	        var groupName = $this.data('groupName');
+	        var groupPath = $this.data('groupPath');
 	        if ($this.hasClass(activeClass)) {
 	          (function () {
 	            $('.materials-groups__switch-group').removeClass(activeClass);
@@ -622,7 +669,7 @@
 	              if ($list.hasClass(materialsListActiveClass)) {
 	                $list.removeClass(materialsListActiveClass);
 	              }
-	              if ($list.data('groupName') === groupName) {
+	              if ($list.data('groupPath') === groupPath) {
 	                $list.addClass(materialsListActiveClass);
 	              }
 	            });
@@ -637,7 +684,7 @@
 	        return false;
 	      });
 	      $(document).on('click', '.materials-list__item', function clickHandler() {
-	        that.sendMessage('newBlock', [$(this).data('materialName'), that.visualBuilder.settings['new-block-url']]);
+	        that.sendMessage('newBlock', [$(this).data('materialPath'), that.visualBuilder.settings['new-block-url']]);
 	      });
 	    }
 	  }, {

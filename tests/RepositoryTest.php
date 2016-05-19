@@ -170,15 +170,32 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     {
         // clear cache
         FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
+
         $out = MonsterContent::widget([
             'uniqueContentId' => 'site-index',
+            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
             'materials' => [
                 'foo' => [
                     'material' => 'example.example-bundle.group1.block1',
                 ],
             ],
         ]);
-        echo "$out\n\n";
+        $expected = <<<html
+<div class="test"><div class="foo-tst">Hello, bar</div><ul class="nav">
+
+<li class="nav__item">One</li><ul class="nav__subnav nav__subnav--nest_1"><li class="nav__item">1.1</li><li class="nav__item">1.2</li><ul class="nav__subnav nav__subnav--nest_2"><li class="nav__item">1.2.1</li><li class="nav__item">1.2.2</li></ul></ul>
+</ul></div>
+html;
+        static::assertSame($expected, $out);
+
+    }
+
+    private function getSampleData($material)
+    {
+        /** @var ExtendedRepository $repository */
+        $repository = Yii::$app->get('monsterRepository');
+        $filename = $repository->material($material)->getFsLocation() .'/sample.json';
+        return Json::decode(file_get_contents($filename));
     }
 
     /**

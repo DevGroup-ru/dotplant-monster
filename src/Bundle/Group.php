@@ -83,4 +83,23 @@ class Group extends BundleEntity
         }
         $this->publishEntityAssets();
     }
+
+    /**
+     * @return array
+     */
+    public function dataForBuilder()
+    {
+        $result = [
+            'name' => $this->name,
+            'fullPath' => $this->fullPath,
+            'materials' => [],
+        ];
+        foreach ($this->materials as $material) {
+            if ($material->hidden) {
+                continue;
+            }
+            $result['materials'][] = $material->dataForBuilder();
+        }
+        return $result;
+    }
 }

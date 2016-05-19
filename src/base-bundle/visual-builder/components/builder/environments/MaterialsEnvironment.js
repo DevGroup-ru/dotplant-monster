@@ -10,31 +10,44 @@ class MaterialsEnvironment extends BaseEnvironment {
     this.$materialsGroups = $(`<ul class="materials-groups"></ul>`);
     this.$materialsList = [];
 
-    for (const groupName in this.visualBuilder.settings.groups) {
-      if (this.visualBuilder.settings.groups.hasOwnProperty(groupName)) {
-        const materials = this.visualBuilder.settings.groups[groupName];
+    for (const bundle of this.visualBuilder.settings.bundles) {
+      const i18nBundleName = typeof(polyglot) !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
+
+      let $bundleTitle = `
+      <li class="materials-groups__item.materials-groups__item--bundle-label">
+        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""${bundle.fullPath}>
+            ${i18nBundleName}      
+        </a>
+      </li>
+      `;
+      this.$materialsList.push($bundleTitle);
+
+      for (const group of bundle.groups) {
+        const groupName = group.name;
+        const materials = group.materials;
         const i18nGroupName = typeof(polyglot) !== 'undefined' ? polyglot.t(groupName) : groupName;
         const $li = $(`
-      <li class="materials-groups__item">
-        <a href="#" data-group-name="${groupName}" class="materials-groups__switch-group">
-          ${i18nGroupName} <span class="materials-groups__count">(${materials.length})</span>
-        </a>
-      </li>`);
+    <li class="materials-groups__item">
+      <a href="#" data-group-path="${group.fullPath}" class="materials-groups__switch-group">
+        ${i18nGroupName} <span class="materials-groups__count">(${materials.length})</span>
+      </a>
+    </li>`);
         this.$materialsGroups.append($li);
-        const $list = $(`<ul class="materials-list" data-group-name="${groupName}"></ul>`);
+        const $list = $(`<ul class="materials-list" data-group-path="${group.fullPath}"></ul>`);
         const items = [];
-        for (const materialName of materials) {
-          // const material = this.visualBuilder.materialByName(materialName);
+        for (const material of materials) {
+          const materialName = material.name;
           const i18nMaterialName = typeof(polyglot) !== 'undefined' ? polyglot.t(materialName) : materialName;
           const $item = $(`
-  <li>
-    <a href="#" class="materials-list__item" data-material-name="${materialName}">${i18nMaterialName}</a>
-  </li>
-  `);
+<li>
+  <a href="#" class="materials-list__item" data-material-path="${material.fullPath}">${i18nMaterialName}</a>
+</li>
+`);
           items.push($item);
         }
         $list.append(items);
         this.$materialsList.push($list);
+
       }
     }
 
@@ -43,7 +56,7 @@ class MaterialsEnvironment extends BaseEnvironment {
       const $this = $(this);
       const activeClass = 'materials-groups__switch-group--active';
       $this.toggleClass(activeClass);
-      const groupName = $this.data('groupName');
+      const groupPath = $this.data('groupPath');
       if ($this.hasClass(activeClass)) {
         $('.materials-groups__switch-group').removeClass(activeClass);
         const materialsListActiveClass = 'materials-list--active';
@@ -53,7 +66,7 @@ class MaterialsEnvironment extends BaseEnvironment {
           if ($list.hasClass(materialsListActiveClass)) {
             $list.removeClass(materialsListActiveClass);
           }
-          if ($list.data('groupName') === groupName) {
+          if ($list.data('groupPath') === groupPath) {
             $list.addClass(materialsListActiveClass);
           }
         });
@@ -70,7 +83,7 @@ class MaterialsEnvironment extends BaseEnvironment {
       that.sendMessage(
         'newBlock',
         [
-          $(this).data('materialName'),
+          $(this).data('materialPath'),
           that.visualBuilder.settings['new-block-url'],
         ]
       );

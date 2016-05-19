@@ -165,6 +165,7 @@ abstract class BundleEntity
             'hasCss',
             'autoloadJs',
             'autoloadCss',
+            'hidden',
         ];
 
         if (count($this->css) > 0) {
@@ -176,4 +177,9 @@ abstract class BundleEntity
 
         return $attributes;
     }
+
+    /**
+     * @return array
+     */
+    abstract public function dataForBuilder();
 }

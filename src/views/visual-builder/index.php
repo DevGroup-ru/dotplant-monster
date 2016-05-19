@@ -46,13 +46,12 @@ echo \DotPlant\Monster\MonsterContent::widget([
 
 /** @var \DotPlant\Monster\Repository $repository */
 $repository = Yii::$app->get('monsterRepository');
-$groups = Json::encode([]);
-$materials = Json::encode([]);
+//! @todo Is cache needed for Repository::dataForBuilder ?
+$bundles = Json::encode($repository->dataForBuilder());
 $newBlockUrl = Json::encode(Url::to(['/monster/visual-builder/new-block']));
 $js = <<<js
     window.VisualBuilderSettings = {
-      groups: $groups,
-      materials: $materials,
+      'bundles': $bundles,
       'new-block-url': $newBlockUrl
     };
     $(function(){

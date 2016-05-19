@@ -1,4 +1,5 @@
 {
   "id": "frontend-monster",
-  "namespace": "core"
+  "namespace": "core",
+  "isCore": true
 }
