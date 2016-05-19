@@ -37,7 +37,7 @@
             "description_ru": "Это расширение пока что останется секретом"
         },
         "migrationPath": ["src/migrations/"],
-        "bootstrap": "DevGroup\\Monster\\ExtensionBootstrap",
+        "bootstrap": "DotPlant\\Monster\\ExtensionBootstrap",
         "configurables": "src/configurables.php",
         "translationCategory": "dotplant.monster"
     }
