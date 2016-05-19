@@ -22,6 +22,7 @@ $reflex-cell-spacing-lg:    ($reflex-grid-spacing * 2);
 
 @b m-row {
   @import "make-grid.pcss";
+  margin: 0 auto;
 }
 
 /*
