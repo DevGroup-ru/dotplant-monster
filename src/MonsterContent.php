@@ -213,6 +213,9 @@ class MonsterContent extends yii\base\Widget
         $materialConfiguration['material'] = $material;
         $materialConfiguration['uniqueContentId'] = $uniqueContentId;
         $materialConfiguration['materialIndex'] = $index;
+        if (empty($materialConfiguration['data'])) {
+            $materialConfiguration['data'] = $material->sampleData();
+        }
 
         /** @var BaseMaterialize $material */
         $material = Yii::createObject($materialConfiguration);

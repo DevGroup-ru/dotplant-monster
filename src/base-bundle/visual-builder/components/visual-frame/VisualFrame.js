@@ -96,7 +96,7 @@ class VisualFrame
         this.$handlers.hide();
         const that = this;
         $(this.settings['monster-content-selector']).on({
-                mouseenter: function hoverIn() {
+            mouseenter: function hoverIn() {
                 const $this = $(this);
                 $this.addClass('m-monster-content__material--highlighted');
             },
@@ -104,7 +104,7 @@ class VisualFrame
                 const $this = $(this);
                 $this.removeClass('m-monster-content__material--highlighted');
             },
-                click: function clickHandler() {
+            click: function clickHandler() {
                 const $this = $(this);
                 that.selectMaterial($this);
             }

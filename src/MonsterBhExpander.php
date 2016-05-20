@@ -48,13 +48,29 @@ class MonsterBhExpander extends Component
     {
         $rawBemJson = $material->rawBemJson();
 
-        /**
-         * @todo Добавить поддержку дополнительных матчеров из бандла/группы/материала(*.bh.expander.php)
-         *       Матчеры добавляются через новомодную функцию addMatcherList, а потом удаляются через removeMatcherById
-         */
+        /** @var Repository $repository */
+        $repository = Yii::$app->get('monsterRepository');
+        $expanderMatchersList = [];
+        $bundle = $repository->bundle($material->fullPath);
+        $group = $repository->group($material->fullPath);
+        $this->bh();
+        foreach ([$bundle, $group, $material] as $bundleEntity) {
+            /** @var BundleEntity $bundleEntity */
+            if ($bundleEntity->hasBhExpander) {
+                $new = $this->monsterBh->loadMatchersFile(
+                    $bundleEntity->getFsLocation() . 'bh.expander.php',
+                    $this->bh
+                );
+                $expanderMatchersList = yii\helpers\ArrayHelper::merge($expanderMatchersList, $new);
+            }
+        }
 
         /** @var \BEM\Json $expandedJson */
         $expandedJson = $this->bh()->processBemJson($rawBemJson);
+
+        // unload expanded
+        $this->bh()->removeMatcherById($expanderMatchersList);
+
         $this->cache()->set(
             $this->cacheKey($material),
             $expandedJson,

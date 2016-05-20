@@ -25,6 +25,9 @@ abstract class BundleEntity
 
     public $hasJs = false;
     public $hasCss = false;
+
+    public $hasBhExpander = false;
+    public $hasBh = false;
     
     const MANIFEST_FILENAME = 'monster.json';
 
@@ -82,6 +85,12 @@ abstract class BundleEntity
         }
         if ($this->hasJs === false && file_exists($this->scriptsFilename())) {
             $this->hasJs = true;
+        }
+        if ($this->hasBhExpander === false && file_exists($this->getFsLocation() . 'bh.expander.php')) {
+            $this->hasBhExpander = true;
+        }
+        if ($this->hasBh === false && file_exists($this->getFsLocation() . 'bh.php')) {
+            $this->hasBh = true;
         }
     }
 
@@ -166,6 +175,8 @@ abstract class BundleEntity
             'autoloadJs',
             'autoloadCss',
             'hidden',
+            'hasBhExpander',
+            'hasBh',
         ];
 
         if (count($this->css) > 0) {

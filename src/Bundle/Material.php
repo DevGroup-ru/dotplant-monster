@@ -12,6 +12,9 @@ class Material extends BundleEntity
     /** @var string bemJson filename */
     public $bemJson = 'bem.json';
 
+    /** @var string Filename of sample data in JSON format */
+    public $sampleData = 'sample.json';
+
     /** @var string Class name for widget - must be extended from BaseMaterialize or Materialize */
     public $widget = 'DotPlant\Monster\Materialize';
 
@@ -41,6 +44,7 @@ class Material extends BundleEntity
             parent::__sleep(),
             [
                 'bemJson',
+                'sampleData',
             ]
         );
     }
@@ -96,5 +100,13 @@ class Material extends BundleEntity
             'fullPath' => $this->fullPath,
         ];
         return $result;
+    }
+
+    /**
+     * @return array|object
+     */
+    public function sampleData()
+    {
+        return Json::decode(file_get_contents($this->getFsLocation() . $this->sampleData));
     }
 }
