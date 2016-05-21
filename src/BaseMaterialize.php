@@ -86,7 +86,8 @@ class BaseMaterialize extends yii\base\Widget
             $this->ensureTemplateFolderCreated($templateFilename);
 
             $this->trigger(static::EVENT_BEFORE_GLOBAL_CUSTOMIZATION, $event);
-            //@todo add global bh customization here
+            /** @var Repository $repository */
+            $newBhMatchers = $this->monsterBh->applyGlobalCustomizations($this->material);
 
             $this->trigger(static::EVENT_BEFORE_CONTEXTUAL_CUSTOMIZATION, $event);
             //@todo add contextual bh customization here
@@ -107,6 +108,9 @@ class BaseMaterialize extends yii\base\Widget
 
 php;
             $template .= $this->monsterBh->bh()->apply($expandedBemJson);
+
+            // remove applied matchers
+            $this->monsterBh->bh()->removeMatcherById($newBhMatchers);
 
             if (file_put_contents($templateFilename, $template) === false) {
                 throw new \RuntimeException(

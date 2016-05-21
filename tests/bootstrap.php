@@ -29,7 +29,8 @@ new \yii\console\Application([
         ],
         'monsterBhExpander' => [
             'class' => 'DotPlant\Monster\MonsterBhExpander',
-            'monsterBh' => 'monsterBh',
         ],
     ],
 ]);
+Yii::$app->setAliases(['@webroot' => __DIR__ . '/fakeweb']);
+Yii::$app->setAliases(['@web' => __DIR__ . '/fakeweb']);

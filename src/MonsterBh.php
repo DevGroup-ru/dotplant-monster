@@ -2,11 +2,9 @@
 
 namespace DotPlant\Monster;
 
-use BEM\BH;
 use BEM\Json;
 use DotPlant\Monster\Bundle\Material;
 use yii;
-use yii\base\Component;
 
 /**
  * Class MonsterBh
@@ -33,44 +31,10 @@ use yii\base\Component;
  *
  * @package DotPlant\Monster
  */
-class MonsterBh extends Component
+class MonsterBh extends BaseBh
 {
-    use HasMonsterCache;
-    /** @var BH */
-    private $bh;
-
     /** @var string  */
     public $expander = 'monsterBhExpander';
-
-    public $globalCustomization = [];
-
-    public $formatHtml = false;
-
-    public $modsDelimiter = '--';
-
-    /**
-     * @return \BEM\BH|mixed
-     */
-    public function bh()
-    {
-        if ($this->bh === null) {
-            $this->bh = new BH();
-            $this->configureBhBase($this->bh);
-            $this->loadMatchersFile(__DIR__ . '/base-bundle/core.bh.php', $this->bh);
-        }
-        return $this->bh;
-    }
-
-    /**
-     * @param BH $bh
-     */
-    public function configureBhBase(&$bh)
-    {
-        $bh->setOptions([
-            'modsDelimiter' => $this->modsDelimiter,
-            'indent' => $this->formatHtml,
-        ]);
-    }
 
     /**
      * @return MonsterBhExpander
@@ -98,14 +62,8 @@ class MonsterBh extends Component
         return $bemJson;
     }
 
-    /**
-     * @param string $fileName
-     * @param BH     $bh
-     *
-     * @return array
-     */
-    public function loadMatchersFile($fileName, &$bh)
+    public function initCoreMatchers()
     {
-        return $bh->addMatcherList(include($fileName));
+        $this->loadMatchersFile(__DIR__ . '/base-bundle/core.bh.php');
     }
 }

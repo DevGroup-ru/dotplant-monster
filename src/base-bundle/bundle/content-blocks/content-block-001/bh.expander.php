@@ -9,7 +9,7 @@ return [
     'example' => new Matcher(
         'content-block-001',
         function(Context $ctx, Json $json) {
-            $ctx->cls('expander-example');
+            $ctx->mod('expander-example', true);
         }
     ),
 ];
