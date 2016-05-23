@@ -59,11 +59,64 @@
 - Не лучше ли переопределить это в core-бандле?
 - Также надо всё это завернуть в .m-wrapper
 **/
-/** @define content-block-001 */
-.m-wrapper .content-block-001 {
-  text-align: center;
+a.content-block-001__title-nested, a:link.content-block-001__title-nested, a:hover.content-block-001__title-nested, a:visited.content-block-001__title-nested, a:active.content-block-001__title-nested, a:focus.content-block-001__title-nested, button.content-block-001__title-nested {
+  margin-bottom: 0.625rem;
+  height: 2.5rem;
+  overflow: hidden;
+  text-decoration: none;
+  display: block;
 }
+@media (min-width: 59.9375em) {
+  a.content-block-001__title-nested, a:link.content-block-001__title-nested, a:hover.content-block-001__title-nested, a:visited.content-block-001__title-nested, a:active.content-block-001__title-nested, a:focus.content-block-001__title-nested, button.content-block-001__title-nested {
+    margin-bottom: 1.25rem;
+  }
+}
+a.content-block-001__title-nested:hover, a:link.content-block-001__title-nested:hover, a:hover.content-block-001__title-nested:hover, a:visited.content-block-001__title-nested:hover, a:active.content-block-001__title-nested:hover, a:focus.content-block-001__title-nested:hover, button.content-block-001__title-nested:hover {
+  text-decoration: underline;
+}
+/** @define content-block-001 */
+.m-wrapper .content-block-001 {}
 .m-wrapper .content-block-001__nested {
+  /* display flex */
+  display: inline-block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  /* flex-direction */
+  zoom: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* reset text align */
+  text-align: left;
+  text-align: start;
+  text-align: left;
+  text-align: left;
+  text-align: initial;
+  -moz-text-align-last: left;
+  -moz-text-align-last: start;
+  -moz-text-align-last: initial;
+  text-align-last: left;
+  text-align-last: start;
+  -moz-text-align-last: auto;
+       text-align-last: auto;
+  text-align-last: auto;
+  text-align-last: initial;
+  /* reset whitespace */
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+  /* other */
+  position: relative;
+  width: 100%;
+  vertical-align: top;
+  padding: 1.25em;
+  /* gutter! */
+}
+.m-wrapper .content-block-001__title {
   /* display flex */
   display: inline-block;
   display: -webkit-box;
@@ -106,6 +159,7 @@
 .m-wrapper .content-block-001__nested {
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  text-align: center;
 }
 @media (min-width: 83.9385em) {
   .m-wrapper .content-block-001__nested {
@@ -139,6 +193,8 @@
   margin: 0;
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  width: 100%;
+  text-align: center;
 }
 @media (min-width: 59.9375em) {
   .m-wrapper .content-block-001__title {
@@ -150,6 +206,37 @@
   .m-wrapper .content-block-001__title {
     font-size: 2.5rem;
   }
+}
+.m-wrapper .content-block-001__title-nested {
+  margin-bottom: 0.625rem;
+  height: 2.5rem;
+  overflow: hidden;
+}
+@media (min-width: 59.9375em) {
+  .m-wrapper .content-block-001__title-nested {
+    margin-bottom: 1.25rem;
+  }
+}
+.m-wrapper .content-block-001__icon {
+  font-size: 4.375rem;
+  line-height: 4.375rem;
+  margin-bottom: 0.625rem;
+  display: block;
+}
+@media (min-width: 59.9375em) {
+  .m-wrapper .content-block-001__icon {
+    margin-bottom: 0.625rem * 2;
+  }
+}
+@media (min-width: 74.9375em) {
+  .m-wrapper .content-block-001__icon {
+    font-size: 5.625rem;
+    line-height: 5.625rem;
+  }
+}
+.m-wrapper .content-block-001__text {
+  height: 3.75rem;
+  overflow: hidden;
 }
 /*
 2

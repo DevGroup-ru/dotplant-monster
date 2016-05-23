@@ -163,7 +163,11 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $monsterBh = Yii::$app->get('monsterBh');
 
         $expanded = Json::decode(Json::encode($monsterBh->expandedBemJson($material)));
-        static::assertSame($referenceExpanded, $expanded);
+        $expected = $monsterBh->bh()->apply($referenceExpanded);
+        $test = $monsterBh->bh()->apply($expanded);
+        $expected= preg_replace("/recursive_uniq\\d+/", "recursive_uniq1", $expected);
+        $test= preg_replace("/recursive_uniq\\d+/", "recursive_uniq1", $test);
+        static::assertSame($expected, $test);
     }
 
     public function testMonsterContent()

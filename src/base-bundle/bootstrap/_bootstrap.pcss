@@ -37,6 +37,9 @@ $font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 @custom-media --greater-than-mobile (width >= 39.9375em);
 @custom-media --null-breakpoint (width >= 1em);
 
+@custom-selector :--allLinks a, a:link, a:hover, a:visited, a:active, a:focus;
+@custom-selector :--allLinksWithButtons a, a:link, a:hover, a:visited, a:active, a:focus, button;
+
 @import "premade.pcss";
 @import "typography-helpers.pcss";
 @import "grid-12.css";

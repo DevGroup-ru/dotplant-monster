@@ -10,8 +10,20 @@ return [
         function(Context $ctx, Json $json) {
             if ($ctx->param('recursive') !== null && $ctx->param('itemTemplate') !== null) {
                 $recursive = (string) $ctx->param('recursive');
-                $itemTemplate = $ctx->bh->apply($ctx->process($ctx->param('itemTemplate')));
+
+                $blockName = $json->block === null && $json->elem === null
+                    ? $ctx->node->parentNode->json->block
+                    : $ctx->json()->block;
+
+                $itemTemplateJson = $ctx->param('itemTemplate');
+                if (isset($itemTemplateJson['elem']) && !isset($itemTemplateJson['block'])) {
+                    $itemTemplateJson['block'] = $blockName;
+                }
+
+                $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
                 $childrenAttribute = $ctx->param('childrenAttribute') ? : 'children';
+                $json = $ctx->json();
+
                 $uniq = '$recursive_' . $ctx->generateId();
 
                 $wrapChildrenJson = $ctx->param('wrapTemplate') ? : [
@@ -47,6 +59,9 @@ return [
 
 
 PHP;
+                if ($json->block === null && $json->elem === null) {
+                    return $php;
+                }
                 $ctx->json()->content = $php;
             }
         }

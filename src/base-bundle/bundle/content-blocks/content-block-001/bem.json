@@ -16,23 +16,26 @@
         "editable": true
       },
       {
-        "elem": "nested",
-        "content": [
-          {
-            "elem": "icon",
-            "icon": true
-          },
-          {
-            "elem": "title-nested",
-            "content": "Классное преимущество, всем нравится",
-            "link": true
-          },
-          {
-            "elem": "text",
-            "content": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et beatae amet fuga, laudantium!",
-            "editable": "wysiwyg"
-          }
-        ]
+        "recursive": "$data[\"blocks\"]",
+        "itemTemplate": {
+          "elem": "nested",
+          "content": [
+            {
+              "elem": "icon",
+              "icon": true
+            },
+            {
+              "elem": "title-nested",
+              "content": "<?=$item['name']?>",
+              "link": true
+            },
+            {
+              "elem": "text",
+              "content": "<?=$item['content']?>",
+              "editable": "wysiwyg"
+            }
+          ]
+        }
       }
     ]
   }

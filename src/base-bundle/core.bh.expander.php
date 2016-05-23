@@ -9,6 +9,7 @@ return [
         '$after',
         function(Context $ctx) {
             $cls = explode(' ', $ctx->cls());
+            $originalClsCount = count($cls);
             if ($ctx->param('row') === true) {
                 $cls[] = 'm-row';
             }
@@ -36,7 +37,10 @@ return [
                     $ctx->attr('data-is-link', 1);
                 }
             }
-            $ctx->cls(implode(' ', array_unique($cls)), true);
+            $cls = array_unique($cls);
+            if ($originalClsCount < count($cls)) {
+                $ctx->cls(implode(' ', $cls), true);
+            }
         }
     ),
     // other matchers will be here
