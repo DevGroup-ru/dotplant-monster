@@ -1,0 +1,66 @@
+.m-wrapper {
+  /** @define content-block-001 */
+  @b content-block-001 {
+    @mixin setupCols nested;
+    @mixin setupCols title;
+
+    @e nested {
+      @_ 3 3 4 4 4;
+      margin-top: calc($base-line-height * 2);
+      margin-bottom: calc($base-line-height * 2);
+      text-align: center;
+    }
+    @e title {
+      @mixin header1;
+      @mixin col_12_of_12;
+      text-align: center;
+    }
+    @define-mixin %title-nested {
+      @mixin type-setting accent-text;
+      margin-bottom: $base-line-height;
+      height: calc($base-line-height * 4);
+      overflow: hidden;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: calc($base-line-height * 2);
+      }
+    }
+    @e title-nested {
+      @mixin %title-nested;
+    }
+
+    @e icon {
+      font-size: calc($base-line-height * 7);
+      line-height: calc($base-line-height * 7);
+      margin-bottom: $base-line-height;
+      display: block;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: $base-line-height * 2;
+      }
+
+      @media (--greater-than-desktop) {
+        font-size: calc($base-line-height * 9);
+        line-height: calc($base-line-height * 9);
+      }
+    }
+
+    @e text {
+      @mixin type-setting text;
+      height: calc($base-line-height * 6);
+      overflow: hidden;
+    }
+
+    @at-root {
+      :--allLinksWithButtons.content-block-001__title-nested {
+        @mixin %title-nested;
+        text-decoration: none;
+        display: block;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+  }
+}

@@ -185,11 +185,17 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ],
         ]);
         $expected = <<<html
-<div class="test"><div class="foo-tst">Hello, bar</div><ul class="nav">
+<div class="test" data-bem-match="test"><div class="foo-tst" data-bem-match="foo-tst">Hello, bar</div><ul class="nav" data-bem-match="nav">
 
-<li class="nav__item">One</li><ul class="nav__subnav nav__subnav--nest_1"><li class="nav__item">1.1</li><li class="nav__item">1.2</li><ul class="nav__subnav nav__subnav--nest_2"><li class="nav__item">1.2.1</li><li class="nav__item">1.2.2</li></ul></ul>
+            <li class="nav__item" data-bem-match="nav__item">One<ul class="nav__subnav nav__subnav--nest_1" data-bem-match="nav__subnav">            <li class="nav__item" data-bem-match="nav__item">1.1</li>
+                        <li class="nav__item" data-bem-match="nav__item">1.2<ul class="nav__subnav nav__subnav--nest_2" data-bem-match="nav__subnav">            <li class="nav__item" data-bem-match="nav__item">1.2.1</li>
+                        <li class="nav__item" data-bem-match="nav__item">1.2.2</li>
+            </ul></li>
+            </ul></li>
+            
 </ul></div>
 html;
+        
         static::assertSame($expected, $out);
 
     }

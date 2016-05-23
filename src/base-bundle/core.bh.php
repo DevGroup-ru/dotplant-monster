@@ -42,8 +42,14 @@ return [
                 if (isset($itemTemplateJson['elem']) && !isset($itemTemplateJson['block'])) {
                     $itemTemplateJson['block'] = $blockName;
                 }
+                if (isset($itemTemplateJson['content']) === false) {
+                    $itemTemplateJson['content'] = [];
+                }
+                $itemTemplateJson['content'] = (array) $itemTemplateJson['content'];
 
-                $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
+
+
+
                 $childrenAttribute = $ctx->param('childrenAttribute') ? : 'children';
                 $json = $ctx->json();
 
@@ -60,6 +66,16 @@ return [
                     "<?php if (isset(\$item['$childrenAttribute'])) {\n$uniq(\$item['$childrenAttribute'], \$recursiveNestingLevel+1); \n}\n?>";
                 $goRecursive = $ctx->bh->apply($ctx->process($wrapChildrenJson));
 
+                $itemTemplateJson['content'][] = <<<PHP
+<?php
+if (isset(\$item['$childrenAttribute'])) {
+                // go recursive
+                ?>$goRecursive<?php
+            }
+?>
+PHP;
+
+                $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
                 $php = <<<PHP
 
 
@@ -67,11 +83,10 @@ return [
     // automatically generated function
     $uniq = function (\$iterator, \$recursiveNestingLevel = 1) use (&$uniq) {
         foreach (\$iterator as \$key => \$item) {
-            ?>$itemTemplate<?php
-            if (isset(\$item['$childrenAttribute'])) {
-                // go recursive
-                ?>$goRecursive<?php
-            }
+            ?>
+            $itemTemplate
+            <?php
+            
         }
     };
     
