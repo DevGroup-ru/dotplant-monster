@@ -99,17 +99,13 @@ class BaseMaterialize extends yii\base\Widget
 
             // Apply edit-mode matcher
             if ($this->editMode === true) {
+                if ($expandedBemJson->attrs === null) {
+                    $expandedBemJson->attrs = [];
+                }
 
-                $newBhMatchers = ArrayHelper::merge($newBhMatchers, $this->monsterBh->bh()->addMatcherList([
-                    'editMode' => new Matcher('$before', function (Context $ctx) {
-                        if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
-                            $ctx->attr('data-is-material', '1');
-                            $ctx->attr('data-material-index', $this->materialIndex);
-                            $ctx->attr('data-material-path', $this->material->fullPath);
-                        }
-                    }),
-                ]));
-
+                $expandedBemJson->attrs['data-is-material'] = 1;
+                $expandedBemJson->attrs['data-material-index'] = $this->materialIndex;
+                $expandedBemJson->attrs['data-material-path'] = $this->material->fullPath;
             }
             //! @todo Add contextual customization code here(we will need to introduce new param for materialize)
 
