@@ -11,6 +11,7 @@ $editor-link-color: #3FB2FF;
 $editor-section-color: #4FD18A;
 $editor-accent-color: #EC5035;
 
+
 .m-wrapper {
 
   @b monster-visual-builder {
@@ -165,6 +166,7 @@ $editor-accent-color: #EC5035;
 }
 
 @b monster-block-handlers {
+  font-family: $font-family;
   position: absolute;
   background-color: $editor-section-color;
   color: $editor-text-color;

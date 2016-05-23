@@ -3,6 +3,7 @@
     /* typography */
     /*vertical rhytm*/
 }
+/* typography */
 /* custom media queries */
 /*
   Every m-row block MUST use setupCols!
@@ -63,6 +64,9 @@ html, body {
 /* ie11 hack */
 _:-ms-fullscreen {
     width: 100%;
+}
+.m-wrapper {
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 .m-row {
     /* grid is in context of row, no dependency for columns count, but for max-width */
@@ -528,5 +532,6 @@ html, body, .m-container {}
     margin-left: -1.3330078125em;
     color: rgb(156, 156, 157);
 }
+
 
 /*# sourceMappingURL=styles.css.map*/

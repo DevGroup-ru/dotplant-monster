@@ -109,4 +109,13 @@ class Material extends BundleEntity
     {
         return Json::decode(file_get_contents($this->getFsLocation() . $this->sampleData));
     }
+
+    /**
+     * @return string
+     */
+    public function materialId()
+    {
+        list($namespace, $bundleId, $groupId, $materialId) = explode('.', $this->fullPath . ".\1.\2.\3");
+        return $materialId;
+    }
 }

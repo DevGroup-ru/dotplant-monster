@@ -2,8 +2,11 @@
 
 namespace DotPlant\Monster;
 
+use BEM\Context;
+use BEM\Matcher;
 use DotPlant\Monster\Bundle\Material;
 use yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 
 /**
@@ -50,6 +53,9 @@ class BaseMaterialize extends yii\base\Widget
     /** @var MonsterBh */
     private $monsterBh;
 
+    /** @var bool Edit mode flag */
+    public $editMode = false;
+
     const EVENT_BEFORE_GLOBAL_CUSTOMIZATION = 'beforeGlobalCustomization';
     const EVENT_BEFORE_CONTEXTUAL_CUSTOMIZATION = 'beforeContextualCustomization';
     const EVENT_BEFORE_TEMPLATE_CREATION = 'beforeTemplateCreation';
@@ -81,8 +87,8 @@ class BaseMaterialize extends yii\base\Widget
             'templateFilename' => &$templateFilename,
         ]);
 
-        if (is_readable($templateFilename) === false) {
-            //@todo add expire support for the template file into above condition
+        if (is_readable($templateFilename) === false || $this->editMode) {
+            //! @todo add expire support for the template file into above condition
             $this->ensureTemplateFolderCreated($templateFilename);
 
             $this->trigger(static::EVENT_BEFORE_GLOBAL_CUSTOMIZATION, $event);
@@ -90,7 +96,22 @@ class BaseMaterialize extends yii\base\Widget
             $newBhMatchers = $this->monsterBh->applyGlobalCustomizations($this->material);
 
             $this->trigger(static::EVENT_BEFORE_CONTEXTUAL_CUSTOMIZATION, $event);
-            //@todo add contextual bh customization here
+
+            // Apply edit-mode matcher
+            if ($this->editMode === true) {
+
+                $newBhMatchers = ArrayHelper::merge($newBhMatchers, $this->monsterBh->bh()->addMatcherList([
+                    'editMode' => new Matcher('$before', function (Context $ctx) {
+                        if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
+                            $ctx->attr('data-is-material', '1');
+                            $ctx->attr('data-material-index', $this->materialIndex);
+                            $ctx->attr('data-material-path', $this->material->fullPath);
+                        }
+                    }),
+                ]));
+
+            }
+            //! @todo Add contextual customization code here(we will need to introduce new param for materialize)
 
             $this->trigger(static::EVENT_BEFORE_TEMPLATE_CREATION, $event);
 
@@ -110,7 +131,7 @@ php;
             $template .= $this->monsterBh->bh()->apply($expandedBemJson);
 
             // remove applied matchers
-            $this->monsterBh->bh()->removeMatcherById($newBhMatchers);
+            $this->monsterBh->bh()->removeMatcherById(ArrayHelper::merge($newBhMatchers, $customizedBhMatchersIds));
 
             if (file_put_contents($templateFilename, $template) === false) {
                 throw new \RuntimeException(

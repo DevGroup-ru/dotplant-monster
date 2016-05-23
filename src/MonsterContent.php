@@ -213,6 +213,7 @@ class MonsterContent extends yii\base\Widget
         $materialConfiguration['material'] = $material;
         $materialConfiguration['uniqueContentId'] = $uniqueContentId;
         $materialConfiguration['materialIndex'] = $index;
+        $materialConfiguration['editMode'] = $editModeOn;
         if (empty($materialConfiguration['data'])) {
             $materialConfiguration['data'] = $material->sampleData();
         }

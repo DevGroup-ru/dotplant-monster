@@ -14,3 +14,6 @@ html, body {
 _:-ms-fullscreen {
   width: 100%;
 }
+.m-wrapper {
+    font-family: $font-family;
+}
