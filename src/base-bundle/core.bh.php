@@ -5,6 +5,29 @@ use BEM\Json;
 use BEM\Matcher;
 
 return [
+    'editables' => new Matcher(
+        '$after',
+        function(Context $ctx, Json $json) {
+            $json = $ctx->json();
+
+            if ($json->block) {
+                $ctx->attr('data-bem-match', $json->block . ($json->elem ? '__' . $json->elem : ''));
+
+                if ($ctx->param('editable') || $ctx->param('link')) {
+                    $ctx->attr('data-editable', 1);
+                }
+                if ($ctx->param('link')) {
+                    $ctx->attr('data-is-link', 1);
+                    $ctx->tag('a');
+                    if (is_string($ctx->param('link'))) {
+                        $ctx->attr('href', $ctx->param('link'));
+                    } else {
+                        $ctx->attr('href', '#');
+                    }
+                }
+            }
+        }
+    ),
     'recursiveIterator' => new Matcher(
         '$before',
         function(Context $ctx, Json $json) {

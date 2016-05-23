@@ -26,17 +26,7 @@ return [
                     $cls[] = 'g__' . $util;
                 }
             }
-            $json = $ctx->json();
-            if ($json->block) {
-                $attrs['data-bem-match'] = $bemSelector = $json->block . ($json->elem ? '__' . $json->elem : '');
-
-                if ($ctx->param('editable') || $ctx->param('link')) {
-                    $ctx->attr('data-editable', 1);
-                }
-                if ($ctx->param('link')) {
-                    $ctx->attr('data-is-link', 1);
-                }
-            }
+            
             $cls = array_unique($cls);
             if ($originalClsCount < count($cls)) {
                 $ctx->cls(implode(' ', $cls), true);
