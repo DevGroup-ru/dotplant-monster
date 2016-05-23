@@ -4,44 +4,31 @@
   margin: 0;
 
   :--header1 {
-    @mixin type-setting "heading";
-    padding: 0;
-	margin: 0;
-	margin-top: calc(var(--base-line-height) * 2);
-	margin-bottom: calc(var(--base-line-height) * 2);
+    @mixin header1;
   }
 
   :--header2 {
-    @mixin type-setting "sub-heading";
-    padding: 0;
-    margin: 0;
+    @mixin header2;
   }
 
   :--header3 {
-    @mixin type-setting "section";
-    padding: 0;
-    margin: 0;
+    @mixin header3;
   }
 
   :--header4 {
-    @mixin type-setting "accent-text";
-    padding: 0;
-    margin: 0;
+    @mixin header4;
   }
 
   :--header5 {
-    @mixin type-setting "text";
-    margin: 0;
+    @mixin header5;
   }
 
   :--header6 {
-    @mixin type-setting "smallest-text";
-    margin: 0;
+    @mixin header6;
   }
 
   :--paragraph {
-    margin: 0;
-    margin-bottom: var(--base-line-height);
+    @mixin paragraph;
   }
 
   .slider-heading {
@@ -51,9 +38,9 @@
   .heading-bold {
     @mixin type-setting "heading-bold";
     padding: 0;
-	margin: 0;
-	margin-top: calc(var(--base-line-height) * 2);
-	margin-bottom: calc(var(--base-line-height) * 2);
+  	margin: 0;
+  	margin-top: calc(var(--base-line-height) * 2);
+  	margin-bottom: calc(var(--base-line-height) * 2);
   }
 
   .small-text {
@@ -66,8 +53,8 @@
 
   .text-bold {
     @mixin type-setting "text-bold";
-	padding: 0;
-	margin: 0;
+  	padding: 0;
+  	margin: 0;
   }
 
   ul, ol {

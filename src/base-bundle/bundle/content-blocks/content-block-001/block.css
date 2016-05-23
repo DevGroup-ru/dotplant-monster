@@ -2,9 +2,15 @@
   /** @define content-block-001 */
   @b content-block-001 {
     text-align: center;
+    @mixin setupCols nested;
 
     @e nested {
       @_ 3 3 4 4 4;
+      margin-top: calc($base-line-height * 2);
+      margin-bottom: calc($base-line-height * 2);
+    }
+    @e title {
+      @mixin header1;
     }
 
   }

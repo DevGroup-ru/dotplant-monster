@@ -151,6 +151,7 @@ module.exports = {
             descendent: 'e'
           }
       }),
+      nested(),
       cssnext({
         browsers: supportedBrowsers,
         features: {

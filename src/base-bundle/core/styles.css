@@ -91,16 +91,16 @@ _:-ms-fullscreen {
     letter-spacing: normal;
     word-spacing: normal;
     white-space: normal;
-    &:before, &:after, *:before, *:after {
-        letter-spacing: normal;
-        word-spacing: normal;
-        white-space: normal;
-    }
     list-style-type: none;
     margin: 0 auto;
 }
 .m-row:before, .m-row:after {
     max-width: 100%;
+}
+.m-row:before, .m-row:after, .m-row *:before, .m-row *:after {
+    letter-spacing: normal;
+    word-spacing: normal;
+    white-space: normal;
 }
 .m-row .m-row {
     -ms-flex: 1 1 auto;
@@ -296,47 +296,45 @@ html, body, .m-container {}
         font-size: 1rem;
     }
 }
-.m-wrapper {
-    /*@group global*/
-    .g {
-        /*@desc No margin helper*/
-        /*@desc Vertical rhythm one line margin helper*/
-        /*@desc Text alignment helper*/
-    }
-    .g__no-margin {
-        /*@desc No margin from bottom*/
-        /*@desc No margin from top*/
-        /*@desc No margin from both top and bottom*/
-    }
-    .g__no-margin--bottom {
-        margin-bottom: 0;
-    }
-    .g__no-margin--top {
-        margin-top: 0;
-    }
-    .g__no-margin--top-bottom {
-        margin-top: 0;
-        margin-bottom: 0;
-    }
-    .g__one-line {
-        /*@desc One vertical rhythm line margin from top*/
-        /*@desc One vertical rhythm line margin from bottom*/
-        /*@desc One vertical rhythm line margin from both top and bottom*/
-    }
-    .g__one-line--top {
-        margin-top: 1.25rem;
-    }
-    .g__one-line--bottom {
-        margin-bottom: 1.25rem;
-    }
-    .g__one-line--top-bottom {
-        margin-top: 3.75rem;
-        margin-bottom: 3.75rem;
-    }
-    .g__text {}
-    .g__text--center {
-        text-align: center;
-    }
+/*@group global*/
+.m-wrapper .g {
+    /*@desc No margin helper*/
+    /*@desc Vertical rhythm one line margin helper*/
+    /*@desc Text alignment helper*/
+}
+.m-wrapper .g__no-margin {
+    /*@desc No margin from bottom*/
+    /*@desc No margin from top*/
+    /*@desc No margin from both top and bottom*/
+}
+.m-wrapper .g__no-margin--bottom {
+    margin-bottom: 0;
+}
+.m-wrapper .g__no-margin--top {
+    margin-top: 0;
+}
+.m-wrapper .g__no-margin--top-bottom {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.m-wrapper .g__one-line {
+    /*@desc One vertical rhythm line margin from top*/
+    /*@desc One vertical rhythm line margin from bottom*/
+    /*@desc One vertical rhythm line margin from both top and bottom*/
+}
+.m-wrapper .g__one-line--top {
+    margin-top: 1.25rem;
+}
+.m-wrapper .g__one-line--bottom {
+    margin-bottom: 1.25rem;
+}
+.m-wrapper .g__one-line--top-bottom {
+    margin-top: 3.75rem;
+    margin-bottom: 3.75rem;
+}
+.m-wrapper .g__text {}
+.m-wrapper .g__text--center {
+    text-align: center;
 }
 /*
 ГАВНА кусок удалил этот я

@@ -59,46 +59,96 @@
 - Не лучше ли переопределить это в core-бандле?
 - Также надо всё это завернуть в .m-wrapper
 **/
-.m-wrapper {
-  /** @define content-block-001 */
-  .content-block-001 {
-    text-align: center
-  }
-  .content-block-001__nested {}
+/** @define content-block-001 */
+.m-wrapper .content-block-001 {
+  text-align: center;
+}
+.m-wrapper .content-block-001__nested {
+  /* display flex */
+  display: inline-block;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  /* flex-direction */
+  zoom: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  /* reset text align */
+  text-align: left;
+  text-align: start;
+  text-align: left;
+  text-align: left;
+  text-align: initial;
+  -moz-text-align-last: left;
+  -moz-text-align-last: start;
+  -moz-text-align-last: initial;
+  text-align-last: left;
+  text-align-last: start;
+  -moz-text-align-last: auto;
+       text-align-last: auto;
+  text-align-last: auto;
+  text-align-last: initial;
+  /* reset whitespace */
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+  /* other */
+  position: relative;
+  width: 100%;
+  vertical-align: top;
+  padding: 1.25em;
+  /* gutter! */
+}
+.m-wrapper .content-block-001__nested {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 @media (min-width: 83.9385em) {
-  .m-wrapper {
-    .content-block-001__nested {
-      width: 25%
-    }
+  .m-wrapper .content-block-001__nested {
+    width: 25%;
   }
 }
 @media (max-width: 83.9375em) {
-  .m-wrapper {
-    .content-block-001__nested {
-      width: 25%
-    }
+  .m-wrapper .content-block-001__nested {
+    width: 25%;
   }
 }
 @media (max-width: 74.9375em) {
-  .m-wrapper {
-    .content-block-001__nested {
-      width: 33.33333333%
-    }
+  .m-wrapper .content-block-001__nested {
+    width: 33.33333333%;
   }
 }
 @media (max-width: 59.9375em) {
-  .m-wrapper {
-    .content-block-001__nested {
-      width: 33.33333333%
-    }
+  .m-wrapper .content-block-001__nested {
+    width: 33.33333333%;
   }
 }
 @media (max-width: 39.9375em) {
-  .m-wrapper {
-    .content-block-001__nested {
-      width: 33.33333333%
-    }
+  .m-wrapper .content-block-001__nested {
+    width: 33.33333333%;
+  }
+}
+.m-wrapper .content-block-001__title {
+  font-size: 1.75rem;
+  line-height: 1.875rem;
+  padding: 0;
+  margin: 0;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+@media (min-width: 59.9375em) {
+  .m-wrapper .content-block-001__title {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+}
+@media (min-width: 74.9375em) {
+  .m-wrapper .content-block-001__title {
+    font-size: 2.5rem;
   }
 }
 /*
@@ -109,17 +159,10 @@
  *    TEST
  *
  ***************/
-.bblock {
-  font-weight: bold
-}
-.bblock__elem {
-  font-weight: bold
-}
-.bblock--mo {
-  font-weight: bold
-}
+
 
 .contentBlock101 {}
+
 
 .contentBlock101__nested {
   /* display flex */
@@ -158,9 +201,10 @@
   position: relative;
   width: 100%;
   vertical-align: top;
-  padding: 1.25em
+  padding: 1.25em;
   /* gutter! */
 }
+
 
 .contentBlock101__nested-cell {
   position: relative;
@@ -169,14 +213,19 @@
   -webkit-flex: 1 1 auto;
   -webkit-box-flex: 1;
           flex: 1 1 auto;
-  /* ie11 hack */
-  :root & {
-    width: 100%
-  }
 }
 
+
+/* ie11 hack */
+
+
+:root .contentBlock101__nested-cell {
+  width: 100%;
+}
+
+
 .contentBlock101__nested {
-  width: 50%
+  width: 50%;
 }
 
 /*# sourceMappingURL=styles.css.map*/
