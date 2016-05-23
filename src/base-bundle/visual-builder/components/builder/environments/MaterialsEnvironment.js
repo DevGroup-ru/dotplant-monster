@@ -92,12 +92,15 @@ class MaterialsEnvironment extends BaseEnvironment {
 
   activate() {
     super.activate();
+
     this.$groupsPane = this.visualBuilder.createStackablePane();
     this.$groupsPane.append(this.$materialsGroups);
 
     this.$materialsPane = this.visualBuilder.createStackablePane();
     this.$materialsPane.append(this.$materialsList);
     this.$materialsPane.hide();
+
+    $('.materials-groups__switch-group').removeClass('materials-groups__switch-group--active');
   }
 }
 export default MaterialsEnvironment;

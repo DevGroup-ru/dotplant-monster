@@ -72,8 +72,9 @@ class VisualBuilder {
     $sectionLinks.click(function callback() {
       const environmentName = $(this).data('environmentName');
       if (that.currentEnvironment === environmentName) {
-        $(this).toggleClass(activeModifier);
-        that.environments.get(environmentName).$groupsPane.toggleClass('hidden');
+        $sectionLinks.removeClass(activeModifier);
+        that.environments.get(environmentName).deactivate();
+        that.currentEnvironment = null;
         return false;
       }
 

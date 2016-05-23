@@ -387,8 +387,9 @@
 	      $sectionLinks.click(function callback() {
 	        var environmentName = $(this).data('environmentName');
 	        if (that.currentEnvironment === environmentName) {
-	          $(this).toggleClass(activeModifier);
-	          that.environments.get(environmentName).$groupsPane.toggleClass('hidden');
+	          $sectionLinks.removeClass(activeModifier);
+	          that.environments.get(environmentName).deactivate();
+	          that.currentEnvironment = null;
 	          return false;
 	        }
 	
@@ -691,12 +692,15 @@
 	    key: 'activate',
 	    value: function activate() {
 	      _get(Object.getPrototypeOf(MaterialsEnvironment.prototype), 'activate', this).call(this);
+	
 	      this.$groupsPane = this.visualBuilder.createStackablePane();
 	      this.$groupsPane.append(this.$materialsGroups);
 	
 	      this.$materialsPane = this.visualBuilder.createStackablePane();
 	      this.$materialsPane.append(this.$materialsList);
 	      this.$materialsPane.hide();
+	
+	      $('.materials-groups__switch-group').removeClass('materials-groups__switch-group--active');
 	    }
 	  }]);
 	
