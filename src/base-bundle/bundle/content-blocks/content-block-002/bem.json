@@ -14,12 +14,17 @@
         "itemTemplate": {
           "elem": "nested",
           "tag": "li",
-          "content": "<?=$item['name']?>"    
+          "content": "<?=$item['name']?>"
 
         },
         "wrapTemplate": {
           "elem": "subnav",
-          "tag": "ul"
+          "tag": "ul",
+          "content": [
+            {
+              "block": "subtitle"
+            }
+          ]
         }
       }
     ]
