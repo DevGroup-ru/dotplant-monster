@@ -38,6 +38,6 @@ class MonsterBhExpander extends BaseBh
 
     public function initCoreMatchers()
     {
-//        $this->loadMatchersFile(__DIR__ . '/base-bundle/core.bh.expander.php');
+        $this->loadMatchersFile(__DIR__ . '/base-bundle/core.bh.expander.php');
     }
 }

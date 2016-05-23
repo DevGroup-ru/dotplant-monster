@@ -58,7 +58,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-left);
       }
     }
@@ -74,7 +74,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-left-end);
       }
     }
@@ -90,7 +90,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-right);
       }
     }
@@ -106,7 +106,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-right-end);
       }
     }
@@ -153,15 +153,15 @@
       background: var(--m-pagination-background);
       border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
       padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);    
+      min-width: calc(var(--base-line-height) * 4);
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-left);
       }
 
-      @media (--greater-than-mobile) { 
+      @media (--greater-than-mobile) {
         display: inline-block;
       }
     }
@@ -177,11 +177,11 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-left-end);
       }
 
-      @include _(greater than mobile) {  
+      @include _(greater than mobile) {
         display: inline-block;
       }
     }
@@ -197,7 +197,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-right);
       }
 
@@ -217,7 +217,7 @@
       text-align: center;
 
       &:before {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--m-pagination-arrow-right-end);
       }
 
@@ -236,7 +236,7 @@
       min-width: calc(var(--base-line-height) * 4);
       text-align: center;
 
-      @media (--greater-than-mobile) { 
+      @media (--greater-than-mobile) {
         display: none;
       }
     }

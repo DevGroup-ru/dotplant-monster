@@ -1,6 +1,14 @@
 @import "../bootstrap/_bootstrap.pcss";
-@import "../core/bundle.css";
-@import "components/group.css";
+/*@import "components/group.css";*/
+/**
+ПОЧЕМУ Я УДАЛИЛ КОМПОНЕНТЫ ОТСЮДА:
+- Вы тут переопределяете базовые стили стандартных плагинов
+- Делаете вы это в стандартном бандле
+- Но стандартный бандл будет использоваться в 99% случаев
+- Смогут ли сторонние бандлы использовать эти компоненты? Если да, то им придётся самим переопределять стиль
+- Не лучше ли переопределить это в core-бандле?
+- Также надо всё это завернуть в .m-wrapper
+**/
 @import "content-blocks/group.css";
 /*
 2
@@ -12,7 +20,7 @@
  ***************/
 
 
-@b content-block-101 {
+@b contentBlock101 {
 
   @mixin setupCols nested;
   @mixin cell nested;

@@ -17,7 +17,7 @@
     position: relative;
 
     &:before {
-      @mixin basic_icon;
+      /*@mixin basic_icon;*/
       content: var(--rating-icon);
       font-size: calc(var(--base-line-height) * 2);
       line-height: calc(var(--base-line-height) * 2);
@@ -52,7 +52,7 @@
     position: relative;
 
     &:before {
-      @mixin basic_icon;
+/*@mixin basic_icon;*/
       content: var(--rating-icon);
       font-size: calc(var(--base-line-height) * 2);
       line-height: calc(var(--base-line-height) * 2);
@@ -104,7 +104,7 @@
     position: relative;
 
     &:before {
-      @mixin basic_icon;
+/*@mixin basic_icon;*/
       content: var(--rating-icon);
       font-size: calc(var(--base-line-height) * 2);
       line-height: calc(var(--base-line-height) * 2);
@@ -114,7 +114,7 @@
 
   @e item {
     display: inline-block;
-    cursor: pointer;  
+    cursor: pointer;
 
     @m hover {
       .rating-js__icon:before {
@@ -131,7 +131,7 @@
 }
 
 @b rating-tooltip {
-  text-align: center;  
+  text-align: center;
 
   @e line {
     display: flex;
@@ -146,4 +146,3 @@
     margin-left: calc(var(--base-line-height) * 2);
   }
 }
-

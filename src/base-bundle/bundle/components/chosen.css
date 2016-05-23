@@ -69,7 +69,7 @@ a:focus {
       cursor: pointer;
 
       &:after {
-        @mixin basic_icon;
+        /*@mixin basic_icon;*/
         content: var(--select-single-arr-icon-down);
       }
     }

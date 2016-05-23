@@ -1,21 +1,11 @@
 .m-wrapper {
   /** @define content-block-001 */
   @b content-block-001 {
-    @e left {
-      background: red;
-      lost-column: 3/4;
-      @media (--mobile) {
-        lost-column: 1/2;
-        font-weight: bold;
-      }
+    text-align: center;
+
+    @e nested {
+      @_ 3 3 4 4 4;
     }
-    @e right {
-      background: green;
-      lost-column: 1/4;
-      @media (--mobile) {
-        lost-column: 1/2;
-        font-weight: bold;
-      }
-    }
+
   }
 }

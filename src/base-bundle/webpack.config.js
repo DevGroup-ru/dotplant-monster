@@ -28,9 +28,43 @@ var precss = require('precss');
 var flexbugs = require('postcss-flexbugs-fixes');
 var reporter = require('postcss-reporter');
 var map = require('postcss-map');
-
+var postcssMixins = require('postcss-mixins');
+var postcssImport = require('postcss-partial-import');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var WriteFilePlugin = require("write-file-webpack-plugin");
+var thePostCSS = require('postcss');
+
+
+var ColumnHelper = thePostCSS.plugin('ColumnHelper', function(){
+  return function(css, result) {
+    css.walkAtRules('_', function (rule, i) {
+      var nodes = [];
+      var medias = [
+        '--big',
+        '--desktop-wide',
+        '--desktop',
+        '--tablet',
+        '--mobile',
+      ]
+      params = rule.params.split(' ');
+      for (index in medias) {
+        var media = medias[index];
+        var bigRule = thePostCSS.atRule({
+          name: 'media',
+          params: '(' + media + ')'
+        });
+        thePostCSS.atRule({
+          name: 'mixin',
+          params: 'col_' + params[index] + '_of_12',
+        }).moveTo(bigRule);
+        nodes.push(bigRule);
+      }
+
+      rule.replaceWith(nodes);
+    });
+
+  };
+})
 
 var dev = process.env.ENV === 'dev';
 var minPostfix = dev ? '' : '.min';
@@ -91,6 +125,17 @@ module.exports = {
       map({
         maps: ['settings.yml']
       }),
+      postcssImport(),
+
+
+      doiuse({
+        browsers: supportedBrowsers
+      }),
+
+      pxtorem({
+          prop_white_list: ['width', 'font', 'font-size', 'line-height', 'letter-spacing']
+      }),
+      ColumnHelper(),
       precss(),
       postbem({
           defaultNamespace: undefined, // default namespace to use, none by default
@@ -106,21 +151,12 @@ module.exports = {
             descendent: 'e'
           }
       }),
-      doiuse({
-        browsers: supportedBrowsers
-      }),
-
-      pxtorem({
-          prop_white_list: ['width', 'font', 'font-size', 'line-height', 'letter-spacing']
-      }),
-      precss(),
       cssnext({
         browsers: supportedBrowsers,
         features: {
           autoprefixer: false
         }
       }),
-      lost(),
       cssnext({
         browsers: supportedBrowsers
       }),
