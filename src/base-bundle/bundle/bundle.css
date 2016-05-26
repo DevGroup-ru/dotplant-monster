@@ -1,5 +1,5 @@
 @import "../bootstrap/_bootstrap.pcss";
-/*@import "components/group.css";*/
+@import "components/group.css";
 /**
 ПОЧЕМУ Я УДАЛИЛ КОМПОНЕНТЫ ОТСЮДА:
 - Вы тут переопределяете базовые стили стандартных плагинов
@@ -19,13 +19,3 @@
  *
  ***************/
 
-
-@b contentBlock101 {
-
-  @mixin setupCols nested;
-  @mixin cell nested;
-
-  @e nested {
-    @mixin col_6_of_12;
-  }
-}

@@ -1,15 +1,8 @@
-:root {
-  --m-pagination-background: #eee;
-  --m-pagination-background-active: #aaa;
-  --m-pagination-border-width: calc(var(--base-line-height) / 10);
-  --m-pagination-border-color: #aaa;
-  --m-pagination-border-color-active: #aaa;
-
-  --m-pagination-arrow-right-end: var(--icon-arr-right-end);
-  --m-pagination-arrow-right: var(--icon-arr-right);
-  --m-pagination-arrow-left-end: var(--icon-arr-left-end);
-  --m-pagination-arrow-left: var(--icon-arr-left);
-}
+$m-pagination-background: #eee;
+$m-pagination-background-active: #aaa;
+$m-pagination-border-width: calc($base-line-height / 10);
+$m-pagination-border-color: #aaa;
+$m-pagination-border-color-active: #aaa;
 
 .m-wrapper {
   /** @define pagination */
@@ -29,17 +22,17 @@
 
     @e number {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
 
       @m active {
-        background: var(--m-pagination-background-active);
-        border: var(--m-pagination-border-width) solid var(--m-pagination-border-color-active);
+        background: $m-pagination-background-active;
+        border: $m-pagination-border-width solid $m-pagination-border-color-active;
       }
 
       @media (--greater-than-mobile) {
@@ -49,72 +42,52 @@
 
     @e arrow-left {
       display: inline-block;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-left);
-      }
     }
 
     @e arrow-left-end {
       display: inline-block;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-left-end);
-      }
     }
 
     @e arrow-right {
       display: inline-block;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width) solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-right);
-      }
     }
 
     @e arrow-right-end {
       display: inline-block;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-right-end);
-      }
     }
   }
 
   @b m-pagination-btn {
     text-align: left;
-    @include _(12 12 8 4 4);
+    @mixin col_12_of_12;
     @mixin type-setting "text";
     overflow: hidden;
 
@@ -128,17 +101,17 @@
 
     @e number {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
 
       @m active {
-        background: var(--m-pagination-background-active);
-        border: var(--m-pagination-border-width) solid var(--m-pagination-border-color-active);
+        background: $m-pagination-background-active;
+        border: $m-pagination-border-width solid $m-pagination-border-color-active;
       }
 
       @media (--greater-than-mobile) {
@@ -148,18 +121,13 @@
 
     @e arrow-left {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-left);
-      }
 
       @media (--greater-than-mobile) {
         display: inline-block;
@@ -168,38 +136,28 @@
 
     @e arrow-left-end {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
 
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-left-end);
-      }
-
-      @include _(greater than mobile) {
+      @media (--greater-than-mobile) {
         display: inline-block;
       }
     }
 
     @e arrow-right {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-right);
-      }
 
       @media (--greater-than-mobile) {
         display: inline-block;
@@ -208,18 +166,13 @@
 
     @e arrow-right-end {
       display: none;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
-
-      &:before {
-        /*@mixin basic_icon;*/
-        content: var(--m-pagination-arrow-right-end);
-      }
 
       @media (--greater-than-mobile) {
         display: inline-block;
@@ -228,12 +181,12 @@
 
     @e show-more {
       display: inline-block;
-      margin-right: calc(var(--base-line-height) / 4);
+      margin-right: calc($base-line-height / 4);
       text-decoration: none;
-      background: var(--m-pagination-background);
-      border: var(--m-pagination-border-width) solid var(--m-pagination-border-color);
-      padding: calc(var(--base-line-height) - var(--m-pagination-border-width));
-      min-width: calc(var(--base-line-height) * 4);
+      background: $m-pagination-background;
+      border: $m-pagination-border-width solid $m-pagination-border-color;
+      padding: calc($base-line-height - $m-pagination-border-width);
+      min-width: calc($base-line-height * 4);
       text-align: center;
 
       @media (--greater-than-mobile) {

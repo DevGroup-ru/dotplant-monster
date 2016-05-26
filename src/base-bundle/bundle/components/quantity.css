@@ -1,47 +1,48 @@
-:root {
-	--quantity-button-plus-border-width: calc(var(--base-line-height) / 10);
-	--quantity-button-plus-border-color: #000;
-	--quantity-button-plus-fon: #aaa;
+$quantity-button-plus-border-width: calc($base-line-height / 10);
+$quantity-button-plus-border-color: #000;
+$quantity-button-plus-fon: #aaa;
 
-	--quantity-button-minus-border-width: calc(var(--base-line-height) / 10);
-	--quantity-button-minus-border-color: #000;
-	--quantity-button-minus-fon: #aaa;
-}
+$quantity-button-minus-border-width: calc($base-line-height / 10);
+$quantity-button-minus-border-color: #000;
+$quantity-button-minus-fon: #aaa;
 
-@b quantity {
-	position: relative;
+.m-wrapper {
+  /** @define quantity */
+	@b quantity {
+		position: relative;
 
-	@e minus {
-	  position: absolute;
-	  top: 0;
-	  left: 0;
-	  height: 100%;
-	  line-height: calc(var(--base-line-height) * 4);
-	  width: calc(var(--base-line-height) * 4);
-	  text-align: center;
-	  cursor: pointer;
-	  background: var(--quantity-button-minus-fon);
-	  border: var(--quantity-button-minus-border-width) solid var(--quantity-button-minus-border-color);
-	}
-
-	@e plus {
-	    position: absolute;
-	    top: 0;
-	    right: 0;
-	    height: 100%;
-	    line-height: calc(var(--base-line-height) * 4);
-	    width: calc(var(--base-line-height) * 4);
-	    text-align: center;
-	    cursor: pointer;
-	    border: var(--quantity-button-plus-border-width) solid var(--quantity-button-plus-border-color);
-	    background: var(--quantity-button-plus-fon);
-	}
-
-	@e amount {
-
-		input {
-		  padding: 0 calc(var(--base-line-height) * 4);
+		@e minus {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  height: 100%;
+		  line-height: calc($base-line-height * 4);
+		  width: calc($base-line-height * 4);
 		  text-align: center;
+		  cursor: pointer;
+		  background: $quantity-button-minus-fon;
+		  border: $quantity-button-minus-border-width solid $quantity-button-minus-border-color;
+		}
+
+		@e plus {
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    height: 100%;
+		    line-height: calc($base-line-height * 4);
+		    width: calc($base-line-height * 4);
+		    text-align: center;
+		    cursor: pointer;
+		    border: $quantity-button-plus-border-width solid $quantity-button-plus-border-color;
+		    background: $quantity-button-plus-fon;
+		}
+
+		@e amount {
+
+			input {
+			  padding: 0 calc($base-line-height * 4);
+			  text-align: center;
+			}
 		}
 	}
 }

@@ -1,11 +1,11 @@
 {
   "container": true,
   "content": {
-    "block": "content-block-002",
-    "mods": ["left"],
+    "block": "content-block-003",
     "row": true,
     "utils": [
-      "one-line--top-bottom"
+      "one-line--top-bottom",
+      "text--center"
     ],
     "content": [
       {
@@ -26,14 +26,19 @@
               "html": "<img src='http://lorempixel.com/200/300/cats' />"
             },
             {
-              "elem": "title-nested",
-              "content": "<?=$item['name']?>",
-              "link": true
-            },
-            {
-              "elem": "text",
-              "content": "<?=$item['content']?>",
-              "editable": "wysiwyg"
+              "elem": "text-wrap",
+              "content": [
+                {
+                  "elem": "title-nested",
+                  "content": "<?=$item['name']?>",
+                  "link": true
+                },
+                {
+                  "elem": "text",
+                  "content": "<?=$item['content']?>",
+                  "editable": "wysiwyg"
+                }
+              ]
             }
           ]
         }

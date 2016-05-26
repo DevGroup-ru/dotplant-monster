@@ -1,14 +1,18 @@
 .m-wrapper {
-  /** @define content-block-002 */
-  @b content-block-002 {
+  /** @define content-block-003 */
+  @b content-block-003 {
     @mixin setupCols nested;
     @mixin setupCols title;
 
     @e nested {
-      @_ 3 3 3 6 12;
-      text-align: center;
-    }
+      @_ 6 6 6 12 12;
+      text-align: left;
 
+      @media (--greater-than-mobile) {
+        @mixin cellRow;
+      }
+    }
+    
     @e title {
       @mixin header1;
       @mixin col_12_of_12;
@@ -31,10 +35,11 @@
     }
 
     @e img {
-      margin-bottom: $base-line-height;
+      @_ 6 6 6 12 12;
       height: calc($base-line-height * 12);
       overflow: hidden;
       position: relative;
+      margin-bottom: calc($base-line-height * 2);
 
       img {
         position: absolute;
@@ -49,9 +54,14 @@
         transform: translateX(-50%);
       }
 
-      @media (--greater-than-tablet) {
-        margin-bottom: calc($base-line-height * 2);
+      @media (--greater-than-mobile) {
+        margin-right: calc($base-line-height * 2);
+        margin-bottom: 0;
       }
+    }
+
+    @e text-wrap {
+      @_ 6 6 6 12 12;
     }
 
     @e text {
@@ -60,18 +70,12 @@
       overflow: hidden;
     }
 
-    @m left {
-      .content-block-002__nested {
-        text-align: left;
-      }
-    }
-
     @at-root {
-      :--allLinksWithButtons.content-block-002__title-nested {
+      :--allLinksWithButtons.content-block-003__title-nested {
         @mixin %title-nested;
         text-decoration: none;
         display: block;
-        
+
         &:hover {
           text-decoration: underline;
         }
