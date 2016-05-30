@@ -13,18 +13,39 @@ return [
             if ($json->block) {
                 $ctx->attr('data-bem-match', $json->block . ($json->elem ? '__' . $json->elem : ''));
 
-                if ($ctx->param('editable') || $ctx->param('link')) {
+                if ($editable = $ctx->param('editable')) {
                     $ctx->attr('data-editable', 1);
-                }
-                if ($ctx->param('link')) {
-                    $ctx->attr('data-is-link', 1);
-                    $ctx->tag('a');
-                    if (is_string($ctx->param('link'))) {
-                        $ctx->attr('href', $ctx->param('link'));
+
+                    $ctx->js($editable);
+
+                    $target = isset($editable['target'])
+                        ? $editable['target']
+                        : 'data';
+
+                    if ($ctx->param('link')) {
+                        $ctx->tag('a');
+                        $ctx->attr('data-is-link', 1);
+                        $ctx->content("<?= \${$target}['{$editable['key']}']['anchor'] ?>");
+                        $ctx->attr(
+                            'href',
+                            [
+                                'unsafe' => "<?= \${$target}['{$editable['key']}']['href'] ?>",
+                            ]
+                        );
                     } else {
-                        $ctx->attr('href', '#');
+                        $ctx->content("<?= \${$target}['{$editable['key']}'] ?>");
                     }
+
                 }
+//                if ($ctx->param('link')) {
+//                    $ctx->attr('data-is-link', 1);
+//                    $ctx->tag('a');
+//                    if (is_string($ctx->param('link'))) {
+//                        $ctx->attr('href', $ctx->param('link'));
+//                    } else {
+//                        $ctx->attr('href', '#');
+//                    }
+//                }
             }
         }
     ),
@@ -46,9 +67,6 @@ return [
                     $itemTemplateJson['content'] = [];
                 }
                 $itemTemplateJson['content'] = (array) $itemTemplateJson['content'];
-
-
-
 
                 $childrenAttribute = $ctx->param('childrenAttribute') ? : 'children';
                 $json = $ctx->json();
@@ -95,7 +113,7 @@ PHP;
     };
     
     // run first loop
-    $uniq($recursive);
+    $uniq(\$data['$recursive']);
 
 ?>
 

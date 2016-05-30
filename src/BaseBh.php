@@ -42,6 +42,9 @@ abstract class BaseBh extends Component
         $this->bh->setOptions([
             'modsDelimiter' => $this->modsDelimiter,
             'indent' => $this->formatHtml,
+            'jsAttrScheme' => false,
+            'jsAttrName' => 'data-bem',
+            'jsCls' => 'm-bem',
         ]);
     }
 
