@@ -1,8 +1,10 @@
 <?php
 
+use BEM\BH;
 use BEM\Context;
 use BEM\Json;
 use BEM\Matcher;
+use yii\helpers\VarDumper;
 
 return [
     'editables' => new Matcher(
@@ -16,13 +18,18 @@ return [
                 if ($editable = $ctx->param('editable')) {
                     $ctx->attr('data-editable', 1);
 
-                    $ctx->js($editable);
+                    $ctx->js([
+                        'editable' => $editable
+                    ]);
 
                     $target = isset($editable['target'])
                         ? $editable['target']
                         : 'data';
+                    $type = isset($editable['type'])
+                        ? $editable['type']
+                        : 'string';
 
-                    if ($ctx->param('link')) {
+                    if ($type === 'link') {
                         $ctx->tag('a');
                         $ctx->attr('data-is-link', 1);
                         $ctx->content("<?= \${$target}['{$editable['key']}']['anchor'] ?>");
@@ -55,6 +62,12 @@ return [
             if ($ctx->param('recursive') !== null && $ctx->param('itemTemplate') !== null) {
                 $recursive = (string) $ctx->param('recursive');
 
+                $isBem = $ctx->json()->block || $ctx->json()->elem;
+                $js = [
+                    'recursive' => $recursive,
+                ];
+
+
                 $blockName = $json->block === null && $json->elem === null
                     ? $ctx->node->parentNode->json->block
                     : $ctx->json()->block;
@@ -80,6 +93,7 @@ return [
                  * @todo itemTemplate - контекстуальный или нет
                  * @todo wrapTemplate - контекстуальный или нет(применять $ctx->process?)
                  */
+                $wrapChildrenJson['isWrapTemplate'] = true;
                 if (isset($wrapChildrenJson['content']) == false) {
                     $wrapChildrenJson['content'] = [];
                 }
@@ -96,6 +110,20 @@ if (isset(\$item['$childrenAttribute'])) {
             }
 ?>
 PHP;
+                if ($json->elem) {
+                    $itemTemplateJson['isItemTemplate'] = $json->block . '__' . $json->elem;
+                } elseif ($json->block) {
+                    $itemTemplateJson['isItemTemplate'] = $json->block;
+                } else {
+                    $parentJson = $ctx->node->parentNode->json;
+                    $itemTemplateJson['isItemTemplate'] = $parentJson->block;
+                    if ($parentJson->elem) {
+                        $itemTemplateJson['isItemTemplate'] .= '__' . $parentJson->elem;
+                    }
+                }
+                $itemTemplateJson['recursiveOf'] = $recursive;
+
+
 
                 $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
                 $php = <<<PHP
@@ -119,10 +147,27 @@ PHP;
 
 
 PHP;
+                if ($isBem === false) {
+                    $ctx->node->parentNode->json->js = $js;
+                } else {
+                    $ctx->js($js);
+                }
+
                 if ($json->block === null && $json->elem === null) {
                     return $php;
                 }
                 $ctx->json()->content = $php;
+            }
+
+
+
+            // it is a child of recursive - itemTemplate or wrapTemplate
+            if ($isItemTemplate = $ctx->param('isItemTemplate')) {
+                // it's itemTemplate
+                $ctx->js([
+                    'itemTemplateInside' => $isItemTemplate,
+                    'recursiveOf' => $ctx->param('recursiveOf'),
+                ]);
             }
         }
     ),

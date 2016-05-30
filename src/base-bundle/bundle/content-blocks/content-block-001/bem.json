@@ -28,7 +28,6 @@
             },
             {
               "elem": "title-nested",
-              "link": true,
               "editable": {
                 "type": "link",
                 "key": "name",

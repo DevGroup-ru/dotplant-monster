@@ -3,6 +3,8 @@
 namespace DotPlant\Monster;
 
 use BEM\Context;
+use BEM\Json;
+use BEM\JsonCollection;
 use BEM\Matcher;
 use DotPlant\Monster\Bundle\Material;
 use yii;
@@ -87,7 +89,7 @@ class BaseMaterialize extends yii\base\Widget
             'templateFilename' => &$templateFilename,
         ]);
 
-        if (is_readable($templateFilename) === false || $this->editMode) {
+        if (is_readable($templateFilename) === false) {
             //! @todo add expire support for the template file into above condition
             $this->ensureTemplateFolderCreated($templateFilename);
 
@@ -111,6 +113,55 @@ class BaseMaterialize extends yii\base\Widget
 
             $this->trigger(static::EVENT_BEFORE_TEMPLATE_CREATION, $event);
 
+            // find editables and add them to js of block
+            if ($this->editMode === true) {
+                $editableKeys = [];
+                $fillEditable = function($editable, $root = null) use (&$editableKeys) {
+                    $editableKey = $editable['key'];
+                    $editableType = isset($editable['type']) ? $editable['type'] : 'string';
+                    if ($root !== null) {
+                        if (isset($editableKeys[$root]) === false) {
+                            $editableKeys[$root] = [];
+                        }
+                        $editableKeys[$root][$editableKey] = $editableType;
+                    } else {
+                        $editableKeys[$editableKey] = $editableType;
+                    }
+                };
+                $walker = function ($object, $root = null) use (&$walker, &$fillEditable) {
+                    $array = $object;
+
+                    if ($object instanceof Json) {
+                        if (isset($object->recursive)) {
+                            $root = $object->recursive;
+                        }
+                        if (isset($object->editable)) {
+                            $fillEditable($object->editable, $root);
+                        }
+                        foreach ($object as $key => $value) {
+                            if ($key === 'content' && $value instanceof JsonCollection) {
+                                foreach ($value as $content) {
+                                    $walker($content, $root);
+                                }
+                            } elseif (is_array($value)) {
+                                $walker($value, $root);
+                            }
+                        }
+                    } else {
+                        foreach ($array as $key => $value) {
+                            if ($key === 'editable' && isset($value['key'])) {
+                                $fillEditable($value, $root);
+                            } elseif (is_array($value) || $value instanceof JsonCollection) {
+                                $walker($value, $root);
+                            }
+                        }
+                    }
+                };
+                $walker($expandedBemJson);
+
+                $expandedBemJson->attrs['data-editable-keys'] = \yii\helpers\Json::encode($editableKeys);
+            }
+
             $template = <<<'php'
 <?php
 /**
@@ -128,6 +179,8 @@ php;
 
             // remove applied matchers
             $this->monsterBh->bh()->removeMatcherById(ArrayHelper::merge($newBhMatchers, $customizedBhMatchersIds));
+
+
 
             if (file_put_contents($templateFilename, $template) === false) {
                 throw new \RuntimeException(
@@ -150,11 +203,13 @@ php;
 
     public function generateTemplateFilename()
     {
+        $editPrefix = $this->editMode ? 'edit-' : '';
         return
             Yii::getAlias('@app/monster/templates') .
             '/' .
             $this->uniqueContentId .
             '/' .
+            $editPrefix .
             $this->materialIndex . '.php';
     }
 
