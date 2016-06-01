@@ -4,6 +4,7 @@ use BEM\BH;
 use BEM\Context;
 use BEM\Json;
 use BEM\Matcher;
+use DotPlant\Monster\Repository;
 use yii\helpers\VarDumper;
 
 return [
@@ -22,26 +23,19 @@ return [
                         'editable' => $editable
                     ]);
 
-                    $target = isset($editable['target'])
-                        ? $editable['target']
-                        : 'data';
                     $type = isset($editable['type'])
                         ? $editable['type']
                         : 'string';
-
-                    if ($type === 'link') {
-                        $ctx->tag('a');
-                        $ctx->attr('data-is-link', 1);
-                        $ctx->content("<?= \${$target}['{$editable['key']}']['anchor'] ?>");
-                        $ctx->attr(
-                            'href',
-                            [
-                                'unsafe' => "<?= \${$target}['{$editable['key']}']['href'] ?>",
-                            ]
-                        );
-                    } else {
-                        $ctx->content("<?= \${$target}['{$editable['key']}'] ?>");
+                    
+                    /** @var Repository $repository */
+                    $repository = Yii::$app->get('monsterRepository');
+                    $editableFactory = $repository->editable();
+                    $result = $editableFactory->handleType($type, $ctx, $json, $editable);
+                    if ($result !== null) {
+                        return $result;
                     }
+
+                    
 
                 }
 //                if ($ctx->param('link')) {

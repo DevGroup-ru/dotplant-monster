@@ -2,6 +2,7 @@
 
 namespace DotPlant\Monster;
 
+use DotPlant\Monster\Editable\EditableFactory;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use yii;
@@ -24,6 +25,10 @@ class Repository extends Component
     const CACHE_KEY_BUNDLES = 'bundles';
     const CACHE_LIFETIME_BUNDLES = 2592000; // 7days
 
+    public $editableConfig = [];
+
+    protected $editable;
+
     /** @inheritdoc */
     public function init()
     {
@@ -37,6 +42,18 @@ class Repository extends Component
         } else {
             $this->loadBundles();
         }
+    }
+
+    /**
+     * @return EditableFactory
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function editable()
+    {
+        if ($this->editable === null) {
+            $this->editable = Yii::createObject(EditableFactory::class, $this->editableConfig);
+        }
+        return $this->editable;
     }
 
     /**

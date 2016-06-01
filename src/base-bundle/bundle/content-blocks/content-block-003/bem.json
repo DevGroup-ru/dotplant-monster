@@ -17,7 +17,7 @@
         "editable": true
       },
       {
-        "recursive": "$data[\"blocks\"]",
+        "recursive": "blocks",
         "itemTemplate": {
           "elem": "nested",
           "content": [
@@ -30,13 +30,19 @@
               "content": [
                 {
                   "elem": "title-nested",
-                  "content": "<?=$item['name']?>",
-                  "link": true
+                  "editable": {
+                    "type": "link",
+                    "key": "name",
+                    "target": "item"
+                  }
                 },
                 {
                   "elem": "text",
-                  "content": "<?=$item['content']?>",
-                  "editable": "wysiwyg"
+                  "editable": {
+                    "type": "wysiwyg",
+                    "key": "content",
+                    "target": "item"
+                  }
                 }
               ]
             }
