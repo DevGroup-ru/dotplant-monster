@@ -25,4 +25,7 @@ class MaterializeEvent extends Event
     /** @var string */
     public $templateFilename;
 
+    /** @var boolean */
+    public $editMode = false;
+
 }

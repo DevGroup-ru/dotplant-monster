@@ -87,6 +87,7 @@ class BaseMaterialize extends yii\base\Widget
             'customizedBhMatchersIds' => &$customizedBhMatchersIds,
             'content' => &$content,
             'templateFilename' => &$templateFilename,
+            'editMode' => $this->editMode,
         ]);
 
         if (is_readable($templateFilename) === false) {
@@ -171,6 +172,7 @@ class BaseMaterialize extends yii\base\Widget
  * on extending and modifying your look'n'feel.
  *
  * @var \yii\web\View $this
+ * @var array         $data
  */
 ?>
 
