@@ -7,7 +7,7 @@ use BEM\Json;
 
 return [
     'example' => new Matcher(
-        'content-block-002',
+        'content-block-004',
         function(Context $ctx, Json $json) {
             $ctx->mod('expander-example', true);
         }

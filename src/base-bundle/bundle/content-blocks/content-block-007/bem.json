@@ -1,8 +1,7 @@
 {
   "container": true,
   "content": {
-    "block": "content-block-002",
-    "mods": ["left"],
+    "block": "content-block-007",
     "row": true,
     "utils": [
       "one-line--top-bottom"
@@ -13,7 +12,7 @@
         "utils": [
           "no-margin--top"
         ],
-        "content": "Наши преимущества",
+        "content": "Простые блоки без картинок и иконок",
         "editable": true
       },
       {
@@ -21,10 +20,6 @@
         "itemTemplate": {
           "elem": "nested",
           "content": [
-            {
-              "elem": "img",
-              "html": "<img src='http://lorempixel.com/200/300/cats' />"
-            },
             {
               "elem": "title-nested",
               "content": "<?=$item['name']?>",

@@ -1,11 +1,11 @@
 .m-wrapper {
-  /** @define content-block-002 */
-  @b content-block-002 {
+  /** @define content-block-007 */
+  @b content-block-007 {
     @mixin setupCols nested;
     @mixin setupCols title;
 
     @e nested {
-      @_ 3 3 3 6 12;
+      @_ 3 3 6 6 12;
       text-align: center;
     }
 
@@ -30,30 +30,6 @@
       @mixin %title-nested;
     }
 
-    @e img {
-      margin-bottom: $base-line-height;
-      height: calc($base-line-height * 12);
-      overflow: hidden;
-      position: relative;
-
-      img {
-        position: absolute;
-        margin: auto;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        right: 0;
-        height: auto;
-        min-height: 100%;
-        min-width: 100%;
-        transform: translateX(-50%);
-      }
-
-      @media (--greater-than-tablet) {
-        margin-bottom: calc($base-line-height * 2);
-      }
-    }
-
     @e text {
       @mixin type-setting text;
       height: calc($base-line-height * 6);
@@ -61,21 +37,22 @@
     }
 
     @m left {
-      .content-block-002__nested {
+      .content-block-007__nested {
         text-align: left;
       }
     }
 
     @at-root {
-      :--allLinksWithButtons.content-block-002__title-nested {
+      :--allLinksWithButtons.content-block-007__title-nested {
         @mixin %title-nested;
         text-decoration: none;
         display: block;
-        
+
         &:hover {
           text-decoration: underline;
         }
       }
     }
+
   }
 }

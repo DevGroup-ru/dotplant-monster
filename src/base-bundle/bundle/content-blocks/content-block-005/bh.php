@@ -6,10 +6,10 @@ use BEM\Json;
 
 
 return [
-    'example' => new Matcher(
-        'content-block-002',
+    'example2' => new Matcher(
+        'content-block-005',
         function(Context $ctx, Json $json) {
-            $ctx->mod('expander-example', true);
+            $ctx->mod('bh-example', true);
         }
     ),
 ];

@@ -1,0 +1,32 @@
+{
+  "container": true,
+  "content": {
+    "block": "content-block-002",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "tag": "ul",
+        "elem": "list",
+        "recursive": "$data[\"blocks\"]",
+        "itemTemplate": {
+          "elem": "nested",
+          "tag": "li",
+          "content": "<?=$item['name']?>"
+
+        },
+        "wrapTemplate": {
+          "elem": "subnav",
+          "tag": "ul",
+          "content": [
+            {
+              "block": "subtitle"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

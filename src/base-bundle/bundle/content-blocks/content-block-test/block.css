@@ -1,20 +1,20 @@
 .m-wrapper {
-  /** @define content-block-002 */
-  @b content-block-002 {
+  /** @define content-block-001 */
+  @b content-block-001 {
     @mixin setupCols nested;
     @mixin setupCols title;
 
     @e nested {
-      @_ 3 3 3 6 12;
+      @_ 3 3 4 4 4;
+      margin-top: calc($base-line-height * 2);
+      margin-bottom: calc($base-line-height * 2);
       text-align: center;
     }
-
     @e title {
       @mixin header1;
       @mixin col_12_of_12;
       text-align: center;
     }
-
     @define-mixin %title-nested {
       @mixin type-setting accent-text;
       margin-bottom: $base-line-height;
@@ -25,32 +25,23 @@
         margin-bottom: calc($base-line-height * 2);
       }
     }
-
     @e title-nested {
       @mixin %title-nested;
     }
 
-    @e img {
+    @e icon {
+      font-size: calc($base-line-height * 7);
+      line-height: calc($base-line-height * 7);
       margin-bottom: $base-line-height;
-      height: calc($base-line-height * 12);
-      overflow: hidden;
-      position: relative;
-
-      img {
-        position: absolute;
-        margin: auto;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        right: 0;
-        height: auto;
-        min-height: 100%;
-        min-width: 100%;
-        transform: translateX(-50%);
-      }
+      display: block;
 
       @media (--greater-than-tablet) {
-        margin-bottom: calc($base-line-height * 2);
+        margin-bottom: $base-line-height * 2;
+      }
+
+      @media (--greater-than-desktop) {
+        font-size: calc($base-line-height * 9);
+        line-height: calc($base-line-height * 9);
       }
     }
 
@@ -60,22 +51,16 @@
       overflow: hidden;
     }
 
-    @m left {
-      .content-block-002__nested {
-        text-align: left;
-      }
-    }
-
     @at-root {
-      :--allLinksWithButtons.content-block-002__title-nested {
+      :--allLinksWithButtons.content-block-001__title-nested {
         @mixin %title-nested;
         text-decoration: none;
         display: block;
-        
         &:hover {
           text-decoration: underline;
         }
       }
     }
+
   }
 }

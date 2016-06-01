@@ -1,0 +1,20 @@
+{
+  "blocks": [
+    {
+      "name": "Классное преимущество, всем нравится",
+      "content": "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
+    },
+    {
+      "name": "2 преимущество, всем нравится",
+      "content": "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
+    },
+    {
+      "name": "3 преимущество, всем нравится",
+      "content": "3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
+    },
+    {
+      "name": "4 преимущество, всем нравится",
+      "content": "4 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
+    }
+  ]
+}

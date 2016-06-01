@@ -1,0 +1,54 @@
+{
+  "container": true,
+  "content": {
+    "block": "content-block-005",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom",
+      "text--center"
+    ],
+    "content": [
+      {
+        "elem": "title",
+        "utils": [
+          "no-margin--top"
+        ],
+        "content": "Наши преимущества",
+        "editable": true
+      },
+      {
+        "recursive": "$data[\"blocks\"]",
+        "itemTemplate": {
+          "elem": "nested",
+          "content": [
+            {
+              "elem": "icon-wrap",
+              "content": [
+                {
+                  "elem": "icon",
+                  "content": "1",
+                  "icon": true
+                }
+              ]
+            },
+            {
+              "elem": "text-wrap",
+              "content": [
+                {
+                  "elem": "title-nested",
+                  "content": "<?=$item['name']?>",
+                  "link": true
+                },
+                {
+                  "elem": "text",
+                  "content": "<?=$item['content']?>",
+                  "editable": "wysiwyg"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -24,6 +24,7 @@
           "content": [
             {
               "elem": "icon",
+              "content": "1",
               "icon": true
             },
             {
