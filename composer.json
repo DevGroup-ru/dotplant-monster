@@ -12,6 +12,7 @@
     "minimum-stability": "dev",
     "require": {
         "devgroup/yii2-frontend-utils": "dev-master",
+        "devgroup/yii2-data-structure-tools": "dev-master",
         "devgroup/bh": "~5.1",
         "devgroup/yii2-admin-utils": "dev-master",
         "symfony/finder": "^3.0"

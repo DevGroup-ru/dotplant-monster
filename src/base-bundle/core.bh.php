@@ -38,15 +38,7 @@ return [
                     
 
                 }
-//                if ($ctx->param('link')) {
-//                    $ctx->attr('data-is-link', 1);
-//                    $ctx->tag('a');
-//                    if (is_string($ctx->param('link'))) {
-//                        $ctx->attr('href', $ctx->param('link'));
-//                    } else {
-//                        $ctx->attr('href', '#');
-//                    }
-//                }
+
             }
         }
     ),

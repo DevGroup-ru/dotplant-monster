@@ -48,6 +48,11 @@ class MonsterContent extends yii\base\Widget
     const CACHE_RELY_ON_MATERIAL = 'rely-on-material';
 
     /**
+     * Force no caching the monster content.
+     */
+    const CACHE_FORCE_NO_CACHE = 'force-no-cache';
+
+    /**
      * @var string Cache strategy for this content.
      */
     public $cacheStrategy = self::CACHE_RELY_ON_MATERIAL;
@@ -103,7 +108,7 @@ class MonsterContent extends yii\base\Widget
         }
 
         // on this stage $this->materials is array of configurations
-        $cacheable = $this->cacheable();
+        $cacheable = $this->cacheStrategy === self::CACHE_FORCE_NO_CACHE ? false : $this->cacheable();
         if ($cacheable === true && $this->cacheStrategy !== self::CACHE_RELY_ON_MATERIAL) {
             $result = Yii::$app->cache->get($this->cacheKey);
             if (empty($result) === false) {
@@ -182,7 +187,7 @@ class MonsterContent extends yii\base\Widget
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
             if (!isset($materialConfiguration['data'])) {
-                $materialConfiguration['data'] = $this->data;
+                $materialConfiguration['data'] = $this->data[$index];
             }
             $materials[] = self::makeMaterial(
                 $this->uniqueContentId,
@@ -220,18 +225,7 @@ class MonsterContent extends yii\base\Widget
 
         /** @var BaseMaterialize $material */
         $material = Yii::createObject($materialConfiguration);
-        if ($editModeOn === true) {
 
-//            $material->bemCustomization = [
-//                '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
-//                    if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
-//                        $json->attrs['data-is-material'] = '1';
-//                        $json->attrs['data-material-index'] = $index;
-//                        $json->attrs['data-material-block'] = $materialConfiguration['block'];
-//                    }
-//                }
-//            ];
-        }
         return $material;
     }
 
