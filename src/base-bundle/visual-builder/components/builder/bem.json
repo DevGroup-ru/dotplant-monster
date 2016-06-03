@@ -53,6 +53,29 @@
               }
             }
           ]
+        },
+        {
+          "block": "edit-mode",
+          "content": [
+            {
+              "elem": "layout",
+              "tag": "label",
+              "attrs": {
+                "for": "edit-mode__layout-checkbox"
+              },
+              "content": [
+                "Layout",
+                {
+                  "elem": "layout-checkbox",
+                  "tag": "input",
+                  "attrs": {
+                    "type": "checkbox",
+                    "id": "edit-mode__layout-checkbox"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },

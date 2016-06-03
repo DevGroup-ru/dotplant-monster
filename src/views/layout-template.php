@@ -4,12 +4,14 @@
  * @var \yii\web\View $this
  * @var string        $content
  */
+use app\assets\AppAsset;
 use DevGroup\Multilingual\widgets\HrefLang;
 use DotPlant\Monster\models\TemplateRegion;
 use DotPlant\Monster\MonsterContent;
+use DotPlant\Monster\Universal\EntityTrait;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-
+AppAsset::register($this);
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -31,13 +33,24 @@ use yii\helpers\Html;
 <?php $this->beginBody(); ?>
 <div class="m-wrapper">
 <?php
+/** @var TemplateRegion $templateRegions */
 $templateRegions = Yii::$app->params['layoutTemplateRegions'];
+/** @var \yii\base\Model|EntityTrait $model */
 $model = Yii::$app->params['layoutMainEntity'];
+/** @var array $dataByTemplateRegion */
 $dataByTemplateRegion = Yii::$app->params['layoutDataByTemplateRegion'];
 
 foreach ($templateRegions as $region) {
-    $config = [];
-    $config['uniqueContentId'] = 'template-' . $region->template->id . '/' . $region->key;
+    $config = [
+        'isLayout' => true,
+        'globalData' => [
+            'content' => &$content,
+        ],
+        'uniqueContentId' => 'template-' . $region->template->id . '/' . $region->key,
+        'regionId' => $region->id,
+        'regionKey' => $region->key,
+        'contentDescription' => Yii::t('app', 'Layout') . ' – ' . $region->name . " [{$region->key}]",
+    ];
     $materials = $region->content;
     if ($region->entity_dependent) {
         $config['uniqueContentId'] = $model->uniqueContentIdPrefix() . '/' . $region->key;
@@ -46,7 +59,7 @@ foreach ($templateRegions as $region) {
         }
     }
     $config['data'] = ArrayHelper::getValue($dataByTemplateRegion, $region->key, []);
-    $config['globalData'] = ['content'=>&$content];
+
     $config['materials'] = $materials;
     
     echo MonsterContent::widget(

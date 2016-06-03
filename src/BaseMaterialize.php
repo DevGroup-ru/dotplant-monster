@@ -149,11 +149,13 @@ class BaseMaterialize extends yii\base\Widget
                             }
                         }
                     } else {
-                        foreach ($array as $key => $value) {
-                            if ($key === 'editable' && isset($value['key'])) {
-                                $fillEditable($value, $root);
-                            } elseif (is_array($value) || $value instanceof JsonCollection) {
-                                $walker($value, $root);
+                        if (is_array($array)) {
+                            foreach ($array as $key => $value) {
+                                if ($key === 'editable' && isset($value['key'])) {
+                                    $fillEditable($value, $root);
+                                } elseif (is_array($value) || $value instanceof JsonCollection) {
+                                    $walker($value, $root);
+                                }
                             }
                         }
                     }

@@ -14,7 +14,7 @@ class MaterialsEnvironment extends BaseEnvironment {
       const i18nBundleName = typeof(polyglot) !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
 
       let $bundleTitle = `
-      <li class="materials-groups__item.materials-groups__item--bundle-label">
+      <li class="materials-groups__item materials-groups__item--bundle-label">
         <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""${bundle.fullPath}>
             ${i18nBundleName}      
         </a>

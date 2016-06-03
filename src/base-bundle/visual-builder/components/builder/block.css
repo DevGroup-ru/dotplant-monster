@@ -43,6 +43,15 @@ $editor-accent-color: #EC5035;
 
   }
 
+  @b edit-mode {
+    @e layout-checkbox {
+      margin: 0 $base-line-height;
+    }
+    @e layout {
+      padding-left: $base-line-height;
+      color: $editor-text-color;
+    }
+  }
 
   @b monster-stackable-container {
     z-index: $base-z-index;
@@ -99,6 +108,7 @@ $editor-accent-color: #EC5035;
     @e resolution-link {
       color: $editor-base-bg;
       cursor: pointer;
+      padding: 0 $base-line-height;
 
       @m active {
         color: $editor-link-color;
@@ -126,6 +136,17 @@ $editor-accent-color: #EC5035;
     padding-left: 0;
     li {
       display: block;
+      list-style: none;
+    }
+    @e item {
+      list-style: none;
+    }
+    @e switch-bundle {
+      padding: calc($base-line-height*2) $base-line-height;
+      font-weight: bold;
+      display: block;
+      background: $editor-section-color;
+      color: $editor-text-color;
     }
 
     @e switch-group {
@@ -150,6 +171,11 @@ $editor-accent-color: #EC5035;
     @m active {
       display: block;
       list-style: none;
+    }
+    @e item {
+      padding: $base-line-height;
+      display: block;
+      color: $editor-text-color;
     }
   }
   @b m-monster-content {

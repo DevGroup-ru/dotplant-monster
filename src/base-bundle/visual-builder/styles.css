@@ -1,10 +1,22 @@
 :root {
+
+
     /* grid */
+
+
     /* typography */
+
+
     /*vertical rhytm*/
 }
+
+
 /* typography */
+
+
 /* custom media queries */
+
+
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -25,8 +37,14 @@
   }
   ```
 */
+
+
 /* generate grid mixins */
+
+
 /* grid order helpers */
+
+
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -47,7 +65,11 @@
   }
   ```
 */
+
+
 /* generate grid mixins */
+
+
 /* grid order helpers */
 .m-wrapper .monster-visual-builder {
     line-height: 1.25rem;
@@ -71,6 +93,14 @@
     left: 0;
     bottom: 0;
     width: 64px;
+}
+.m-wrapper .edit-mode {}
+.m-wrapper .edit-mode__layout-checkbox {
+    margin: 0 0.625rem;
+}
+.m-wrapper .edit-mode__layout {
+    padding-left: 0.625rem;
+    color: #F7F7FC;
 }
 .m-wrapper .monster-stackable-container {
     z-index: 12000;
@@ -120,6 +150,7 @@
 .m-wrapper .resolution-switcher__resolution-link {
     color: #1E1B35;
     cursor: pointer;
+    padding: 0 0.625rem;
 }
 .m-wrapper .resolution-switcher__resolution-link--active {
     color: #3FB2FF;
@@ -142,6 +173,17 @@
 }
 .m-wrapper .materials-groups li {
     display: block;
+    list-style: none;
+}
+.m-wrapper .materials-groups__item {
+    list-style: none;
+}
+.m-wrapper .materials-groups__switch-bundle {
+    padding: 1.25rem 0.625rem;
+    font-weight: bold;
+    display: block;
+    background: #4FD18A;
+    color: #F7F7FC;
 }
 .m-wrapper .materials-groups__switch-group {
     color: #F7F7FC;
@@ -162,6 +204,11 @@
 .m-wrapper .materials-list--active {
     display: block;
     list-style: none;
+}
+.m-wrapper .materials-list__item {
+    padding: 0.625rem;
+    display: block;
+    color: #F7F7FC;
 }
 .m-wrapper .m-monster-content {}
 .m-wrapper .m-monster-content__material {}
@@ -200,5 +247,7 @@
     color: #666773;
 }
 
+
+/* */
 
 /*# sourceMappingURL=styles.css.map*/

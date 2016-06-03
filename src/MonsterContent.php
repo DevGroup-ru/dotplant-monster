@@ -18,6 +18,7 @@ class MonsterContent extends yii\base\Widget
     public $materials = [];
 
     public $data = [];
+    public $isLayout = false;
     
     public $globalData = [];
 
@@ -27,6 +28,8 @@ class MonsterContent extends yii\base\Widget
     private $minCacheDuration = 2592000;
 
     public $contentDescription = 'Content';
+    public $regionId;
+    public $regionKey;
     public static $perPageCounter = [];
 
     /**
@@ -107,13 +110,15 @@ class MonsterContent extends yii\base\Widget
 
     public function runImpl()
     {
-
         if ($this->editModeOn()) {
             $contentDescription = Html::encode($this->contentDescription);
             VisualBuilder::register($this->view);
+            $modifier = $this->isLayout ? 'm-monster-content__layout' : 'm-monster-content__content';
+            $region = $this->regionId ? " data-region-id=\"{$this->regionId}\"" : '';
+            $region .= $this->regionKey ? " data-region-key=\"{$this->regionKey}\"" : '';
 
-            $result = "<div class=\"m-monster-content\" data-unique-content-id=\"{$this->uniqueContentId}\""
-                . " data-content-description=\"$contentDescription\""
+            $result = "<div class=\"m-monster-content $modifier\" data-unique-content-id=\"{$this->uniqueContentId}\""
+                . " data-content-description=\"$contentDescription\" $region"
                 . ">";
         } else {
             $result = '';

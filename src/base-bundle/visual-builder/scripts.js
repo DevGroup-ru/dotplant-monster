@@ -575,7 +575,7 @@
 	
 	          var i18nBundleName = typeof polyglot !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
 	
-	          var $bundleTitle = '\n      <li class="materials-groups__item.materials-groups__item--bundle-label">\n        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""' + bundle.fullPath + '>\n            ' + i18nBundleName + '      \n        </a>\n      </li>\n      ';
+	          var $bundleTitle = '\n      <li class="materials-groups__item materials-groups__item--bundle-label">\n        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""' + bundle.fullPath + '>\n            ' + i18nBundleName + '      \n        </a>\n      </li>\n      ';
 	          this.$materialsList.push($bundleTitle);
 	
 	          var _iteratorNormalCompletion2 = true;

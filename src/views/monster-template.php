@@ -16,8 +16,12 @@ use yii\helpers\ArrayHelper;
 //VarDumper::dump($dataByTemplateRegion, 20, true);die();
 
 foreach ($templateRegions as $region) {
-    $config = [];
-    $config['uniqueContentId'] = 'template-' . $region->template->id . '/' . $region->key;
+    $config = [
+        'uniqueContentId' => 'template-' . $region->template->id . '/' . $region->key,
+        'regionId' => $region->id,
+        'regionKey' => $region->key,
+        'contentDescription' => $region->name . " [{$region->key}]",
+    ];
     $materials = $region->content;
     if ($region->entity_dependent) {
         $config['uniqueContentId'] = $model->uniqueContentIdPrefix() . '/' . $region->key;
