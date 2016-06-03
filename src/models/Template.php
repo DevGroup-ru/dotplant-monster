@@ -145,4 +145,36 @@ class Template extends \yii\db\ActiveRecord
         }
         return $template;
     }
+
+    /**
+     * @param integer $id
+     *
+     * @return \DotPlant\Monster\models\Template
+     */
+    public static function findById($id)
+    {
+        /** @var LazyCache $cache */
+        $cache = Yii::$app->cache;
+        /** @var Template $template */
+        $template = $cache->lazy(
+            function () use ($id) {
+                return static::find()
+                    ->where(['id' => $id])
+                    ->with('templateRegions')
+                    ->one();
+            },
+            "Template:byId:$id",
+            86400,
+            static::commonTag()
+        );
+        if ($template === null) {
+            throw new \RuntimeException("Template ID:$id not found");
+        }
+        return $template;
+    }
+
+    public function getEntityDataProviders()
+    {
+        return $this->providers;
+    }
 }

@@ -6,7 +6,7 @@ use DevGroup\Frontend\Universal\ActionData;
 use DotPlant\Monster\DataEntity\DataEntityProvider;
 use yii;
 
-class DataProviderProcessor extends yii\base\Component
+class DataProviderProcessor
 {
     /**
      * @param  DataEntityProvider[] $providers
@@ -14,17 +14,16 @@ class DataProviderProcessor extends yii\base\Component
      *
      * @return mixed
      */
-    public function process($providers, $actionData = null)
+    public static function process($providers, &$actionData)
     {
-        if ($actionData === null) {
-            $actionData = new ActionData();
-        }
-
         $result = [];
-        foreach ($providers as $provider) {
+        foreach ($providers as $i => $provider) {
+            $profileKey = "DataProviderProcessor: $i";
+            Yii::beginProfile($profileKey);
             /** @var DataEntityProvider $instance */
             $instance = Yii::createObject($provider);
             $result = yii\helpers\ArrayHelper::merge($result, $instance->getEntities($actionData));
+            Yii::endProfile($profileKey);
         }
         
         return $result;

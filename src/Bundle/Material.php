@@ -107,7 +107,8 @@ class Material extends BundleEntity
      */
     public function sampleData()
     {
-        return Json::decode(file_get_contents($this->getFsLocation() . $this->sampleData));
+        $filename = $this->getFsLocation() . $this->sampleData;
+        return is_readable($filename) ? Json::decode(file_get_contents($filename)) : [];
     }
 
     /**

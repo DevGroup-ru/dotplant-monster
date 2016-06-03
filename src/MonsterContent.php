@@ -18,6 +18,8 @@ class MonsterContent extends yii\base\Widget
     public $materials = [];
 
     public $data = [];
+    
+    public $globalData = [];
 
     public $uniqueContentId = '';
 
@@ -96,6 +98,16 @@ class MonsterContent extends yii\base\Widget
 
     public function run()
     {
+        $key = "MonsterContent: {$this->uniqueContentId}";
+        Yii::beginProfile($key);
+        $result = $this->runImpl();
+        Yii::endProfile($key);
+        return $result;
+    }
+
+    public function runImpl()
+    {
+
         if ($this->editModeOn()) {
             $contentDescription = Html::encode($this->contentDescription);
             VisualBuilder::register($this->view);
@@ -109,6 +121,9 @@ class MonsterContent extends yii\base\Widget
 
         // on this stage $this->materials is array of configurations
         $cacheable = $this->cacheStrategy === self::CACHE_FORCE_NO_CACHE ? false : $this->cacheable();
+
+        Yii::trace("MonsterContent: {$this->uniqueContentId}, cache: {$this->cacheStrategy}, cacheable: {$cacheable}");
+
         if ($cacheable === true && $this->cacheStrategy !== self::CACHE_RELY_ON_MATERIAL) {
             $result = Yii::$app->cache->get($this->cacheKey);
             if (empty($result) === false) {
@@ -187,8 +202,9 @@ class MonsterContent extends yii\base\Widget
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
             if (!isset($materialConfiguration['data'])) {
-                $materialConfiguration['data'] = $this->data[$index];
+                $materialConfiguration['data'] = array_key_exists($index, $this->data) ? $this->data[$index] : [];
             }
+            $materialConfiguration['data'] = ArrayHelper::merge($materialConfiguration['data'], $this->globalData);
             $materials[] = self::makeMaterial(
                 $this->uniqueContentId,
                 $index,

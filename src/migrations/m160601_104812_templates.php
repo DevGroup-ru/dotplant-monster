@@ -128,12 +128,9 @@ class m160601_104812_templates extends Migration
                 'key' => 'Content',
                 'entity_dependent' => 0,
                 'packed_json_content' => Json::encode([
-                    'materials' => [
-                        [
-                            'material' => 'core.frontend-monster-core.general.content-placeholder',
-                        ],
+                    [
+                        'material' => 'core.frontend-monster-core.general.content-placeholder',
                     ],
-                    'providers' => [],
                 ])
             ]
         );
