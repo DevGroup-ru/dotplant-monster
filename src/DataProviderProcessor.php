@@ -11,10 +11,11 @@ class DataProviderProcessor
     /**
      * @param  DataEntityProvider[] $providers
      * @param  ActionData           $actionData
+     * @param  array                $packed
      *
      * @return mixed
      */
-    public static function process($providers, &$actionData)
+    public static function process($providers, &$actionData, &$packed)
     {
         $result = [];
         foreach ($providers as $i => $provider) {
@@ -23,6 +24,7 @@ class DataProviderProcessor
             /** @var DataEntityProvider $instance */
             $instance = Yii::createObject($provider);
             $result = yii\helpers\ArrayHelper::merge($result, $instance->getEntities($actionData));
+            $packed[$i] = $instance->pack();
             Yii::endProfile($profileKey);
         }
         

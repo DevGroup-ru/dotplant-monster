@@ -64,9 +64,15 @@ class MainEntity extends UniversalAction
             $template->getEntityDataProviders(),
             $entity->getEntityDataProviders()
         );
+        $packed = [];
 
-        $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process($providers, $actionData);
+        $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process($providers, $actionData, $packed);
         $actionData->result['model'] = &$entity;
+        
+        if (YII_ENV === 'dev') {
+            Yii::$app->params['actionData'] = &$actionData;
+            Yii::$app->params['providers'] = $packed;
+        }
         
         // apply layout
         $layoutId = $entity->getLayoutId();
@@ -81,7 +87,9 @@ class MainEntity extends UniversalAction
                 $layout->getEntityDataProviders(),
                 $entity->getEntityDataProviders()
             );
-            Yii::$app->params['layoutDataByTemplateRegion'] = DataProviderProcessor::process($providers, $actionData);
+            $packedLayoutProviders = [];
+            Yii::$app->params['layoutDataByTemplateRegion'] =
+                DataProviderProcessor::process($providers, $actionData, $Packed);
             $actionData->controller->layout = '@DotPlant/Monster/views/layout-template.php';
         }
     }

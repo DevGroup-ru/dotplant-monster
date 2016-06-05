@@ -883,6 +883,7 @@
 	            this.parentWindow = window.parent;
 	            /** @var FrontendMonster */
 	            this.parentMonster = this.parentWindow.FrontendMonster;
+	            this.parentBuilder = this.parentMonster.builder;
 	            this.currentMonsterContent = false;
 	            this.makeItMove();
 	            var that = this;
@@ -1034,7 +1035,7 @@
 	        value: function params() {
 	            var userSettings = window.VisualFrameSettings || {};
 	            var settings = {
-	                'monster-content-selector': '.m-monster-content'
+	                'monster-content-selector': '.m-monster-content__content'
 	            };
 	            for (var key in userSettings) {
 	                if (userSettings.hasOwnProperty(key)) {
@@ -1051,6 +1052,19 @@
 	    }, {
 	        key: 'newBlock',
 	        value: function newBlock(blockName, newBlockUrl) {
+	            /*
+	            @todo
+	               Переписать. В билдере у нас также будет настройка дата флоу и всё это нужно передавать в текущий экшен
+	              там нас будет слушать специальный под-экшен, который будет переписывать нужную нам инфу типа материалов
+	              и провайдеровских конфигов.
+	              Таким образом, нам не нужно будет делать никакого пермаментного стораджа.
+	              Также нужно предусмотреть возможность отдавать только нужный материал, имитируя среду его региона и пр.
+	               Ключ materialIndex нужно получать из контроллера.
+	              В контроллере будет генерироваться через uniqid, при этом, после отдачи материала -
+	              php-template file нужно будет удалить, а то наплодится тьма всякого дерьма в теммплейтах.
+	               При сохранении мы по сути переписываем у mainentity и templateregion наши materials + providers тем,
+	              что пришло из билдера.
+	             */
 	            var that = this;
 	            $.ajax({
 	                url: newBlockUrl,
