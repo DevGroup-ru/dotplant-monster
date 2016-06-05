@@ -82,21 +82,14 @@ class MonsterContent extends yii\base\Widget
 
     public function editModeOn()
     {
-        /**
-         * WARNING
-         *
-         * Edit mode is not yet implemented.
-         * If edit mode is on - we should use another cache key so it ensures that all data-attributes exist.
-         * Data-attributes for now are not splitted from output for non-edit mode.
-         *
-         * @todo Implement EDIT MODE!
-         */
-        // register VisualBuilder(for FrameApi at least)
         /** @var Repository $repository */
         $repository = Yii::$app->get('monsterRepository');
         $repository->material('core.visual-builder.components.builder')->publishAssets();
 
-        return Yii::$app instanceof yii\web\Application;
+        if (Yii::$app instanceof yii\web\Application) {
+            return Yii::$app->request->isEditMode();
+        }
+        return false;
     }
 
     public function run()

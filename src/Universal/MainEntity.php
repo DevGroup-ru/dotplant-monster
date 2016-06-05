@@ -80,6 +80,9 @@ class MainEntity extends UniversalAction
         if ($layout === null) {
             $layout = Layout::findByKey($this->defaultLayoutKey);
         }
+
+        $layoutData = [];
+
         if ($layout !== null) {
             Yii::$app->params['layoutTemplateRegions'] = $layout->templateRegions;
             Yii::$app->params['layoutMainEntity'] = &$entity;
@@ -87,10 +90,40 @@ class MainEntity extends UniversalAction
                 $layout->getEntityDataProviders(),
                 $entity->getEntityDataProviders()
             );
+
             $packedLayoutProviders = [];
             Yii::$app->params['layoutDataByTemplateRegion'] =
-                DataProviderProcessor::process($providers, $actionData, $Packed);
+                DataProviderProcessor::process($providers, $actionData, $packedLayoutProviders);
             $actionData->controller->layout = '@DotPlant/Monster/views/layout-template.php';
+
+            $layoutData = [
+                'id' => $layout->id,
+                'providers' => $packedLayoutProviders,
+                'key' => $layout->key,
+            ];
+        }
+
+        if (Yii::$app->request->isEditMode()) {
+            $view = $actionData->controller->view;
+            $jsonData = yii\helpers\Json::encode([
+                'template' => [
+                    'id' => $template->id,
+                    'key' => $template->key,
+                    'dataByTemplateRegion' => $actionData->result['dataByTemplateRegion'],
+                    'entity' => [
+                        'id' => $entity->hasAttribute('id') ? $entity->id : null,
+                        'name' => $entity->formName(),
+                        'class' => $entity->className(),
+                    ]
+                ],
+                'layout' => $layoutData,
+            ]);
+
+            $js = <<<js
+window.MONSTER_EDIT_MODE_DATA = $jsonData;
+js;
+            $view->registerJs($js, yii\web\View::POS_BEGIN, 'edit-mode-vars');
+
         }
     }
 }
