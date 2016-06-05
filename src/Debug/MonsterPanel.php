@@ -17,6 +17,9 @@ class MonsterPanel extends Panel
 
     public function getSummary()
     {
+        if ($this->data === null) {
+            return '';
+        }
         $regionsCount = count($this->data['templateRegions']);
         return <<<html
 <div class="yii-debug-toolbar__block">
@@ -30,6 +33,9 @@ html;
 
     public function getDetail()
     {
+        if ($this->data === null) {
+            return '';
+        }
         $result = <<<html
 <h2>Template regions</h2>
 <table class="table">
@@ -80,7 +86,7 @@ html;
             'entityName' => $entityName,
             'entityPk' => $entityPk,
             'templateRegions' => ArrayHelper::map(
-                $actionData->result['templateRegions'],
+                ArrayHelper::getValue($actionData->result, 'templateRegions', []),
                 'id',
                 function(TemplateRegion $item) {
                     return $item->getAttributes();
