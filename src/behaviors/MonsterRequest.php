@@ -25,7 +25,6 @@ $(function() {
     } else {
       anchorPart = '';
     }
-    console.log(href,anchorPart);
     if (href.indexOf('?') > 0) {
       href += '&';
     } else {

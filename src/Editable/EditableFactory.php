@@ -16,7 +16,7 @@ class EditableFactory extends Component
     
     public $defaultTypes = [
         'link' => [
-            'class' => Link::class, 
+            'class' => Link::class,
         ],
         'string' => [
             'class' => SimpleString::class,

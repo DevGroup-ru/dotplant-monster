@@ -51,7 +51,12 @@ return [
     'recursiveIterator' => new Matcher(
         '$before',
         function(Context $ctx, Json $json) {
+            $editMode = false;
+            if (Yii::$app instanceof yii\web\Application) {
+                $editMode = Yii::$app->request->isEditMode();
+            }
             if ($ctx->param('recursive') !== null && $ctx->param('itemTemplate') !== null) {
+
                 $recursive = (string) $ctx->param('recursive');
 
                 $isBem = $ctx->json()->block || $ctx->json()->elem;
@@ -139,10 +144,12 @@ PHP;
 
 
 PHP;
-                if ($isBem === false) {
-                    $ctx->node->parentNode->json->js = $js;
-                } else {
-                    $ctx->js($js);
+                if ($editMode) {
+                    if ($isBem === false) {
+                        $ctx->node->parentNode->json->js = $js;
+                    } else {
+                        $ctx->js($js);
+                    }
                 }
 
                 if ($json->block === null && $json->elem === null) {
@@ -154,7 +161,7 @@ PHP;
 
 
             // it is a child of recursive - itemTemplate or wrapTemplate
-            if ($isItemTemplate = $ctx->param('isItemTemplate')) {
+            if ($isItemTemplate = $ctx->param('isItemTemplate') && $editMode) {
                 // it's itemTemplate
                 $ctx->js([
                     'itemTemplateInside' => $isItemTemplate,

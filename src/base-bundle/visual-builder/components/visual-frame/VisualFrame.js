@@ -22,6 +22,7 @@ class VisualFrame
             that.updateHandlers();
             return true;
         });
+      this.parentBuilder.pageChanged();
     }
 
     get $monsterContent()
@@ -240,6 +241,7 @@ class VisualFrame
         }).done(function ok(data) {
             const $element = $(data);
             that.$monsterContent[that.currentMonsterContent].append($element);
+            this.parentBuilder.pageChanged();
             /* global smoothScroll:false */
             smoothScroll.animateScroll($element[0].offsetTop);
         });
