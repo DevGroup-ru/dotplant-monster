@@ -12,16 +12,25 @@ return [
         '$after',
         function(Context $ctx, Json $json) {
             $json = $ctx->json();
+            $editMode = false;
+            if (Yii::$app instanceof yii\web\Application) {
+                $editMode = Yii::$app->request->isEditMode();
+            }
 
             if ($json->block) {
-                $ctx->attr('data-bem-match', $json->block . ($json->elem ? '__' . $json->elem : ''));
+                if ($editMode) {
+                    $ctx->attr('data-bem-match', $json->block . ($json->elem ? '__' . $json->elem : ''));
+                }
 
                 if ($editable = $ctx->param('editable')) {
-                    $ctx->attr('data-editable', 1);
+                    if ($editMode) {
+                        $ctx->attr('data-editable', 1);
 
-                    $ctx->js([
-                        'editable' => $editable
-                    ]);
+
+                        $ctx->js([
+                            'editable' => $editable
+                        ]);
+                    }
 
                     $type = isset($editable['type'])
                         ? $editable['type']
@@ -34,9 +43,6 @@ return [
                     if ($result !== null) {
                         return $result;
                     }
-
-                    
-
                 }
 
             }
