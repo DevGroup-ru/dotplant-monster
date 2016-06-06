@@ -21,6 +21,7 @@ class DataProviderProcessor
         foreach ($providers as $i => $provider) {
             $profileKey = "DataProviderProcessor: $i";
             Yii::beginProfile($profileKey);
+            //! @todo Add check for correct class names here
             /** @var DataEntityProvider $instance */
             $instance = Yii::createObject($provider);
             $result = yii\helpers\ArrayHelper::merge($result, $instance->getEntities($actionData));

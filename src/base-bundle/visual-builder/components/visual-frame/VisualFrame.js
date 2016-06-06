@@ -230,13 +230,13 @@ class VisualFrame
        */
         const that = this;
         $.ajax({
-            url: newBlockUrl,
+            url: '#',
             method: 'POST',
             cache: false,
             data: {
+                monsterAction: 'new-block',
                 block: blockName,
-                uniqueContentId: this.currentMonsterContent,
-                materialIndex: that.$monsterContent[that.currentMonsterContent].find('[data-is-material=\'1\']').length
+                editModeData: window.MONSTER_EDIT_MODE_DATA
             }
         }).done(function ok(data) {
             const $element = $(data);

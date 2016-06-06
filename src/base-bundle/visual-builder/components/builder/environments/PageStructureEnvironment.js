@@ -4,6 +4,7 @@ class PageStructureEnvironment extends BaseEnvironment {
   constructor(visualBuilder, name) {
     super(visualBuilder, name);
     this.initPageStructureElement();
+    this.editModeData = {};
   }
 
   initPageStructureElement() {
@@ -42,7 +43,7 @@ class PageStructureEnvironment extends BaseEnvironment {
       console.log($regionLi);
       environment.$pageStructure.append($regionLi);
     });
-
+    this.editModeData = target.MONSTER_EDIT_MODE_DATA;
   }
 }
 export default PageStructureEnvironment;

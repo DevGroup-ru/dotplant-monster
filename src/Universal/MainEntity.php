@@ -7,6 +7,7 @@ use DevGroup\Frontend\Universal\UniversalAction;
 use DotPlant\Monster\DataProviderProcessor;
 use DotPlant\Monster\models\Layout;
 use DotPlant\Monster\models\Template;
+use DotPlant\Monster\models\TemplateRegion;
 use yii;
 use yii\helpers\ArrayHelper;
 
@@ -37,6 +38,8 @@ class MainEntity extends UniversalAction
             throw new yii\base\InvalidConfigException('You must provide default template key');
         }
 
+        $visualBuilderProvided = $this->visualBuilderProvided();
+
         // first we need to find our entity
         /** @var \yii\base\Model|EntityTrait $entity */
         $entity = null;
@@ -60,10 +63,17 @@ class MainEntity extends UniversalAction
         $actionData->viewFile = '@DotPlant/Monster/views/monster-template.php';
         $actionData->result['templateRegions'] = $template->templateRegions;
 
-        $providers = ArrayHelper::merge(
-            $template->getEntityDataProviders(),
-            $entity->getEntityDataProviders()
+        $providers = ArrayHelper::getValue(
+            $visualBuilderProvided,
+            'template.providers',
+            []
         );
+        if (count($providers) === 0) {
+            $providers = ArrayHelper::merge(
+                $template->getEntityDataProviders(),
+                $entity->getEntityDataProviders()
+            );
+        }
         $packed = [];
 
         $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process($providers, $actionData, $packed);
@@ -100,6 +110,14 @@ class MainEntity extends UniversalAction
                 'id' => $layout->id,
                 'providers' => $packedLayoutProviders,
                 'key' => $layout->key,
+                'regions' => ArrayHelper::map($layout->templateRegions, 'id', function (TemplateRegion $item) {
+                    return [
+                        'id' => $item->id,
+                        'name' => $item->name,
+                        'key' => $item->key,
+                        'entity_dependent' => (bool) $item->entity_dependent,
+                    ];
+                }),
             ];
         }
 
@@ -110,6 +128,15 @@ class MainEntity extends UniversalAction
                     'id' => $template->id,
                     'key' => $template->key,
                     'dataByTemplateRegion' => $actionData->result['dataByTemplateRegion'],
+                    'regions' => ArrayHelper::map($template->templateRegions, 'id', function (TemplateRegion $item) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->name,
+                            'key' => $item->key,
+                            'entity_dependent' => (bool) $item->entity_dependent,
+                        ];
+                    }),
+                    'providers' => $packed,
                     'entity' => [
                         'id' => $entity->hasAttribute('id') ? $entity->id : null,
                         'name' => $entity->formName(),
@@ -125,5 +152,11 @@ js;
             $view->registerJs($js, yii\web\View::POS_BEGIN, 'edit-mode-vars');
 
         }
+    }
+    
+    protected function visualBuilderProvided()
+    {
+        //! @todo add RBAC check here
+        return Yii::$app->request->post('editModeData', []);
     }
 }

@@ -775,6 +775,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageStructureEnvironment).call(this, visualBuilder, name));
 	
 	    _this.initPageStructureElement();
+	    _this.editModeData = {};
 	    return _this;
 	  }
 	
@@ -818,6 +819,7 @@
 	        console.log($regionLi);
 	        environment.$pageStructure.append($regionLi);
 	      });
+	      this.editModeData = target.MONSTER_EDIT_MODE_DATA;
 	    }
 	  }]);
 	
@@ -1149,13 +1151,13 @@
 	             */
 	            var that = this;
 	            $.ajax({
-	                url: newBlockUrl,
+	                url: '#',
 	                method: 'POST',
 	                cache: false,
 	                data: {
+	                    monsterAction: 'new-block',
 	                    block: blockName,
-	                    uniqueContentId: this.currentMonsterContent,
-	                    materialIndex: that.$monsterContent[that.currentMonsterContent].find('[data-is-material=\'1\']').length
+	                    editModeData: window.MONSTER_EDIT_MODE_DATA
 	                }
 	            }).done(function ok(data) {
 	                var $element = $(data);
