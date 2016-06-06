@@ -14,6 +14,7 @@ class VisualFrame
         this.parentWindow = window.parent;
         /** @var FrontendMonster */
         this.parentMonster = this.parentWindow.FrontendMonster;
+        this.parentBuilder = this.parentMonster.builder;
         this.currentMonsterContent = false;
         this.makeItMove();
         var that = this;
@@ -21,6 +22,7 @@ class VisualFrame
             that.updateHandlers();
             return true;
         });
+      this.parentBuilder.pageChanged();
     }
 
     get $monsterContent()
@@ -193,7 +195,7 @@ class VisualFrame
     {
         const userSettings = window.VisualFrameSettings || {};
         const settings = {
-            'monster-content-selector': '.m-monster-content'
+            'monster-content-selector': '.m-monster-content__content'
         };
         for (const key in userSettings) {
             if (userSettings.hasOwnProperty(key)) {
@@ -210,19 +212,36 @@ class VisualFrame
 
     newBlock(blockName, newBlockUrl)
     {
+      /*
+      @todo
+
+        Переписать. В билдере у нас также будет настройка дата флоу и всё это нужно передавать в текущий экшен
+        там нас будет слушать специальный под-экшен, который будет переписывать нужную нам инфу типа материалов
+        и провайдеровских конфигов.
+        Таким образом, нам не нужно будет делать никакого пермаментного стораджа.
+        Также нужно предусмотреть возможность отдавать только нужный материал, имитируя среду его региона и пр.
+
+        Ключ materialIndex нужно получать из контроллера.
+        В контроллере будет генерироваться через uniqid, при этом, после отдачи материала -
+        php-template file нужно будет удалить, а то наплодится тьма всякого дерьма в теммплейтах.
+
+        При сохранении мы по сути переписываем у mainentity и templateregion наши materials + providers тем,
+        что пришло из билдера.
+       */
         const that = this;
         $.ajax({
-            url: newBlockUrl,
+            url: '#',
             method: 'POST',
             cache: false,
             data: {
+                monsterAction: 'new-block',
                 block: blockName,
-                uniqueContentId: this.currentMonsterContent,
-                materialIndex: that.$monsterContent[that.currentMonsterContent].find('[data-is-material=\'1\']').length
+                editModeData: window.MONSTER_EDIT_MODE_DATA
             }
         }).done(function ok(data) {
             const $element = $(data);
             that.$monsterContent[that.currentMonsterContent].append($element);
+            this.parentBuilder.pageChanged();
             /* global smoothScroll:false */
             smoothScroll.animateScroll($element[0].offsetTop);
         });

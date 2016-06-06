@@ -24,6 +24,10 @@ class BaseEnvironment {
   sendMessage(func, args) {
     return FrameApi.sendMessage(this.target, func, args);
   }
+  
+  pageChanged() {
+    
+  }
 }
 
 export default BaseEnvironment;

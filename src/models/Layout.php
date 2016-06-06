@@ -1,0 +1,42 @@
+<?php
+
+namespace DotPlant\Monster\models;
+
+use DevGroup\TagDependencyHelper\LazyCache;
+use yii;
+
+class Layout extends Template
+{
+    /** @inheritdoc */
+    public function init()
+    {
+        $this->is_layout = true;
+        parent::init();
+    }
+
+    /**
+     * @inheritdoc
+     * @return TemplateQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new TemplateQuery(get_called_class(), ['isLayout' => true]);
+    }
+
+    /** @inheritdoc */
+    public function beforeSave($insert)
+    {
+        $this->is_layout = true;
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return \DotPlant\Monster\models\Layout
+     */
+    public static function findByKey($key)
+    {
+        return parent::findByKey($key);
+    }
+}

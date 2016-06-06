@@ -17,7 +17,10 @@ class ExtensionBootstrap implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($app instanceof yii\web\Application) {
-            $app->on(yii\base\Application::EVENT_BEFORE_ACTION, function () use ($app) {
+            $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
+                $app->request->attachBehavior('monsterRequest', 'DotPlant\Monster\behaviors\MonsterRequest');
+            });
+            $app->on(Application::EVENT_BEFORE_ACTION, function () use ($app) {
                 /** @var Repository $repository */
                 $repository = $app->get('monsterRepository');
                 $repository->autoloadAssets();

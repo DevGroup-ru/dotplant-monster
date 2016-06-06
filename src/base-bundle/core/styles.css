@@ -189,10 +189,6 @@ html, body, .m-container {}
     color: #000;
     font-size: 6.25rem;
     cursor: pointer;
-    /*&:after {
-          @mixin basic_icon;
-          content: var(--select-single-arr-icon-down);
-        }*/
 }
 .m-wrapper a.chosen-single span, .m-wrapper a:link.chosen-single span, .m-wrapper a:hover.chosen-single span, .m-wrapper a:visited.chosen-single span, .m-wrapper a:active.chosen-single span, .m-wrapper a:focus.chosen-single span {
     display: inline-block;
@@ -267,10 +263,6 @@ html, body, .m-container {}
     background: #ddd;
     color: #000;
 }
-/*a.chosen-single b:after {
-      content: $select-single-arr-icon-up;
-      margin-top: 0;
-    }*/
 .m-wrapper .chosen-with-drop .chosen-drop {
     display: block;
 }

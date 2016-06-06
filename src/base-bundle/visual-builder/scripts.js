@@ -107,6 +107,9 @@
 	    value: function sendMessage(func, args) {
 	      return _FrameApi2.default.sendMessage(this.target, func, args);
 	    }
+	  }, {
+	    key: 'pageChanged',
+	    value: function pageChanged() {}
 	  }]);
 	
 	  return BaseEnvironment;
@@ -433,6 +436,34 @@
 	      _FrameApi2.default.sendMessage(this.frameContentWindow, 'serializeContent', ['log']);
 	    }
 	  }, {
+	    key: 'pageChanged',
+	    value: function pageChanged() {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+	
+	      try {
+	        for (var _iterator = this.environments[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var environment = _step.value;
+	
+	          environment[1].pageChanged();
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+	    }
+	  }, {
 	    key: 'log',
 	    value: function log(result) {
 	      console.log(result);
@@ -575,7 +606,7 @@
 	
 	          var i18nBundleName = typeof polyglot !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
 	
-	          var $bundleTitle = '\n      <li class="materials-groups__item.materials-groups__item--bundle-label">\n        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""' + bundle.fullPath + '>\n            ' + i18nBundleName + '      \n        </a>\n      </li>\n      ';
+	          var $bundleTitle = '\n      <li class="materials-groups__item materials-groups__item--bundle-label">\n        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""' + bundle.fullPath + '>\n            ' + i18nBundleName + '      \n        </a>\n      </li>\n      ';
 	          this.$materialsList.push($bundleTitle);
 	
 	          var _iteratorNormalCompletion2 = true;
@@ -719,6 +750,10 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+	
 	var _BaseEnvironment2 = __webpack_require__(1);
 	
 	var _BaseEnvironment3 = _interopRequireDefault(_BaseEnvironment2);
@@ -734,11 +769,59 @@
 	var PageStructureEnvironment = function (_BaseEnvironment) {
 	  _inherits(PageStructureEnvironment, _BaseEnvironment);
 	
-	  function PageStructureEnvironment() {
+	  function PageStructureEnvironment(visualBuilder, name) {
 	    _classCallCheck(this, PageStructureEnvironment);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(PageStructureEnvironment).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageStructureEnvironment).call(this, visualBuilder, name));
+	
+	    _this.initPageStructureElement();
+	    _this.editModeData = {};
+	    return _this;
 	  }
+	
+	  _createClass(PageStructureEnvironment, [{
+	    key: 'initPageStructureElement',
+	    value: function initPageStructureElement() {
+	      this.$pageStructure = $('<ul class="page-structure"></ul>');
+	    }
+	  }, {
+	    key: 'activate',
+	    value: function activate() {
+	      _get(Object.getPrototypeOf(PageStructureEnvironment.prototype), 'activate', this).call(this);
+	
+	      this.$structurePane = this.visualBuilder.createStackablePane();
+	      this.$structurePane.append(this.$pageStructure);
+	    }
+	  }, {
+	    key: 'pageChanged',
+	    value: function pageChanged() {
+	      _get(Object.getPrototypeOf(PageStructureEnvironment.prototype), 'pageChanged', this).call(this);
+	      this.$pageStructure.find('li').remove();
+	      var regions = this.target.$('.m-monster-content__content');
+	      var environment = this;
+	      regions.each(function () {
+	        var $region = $(this);
+	        var regionDescription = $region.data('contentDescription');
+	        var $regionLi = $('<li class="page-structure__region">' + regionDescription + '</li>');
+	        $regionLi.data('regionKey', $region.data('regionKey'));
+	        $regionLi.data('regionId', $region.data('regionId'));
+	        var $regionUl = $('<ul class="page-structure__region-materials"></ul>');
+	
+	        var materials = $region.find('[data-is-material=1]');
+	        materials.each(function () {
+	          var $material = $(this);
+	          var name = $material.data('materialPath').replace(/.*\.(.*)$/, '$1');
+	          var $li = $('<li class="page-structure__material">' + name + '</li>');
+	          $regionUl.append($li);
+	        });
+	
+	        $regionLi.append($regionUl);
+	        console.log($regionLi);
+	        environment.$pageStructure.append($regionLi);
+	      });
+	      this.editModeData = target.MONSTER_EDIT_MODE_DATA;
+	    }
+	  }]);
 	
 	  return PageStructureEnvironment;
 	}(_BaseEnvironment3.default);
@@ -883,6 +966,7 @@
 	            this.parentWindow = window.parent;
 	            /** @var FrontendMonster */
 	            this.parentMonster = this.parentWindow.FrontendMonster;
+	            this.parentBuilder = this.parentMonster.builder;
 	            this.currentMonsterContent = false;
 	            this.makeItMove();
 	            var that = this;
@@ -890,6 +974,7 @@
 	                that.updateHandlers();
 	                return true;
 	            });
+	            this.parentBuilder.pageChanged();
 	        }
 	    }, {
 	        key: 'refreshMonsterContentCache',
@@ -1034,7 +1119,7 @@
 	        value: function params() {
 	            var userSettings = window.VisualFrameSettings || {};
 	            var settings = {
-	                'monster-content-selector': '.m-monster-content'
+	                'monster-content-selector': '.m-monster-content__content'
 	            };
 	            for (var key in userSettings) {
 	                if (userSettings.hasOwnProperty(key)) {
@@ -1051,19 +1136,33 @@
 	    }, {
 	        key: 'newBlock',
 	        value: function newBlock(blockName, newBlockUrl) {
+	            /*
+	            @todo
+	               Переписать. В билдере у нас также будет настройка дата флоу и всё это нужно передавать в текущий экшен
+	              там нас будет слушать специальный под-экшен, который будет переписывать нужную нам инфу типа материалов
+	              и провайдеровских конфигов.
+	              Таким образом, нам не нужно будет делать никакого пермаментного стораджа.
+	              Также нужно предусмотреть возможность отдавать только нужный материал, имитируя среду его региона и пр.
+	               Ключ materialIndex нужно получать из контроллера.
+	              В контроллере будет генерироваться через uniqid, при этом, после отдачи материала -
+	              php-template file нужно будет удалить, а то наплодится тьма всякого дерьма в теммплейтах.
+	               При сохранении мы по сути переписываем у mainentity и templateregion наши materials + providers тем,
+	              что пришло из билдера.
+	             */
 	            var that = this;
 	            $.ajax({
-	                url: newBlockUrl,
+	                url: '#',
 	                method: 'POST',
 	                cache: false,
 	                data: {
+	                    monsterAction: 'new-block',
 	                    block: blockName,
-	                    uniqueContentId: this.currentMonsterContent,
-	                    materialIndex: that.$monsterContent[that.currentMonsterContent].find('[data-is-material=\'1\']').length
+	                    editModeData: window.MONSTER_EDIT_MODE_DATA
 	                }
 	            }).done(function ok(data) {
 	                var $element = $(data);
 	                that.$monsterContent[that.currentMonsterContent].append($element);
+	                this.parentBuilder.pageChanged();
 	                /* global smoothScroll:false */
 	                smoothScroll.animateScroll($element[0].offsetTop);
 	            });

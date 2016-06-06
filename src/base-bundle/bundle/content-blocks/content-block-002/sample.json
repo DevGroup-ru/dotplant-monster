@@ -1,23 +1,59 @@
 {
+  "title": "Наши преимущества",
   "blocks": [
     {
-      "name": "1 Длинный заголовок в несколько строчек",
+      "name": {
+        "anchor": "1 Длинный заголовок в несколько строчек",
+        "href": "#1"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats",
+        "alt": "Image ALT #1"
+      },
       "content": "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "2 Длинный заголовок в несколько строчек",
+      "name": {
+        "anchor": "2 Длинный заголовок в несколько строчек",
+        "href": "#2"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats/2",
+        "alt": "Image ALT #2"
+      },
       "content": "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "3 Длинный заголовок в несколько строчек",
+      "name": {
+        "anchor": "3 Длинный заголовок в несколько строчек",
+        "href": "#3"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats/3",
+        "alt": "Image ALT #3"
+      },
       "content": "3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "4 Длинный заголовок в несколько строчек",
+      "name": {
+        "anchor": "4 Длинный заголовок в несколько строчек",
+        "href": "#4"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats/4",
+        "alt": "Image ALT #4"
+      },
       "content": "4 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "5 Длинный заголовок в несколько строчек",
+      "name": {
+        "anchor": "5 Длинный заголовок в несколько строчек",
+        "href": "#5"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats/5",
+        "alt": "Image ALT #5"
+      },
       "content": "Этот блок не был в прототипе, но посмотрим, как он выглядит"
     }
   ]

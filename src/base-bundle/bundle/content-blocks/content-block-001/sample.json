@@ -1,23 +1,39 @@
 {
+  "title": "Наши преимущества",
   "blocks": [
     {
-      "name": "Классное преимущество, всем нравится",
+      "name": {
+        "anchor": "Классное преимущество, всем нравится",
+        "href": "#1"
+      },
       "content": "1 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "2 преимущество, всем нравится",
+      "name": {
+        "anchor": "2 преимущество, всем нравится",
+        "href": "#2"
+      },
       "content": "2 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "3 преимущество, всем нравится",
+      "name": {
+        "anchor": "3 преимущество, всем нравится",
+        "href": "#3"
+      },
       "content": "3 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "4 преимущество, всем нравится",
+      "name": {
+        "anchor": "4 преимущество, всем нравится",
+        "href": "#4"
+      },
       "content": "4 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos suscipit officia quod quam illo in et"
     },
     {
-      "name": "Пятое преимущество, всем нравится",
+      "name": {
+        "anchor": "Пятое преимущество, всем нравится",
+        "href": "#5"
+      },
       "content": "Этот блок не был в прототипе, но посмотрим, как он выглядит"
     }
   ]

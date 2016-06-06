@@ -117,6 +117,12 @@ class VisualBuilder {
     FrameApi.sendMessage(this.frameContentWindow, 'serializeContent', ['log']);
   }
 
+  pageChanged() {
+    for (const environment of this.environments) {
+      environment[1].pageChanged();
+    }
+  }
+
   log(result) {
     console.log(result);
   }

@@ -18,6 +18,9 @@ class MonsterContent extends yii\base\Widget
     public $materials = [];
 
     public $data = [];
+    public $isLayout = false;
+    
+    public $globalData = [];
 
     public $uniqueContentId = '';
 
@@ -25,6 +28,8 @@ class MonsterContent extends yii\base\Widget
     private $minCacheDuration = 2592000;
 
     public $contentDescription = 'Content';
+    public $regionId;
+    public $regionKey;
     public static $perPageCounter = [];
 
     /**
@@ -46,6 +51,11 @@ class MonsterContent extends yii\base\Widget
      * Each material handle cache itself.
      */
     const CACHE_RELY_ON_MATERIAL = 'rely-on-material';
+
+    /**
+     * Force no caching the monster content.
+     */
+    const CACHE_FORCE_NO_CACHE = 'force-no-cache';
 
     /**
      * @var string Cache strategy for this content.
@@ -72,38 +82,46 @@ class MonsterContent extends yii\base\Widget
 
     public function editModeOn()
     {
-        /**
-         * WARNING
-         *
-         * Edit mode is not yet implemented.
-         * If edit mode is on - we should use another cache key so it ensures that all data-attributes exist.
-         * Data-attributes for now are not splitted from output for non-edit mode.
-         *
-         * @todo Implement EDIT MODE!
-         */
-        // register VisualBuilder(for FrameApi at least)
         /** @var Repository $repository */
         $repository = Yii::$app->get('monsterRepository');
         $repository->material('core.visual-builder.components.builder')->publishAssets();
 
-        return Yii::$app instanceof yii\web\Application;
+        if (Yii::$app instanceof yii\web\Application) {
+            return Yii::$app->request->isEditMode();
+        }
+        return false;
     }
 
     public function run()
     {
+        $key = "MonsterContent: {$this->uniqueContentId}";
+        Yii::beginProfile($key);
+        $result = $this->runImpl();
+        Yii::endProfile($key);
+        return $result;
+    }
+
+    public function runImpl()
+    {
         if ($this->editModeOn()) {
             $contentDescription = Html::encode($this->contentDescription);
             VisualBuilder::register($this->view);
+            $modifier = $this->isLayout ? 'm-monster-content__layout' : 'm-monster-content__content';
+            $region = $this->regionId ? " data-region-id=\"{$this->regionId}\"" : '';
+            $region .= $this->regionKey ? " data-region-key=\"{$this->regionKey}\"" : '';
 
-            $result = "<div class=\"m-monster-content\" data-unique-content-id=\"{$this->uniqueContentId}\""
-                . " data-content-description=\"$contentDescription\""
+            $result = "<div class=\"m-monster-content $modifier\" data-unique-content-id=\"{$this->uniqueContentId}\""
+                . " data-content-description=\"$contentDescription\" $region"
                 . ">";
         } else {
             $result = '';
         }
 
         // on this stage $this->materials is array of configurations
-        $cacheable = $this->cacheable();
+        $cacheable = $this->cacheStrategy === self::CACHE_FORCE_NO_CACHE ? false : $this->cacheable();
+
+        Yii::trace("MonsterContent: {$this->uniqueContentId}, cache: {$this->cacheStrategy}, cacheable: {$cacheable}");
+
         if ($cacheable === true && $this->cacheStrategy !== self::CACHE_RELY_ON_MATERIAL) {
             $result = Yii::$app->cache->get($this->cacheKey);
             if (empty($result) === false) {
@@ -182,8 +200,9 @@ class MonsterContent extends yii\base\Widget
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
             if (!isset($materialConfiguration['data'])) {
-                $materialConfiguration['data'] = $this->data;
+                $materialConfiguration['data'] = array_key_exists($index, $this->data) ? $this->data[$index] : [];
             }
+            $materialConfiguration['data'] = ArrayHelper::merge($materialConfiguration['data'], $this->globalData);
             $materials[] = self::makeMaterial(
                 $this->uniqueContentId,
                 $index,
@@ -220,18 +239,7 @@ class MonsterContent extends yii\base\Widget
 
         /** @var BaseMaterialize $material */
         $material = Yii::createObject($materialConfiguration);
-        if ($editModeOn === true) {
 
-//            $material->bemCustomization = [
-//                '$before' => function(Context $ctx, Json $json) use ($index, $materialConfiguration) {
-//                    if ($ctx->node->parentNode === null && $ctx->node->position === 0 && $ctx->node->index === 0) {
-//                        $json->attrs['data-is-material'] = '1';
-//                        $json->attrs['data-material-index'] = $index;
-//                        $json->attrs['data-material-block'] = $materialConfiguration['block'];
-//                    }
-//                }
-//            ];
-        }
         return $material;
     }
 
