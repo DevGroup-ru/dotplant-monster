@@ -33,16 +33,26 @@ class EditableFactory extends Component
         // pre-init string
         $this->types['string'] = Yii::createObject($this->types['string']);
     }
-    
-    public function handleType($type, $ctx, $json, $editable)
+
+    protected function handlerByType($type)
     {
         if (array_key_exists($type, $this->types)) {
             if (is_object($this->types[$type]) === false) {
                 $this->types[$type] = Yii::createObject($this->types[$type]);
             }
-            return $this->types[$type]->handleEditable($ctx, $json, $editable);
+        } else {
+            $this->types[$type] = $this->types['string'];
         }
-        // fallback to string
-        return $this->types['string']->handleEditable($ctx, $json, $editable);
+        return $this->types[$type];
+    }
+    
+    public function handleType($type, $ctx, $json, $editable)
+    {
+        return static::handlerByType($type)->handleEditable($ctx, $json, $editable);
+    }
+
+    public function dataAttribute($type, $editable)
+    {
+        return static::handlerByType($type)->dataAttribute($editable);
     }
 }

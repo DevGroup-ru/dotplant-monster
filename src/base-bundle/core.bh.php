@@ -39,6 +39,7 @@ return [
                     /** @var Repository $repository */
                     $repository = Yii::$app->get('monsterRepository');
                     $editableFactory = $repository->editable();
+                    $ctx->attr('data-editable-key', $editableFactory->dataAttribute($type, $editable));
                     $result = $editableFactory->handleType($type, $ctx, $json, $editable);
                     if ($result !== null) {
                         return $result;
@@ -119,6 +120,7 @@ PHP;
                     }
                 }
                 $itemTemplateJson['recursiveOf'] = $recursive;
+                $itemTemplateJson['attrs']['data-recursive-item-key'] = ['unsafe'=>'<?=$key?>'];
 
 
 
@@ -147,8 +149,13 @@ PHP;
                 if ($editMode) {
                     if ($isBem === false) {
                         $ctx->node->parentNode->json->js = $js;
+                        $ctx->node->parentNode->json->attrs['data-recursive'] = 1;
+                        $ctx->node->parentNode->json->attrs['data-editable-key'] = $recursive;
+
                     } else {
                         $ctx->js($js);
+                        $ctx->attr('data-recursive', 1);
+                        $ctx->attr('data-editable-key', $recursive);
                     }
                 }
 
@@ -163,10 +170,15 @@ PHP;
             // it is a child of recursive - itemTemplate or wrapTemplate
             if ($isItemTemplate = $ctx->param('isItemTemplate') && $editMode) {
                 // it's itemTemplate
-                $ctx->js([
-                    'itemTemplateInside' => $isItemTemplate,
-                    'recursiveOf' => $ctx->param('recursiveOf'),
-                ]);
+                $js = $ctx->js();
+                if (is_object($js)===false && is_array($js) === false) {
+                    $js = [];
+                }
+                $js['itemTemplateInside'] = $isItemTemplate;
+                $js['recursiveOf'] = $ctx->param('recursiveOf');
+
+                $ctx->js($js, true);
+                $ctx->attr('data-recursive-item', $ctx->param('recursiveOf'));
             }
         }
     ),

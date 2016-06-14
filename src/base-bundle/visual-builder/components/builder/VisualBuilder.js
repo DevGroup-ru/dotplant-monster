@@ -4,6 +4,7 @@ import CustomizationEnvironment from './environments/CustomizationEnvironment';
 import ActionEnvironment from './environments/ActionEnvironment';
 import PageStructureEnvironment from './environments/PageStructureEnvironment';
 import FrameApi from './../visual-frame/FrameApi';
+import Editable from './Editable';
 
 class VisualBuilder {
   constructor() {
@@ -26,6 +27,8 @@ class VisualBuilder {
       .first()
       .addClass('monster-environment-selector__environment-link--active');
     FrameApi.bindMessageListener(this);
+
+    this.editable = new Editable();
   }
 
   /**
@@ -114,7 +117,9 @@ class VisualBuilder {
   }
 
   serialize() {
-    FrameApi.sendMessage(this.frameContentWindow, 'serializeContent', ['log']);
+    // FrameApi.sendMessage(this.frameContentWindow, 'serializeContent', ['log']);
+    const result = this.environments.get('page-structure').serializePage();
+    console.log(result);
   }
 
   pageChanged() {

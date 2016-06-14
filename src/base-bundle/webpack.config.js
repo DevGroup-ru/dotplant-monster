@@ -117,7 +117,7 @@ module.exports = {
       }
     ]
   },
-  devtool: dev ? 'source-map' : '',
+  devtool: dev ? 'inline-source-map' : '',
   postcss: function () {
     return [
       stylelint(),

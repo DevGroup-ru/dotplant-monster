@@ -22,4 +22,14 @@ class SimpleString extends BaseEditableType
     {
         $ctx->content("<?= \${$this->target($editable)}['{$editable['key']}'] ?>");
     }
+
+    /**
+     * Returns a js `function($node){}` string which will be used for this type of editable.
+     *
+     * @return string
+     */
+    public function jsSerializer()
+    {
+        return false;
+    }
 }

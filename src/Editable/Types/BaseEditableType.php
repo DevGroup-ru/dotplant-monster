@@ -29,4 +29,22 @@ abstract class BaseEditableType extends yii\base\Object
             ? $editable['target']
             : 'data';
     }
+
+    /**
+     * Returns a js `function($node){}` string which will be used for this type of editable.
+     * @return string
+     */
+    abstract public function jsSerializer();
+
+    /**
+     * @param array $editable
+     * @return string|null
+     */
+    public function dataAttribute($editable)
+    {
+        if (isset($editable['target'])) {
+            return $editable['target'] . '.' . $editable['key'];
+        }
+        return $editable['key'];
+    }
 }

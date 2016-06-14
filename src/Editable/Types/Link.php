@@ -29,4 +29,14 @@ class Link extends BaseEditableType
             ]
         );
     }
+
+    /**
+     * Returns a js `function($node){}` string which will be used for this type of editable.
+     *
+     * @return string
+     */
+    public function jsSerializer()
+    {
+        return false;
+    }
 }
