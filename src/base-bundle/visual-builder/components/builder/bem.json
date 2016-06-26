@@ -76,6 +76,23 @@
               ]
             }
           ]
+        },
+        {
+          "block": "controls",
+          "content": [
+            {
+              "elem": "refresh",
+              "button": true,
+              "content": [
+                "<i class=\"fa fa-refresh\"></i>"
+              ]
+            },
+            {
+              "elem": "save",
+              "button": true,
+              "content": "<i class=\"fa fa-floppy-o\"></i>"
+            }
+          ]
         }
       ]
     },

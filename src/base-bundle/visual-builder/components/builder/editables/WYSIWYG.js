@@ -1,3 +1,3 @@
-export default function($node) {
+export default function wysiwyg($node) {
   return $node.html();
-};
+}

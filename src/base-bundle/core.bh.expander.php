@@ -5,6 +5,17 @@ use BEM\Json;
 use BEM\Matcher;
 
 return [
+    'button' => new Matcher(
+        '$before',
+        function(Context $ctx) {
+            if ($ctx->param('button')) {
+                $ctx->tag('button');
+                $ctx->mix([
+                    "block" => "button",
+                ]);
+            }
+        }
+    ),
     'recursiveIterator' => new Matcher(
         '$after',
         function(Context $ctx) {

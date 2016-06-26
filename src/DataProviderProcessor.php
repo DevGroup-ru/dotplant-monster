@@ -5,6 +5,7 @@ namespace DotPlant\Monster;
 use DevGroup\Frontend\Universal\ActionData;
 use DotPlant\Monster\DataEntity\DataEntityProvider;
 use yii;
+use yii\helpers\ArrayHelper;
 
 class DataProviderProcessor
 {
@@ -12,19 +13,39 @@ class DataProviderProcessor
      * @param  DataEntityProvider[] $providers
      * @param  ActionData           $actionData
      * @param  array                $packed
+     * @param  array                $providedKeys
      *
      * @return mixed
      */
-    public static function process($providers, &$actionData, &$packed)
+    public static function process($providers, &$actionData, &$packed, &$providedKeys)
     {
         $result = [];
+        $providedKeys = [];
         foreach ($providers as $i => $provider) {
             $profileKey = "DataProviderProcessor: $i";
             Yii::beginProfile($profileKey);
             //! @todo Add check for correct class names here
             /** @var DataEntityProvider $instance */
             $instance = Yii::createObject($provider);
-            $result = yii\helpers\ArrayHelper::merge($result, $instance->getEntities($actionData));
+            $providerResult = $instance->getEntities($actionData);
+            $keys = [];
+
+            array_walk($providerResult, function($materials, $regionKey) use (&$keys) {
+                $result = [];
+                array_walk($materials, function($data, $materialIndex) use(&$result) {
+                    $result[$materialIndex] = array_keys($data);
+                });
+                $keys[$regionKey] = $result;
+            });
+            $providedKeys[$i] = $keys;
+//            array_walk($providerResult, function($item, $key) use (&$providedKeys, $i) {
+//                $keys = [];
+//                array_walk($item, function($subItem, $subKey) use (&$keys, $i) {
+//                    $keys[$subKey] = array_fill_keys(array_keys($subItem), $i);
+//                });
+//                $providedKeys = ArrayHelper::merge($providedKeys, [$key=>$keys]);
+//            });
+            $result = ArrayHelper::merge($result, $providerResult);
             $packed[$i] = $instance->pack();
             Yii::endProfile($profileKey);
         }

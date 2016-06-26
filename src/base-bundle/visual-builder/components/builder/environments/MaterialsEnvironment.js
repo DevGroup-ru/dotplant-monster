@@ -16,7 +16,7 @@ class MaterialsEnvironment extends BaseEnvironment {
       let $bundleTitle = `
       <li class="materials-groups__item materials-groups__item--bundle-label">
         <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""${bundle.fullPath}>
-            ${i18nBundleName}      
+            ${i18nBundleName}
         </a>
       </li>
       `;
@@ -84,7 +84,7 @@ class MaterialsEnvironment extends BaseEnvironment {
         'newBlock',
         [
           $(this).data('materialPath'),
-          that.visualBuilder.settings['new-block-url'],
+          'content'
         ]
       );
     });

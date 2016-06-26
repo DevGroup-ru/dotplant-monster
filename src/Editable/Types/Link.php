@@ -21,11 +21,11 @@ class Link extends BaseEditableType
     {
         $ctx->tag('a');
         $ctx->attr('data-is-link', 1);
-        $ctx->content("<?= \${$this->target($editable)}['{$editable['key']}']['anchor'] ?>");
+        $ctx->content("<?= ArrayHelper::getValue(\${$this->target($editable)}, \"{$editable['key']}.anchor\", '#UNDEFINED') ?>");
         $ctx->attr(
             'href',
             [
-                'unsafe' => "<?= \${$this->target($editable)}['{$editable['key']}']['href'] ?>",
+                'unsafe' => "<?= ArrayHelper::getValue(\${$this->target($editable)}, \"{$editable['key']}.href\", '#UNDEFINED') ?>",
             ]
         );
     }

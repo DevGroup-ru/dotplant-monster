@@ -1,4 +1,5 @@
 import FrameApi from './FrameApi';
+import uniqueId from './../uniqid';
 
 class VisualFrame
 {
@@ -210,41 +211,56 @@ class VisualFrame
         FrameApi.sendMessage(this.parentWindow, func, args);
     }
 
-    newBlock(blockName, newBlockUrl)
+    newBlock(materialName, regionName)
     {
-      /*
-      @todo
-
-        Переписать. В билдере у нас также будет настройка дата флоу и всё это нужно передавать в текущий экшен
-        там нас будет слушать специальный под-экшен, который будет переписывать нужную нам инфу типа материалов
-        и провайдеровских конфигов.
-        Таким образом, нам не нужно будет делать никакого пермаментного стораджа.
-        Также нужно предусмотреть возможность отдавать только нужный материал, имитируя среду его региона и пр.
-
-        Ключ materialIndex нужно получать из контроллера.
-        В контроллере будет генерироваться через uniqid, при этом, после отдачи материала -
-        php-template file нужно будет удалить, а то наплодится тьма всякого дерьма в теммплейтах.
-
-        При сохранении мы по сути переписываем у mainentity и templateregion наши materials + providers тем,
-        что пришло из билдера.
-       */
+        // @todo Add loader here as we are using form post !
         const that = this;
-        $.ajax({
-            url: '#',
-            method: 'POST',
-            cache: false,
-            data: {
-                monsterAction: 'new-block',
-                block: blockName,
-                editModeData: window.MONSTER_EDIT_MODE_DATA
-            }
-        }).done(function ok(data) {
-            const $element = $(data);
-            that.$monsterContent[that.currentMonsterContent].append($element);
-            this.parentBuilder.pageChanged();
-            /* global smoothScroll:false */
-            smoothScroll.animateScroll($element[0].offsetTop);
-        });
+        const randomIndex = uniqueId('mat');
+        const newData = {
+          template: {
+            providersEntities: this.parentBuilder.serialize(),
+            regionsMaterials: this.parentBuilder.environments.get('page-structure').materialsByRegions(),
+          },
+          action: 'render-material',
+          materialId: randomIndex,
+          materialRegion: regionName,
+          material: materialName
+        };
+        if (newData.template.regionsMaterials.hasOwnProperty(regionName) === false) {
+          newData.template.regionsMaterials[regionName] = {};
+        }
+
+        newData.template.regionsMaterials[regionName][randomIndex] = {material: materialName};
+        const $form = $('<form method="POST"></form>');
+        const $input = $('<input type="hidden" name="__json">');
+        const $csrf = $('<input type="hidden">');
+
+        $csrf
+          .attr('name', $('meta[name=csrf-param]').attr('content'))
+          .val($('meta[name=csrf-token]').attr('content'))
+          .appendTo($form);
+
+        $input
+          .val(JSON.stringify(newData))
+          .appendTo($form);
+
+        $form[0].submit();
+
+        return false;
+        // $.ajax({
+        //     url: window.location,
+        //     method: 'POST',
+        //     cache: false,
+        //     contentType: 'application/json; charset=utf-8',
+        //     dataType: 'json',
+        //     data: JSON.stringify(newData),
+        // }).done(function ok(data) {
+        //     const $element = $(data);
+        //     that.$monsterContent[that.currentMonsterContent].append($element);
+        //     this.parentBuilder.pageChanged();
+        //     /* global smoothScroll:false */
+        //     smoothScroll.animateScroll($element[0].offsetTop);
+        // });
     }
 }
 

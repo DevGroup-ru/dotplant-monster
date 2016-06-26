@@ -46,5 +46,16 @@ class PageStructureEnvironment extends BaseEnvironment {
     }
     return result;
   }
+
+  materialsByRegions() {
+    const result = {};
+    for (const regionKey in this.regionsStructure) {
+      if (this.regionsStructure.hasOwnProperty(regionKey)) {
+        const region = this.regionsStructure[regionKey];
+        result[region.key] = region.materialsDecl();
+      }
+    }
+    return result;
+  }
 }
 export default PageStructureEnvironment;

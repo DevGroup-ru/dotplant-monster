@@ -21,7 +21,7 @@ class Image extends BaseEditableType
     public function handleEditable(Context $ctx, Json $json, $editable)
     {
         $ctx->content(<<<php
-<img src="<?= \${$this->target($editable)}['{$editable['key']}']['src'] ?>" alt="<?= \${$this->target($editable)}['{$editable['key']}']['alt'] ?>">
+<img src="<?= ArrayHelper::getValue(\${$this->target($editable)}, "{$editable['key']}.src", 'UNDEFINED') ?>" alt="<?= ArrayHelper::getValue(\${$this->target($editable)}, "{$editable['key']}.alt", 'UNDEFINED') ?>">
 php
 );
        

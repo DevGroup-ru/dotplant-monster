@@ -94,7 +94,9 @@
     bottom: 0;
     width: 64px;
 }
-.m-wrapper .edit-mode {}
+.m-wrapper .edit-mode {
+    float: left;
+}
 .m-wrapper .edit-mode__layout-checkbox {
     margin: 0 0.625rem;
 }
@@ -245,6 +247,24 @@
     background-color: #4FD18A;
     cursor: pointer;
     color: #666773;
+}
+.monster-visual-builder .button {
+    padding: 0 0.625rem;
+    line-height: 1.875rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: #F7F7FC;
+    cursor: pointer;
+    -webkit-transition: 0.1s ease-out all;
+    transition: 0.1s ease-out all;
+}
+.monster-visual-builder .button:hover {
+    border-color: #3FB2FF;
+    color: #3FB2FF;
+}
+.monster-visual-builder .button:focus {
+    outline: none;
 }
 
 

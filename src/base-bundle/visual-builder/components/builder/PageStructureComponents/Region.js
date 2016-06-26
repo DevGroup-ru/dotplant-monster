@@ -36,6 +36,18 @@ class Region {
     });
     return result;
   }
+
+  materialsDecl() {
+    const result = {};
+    for (const materialKey in this.materials) {
+      if (this.materials.hasOwnProperty(materialKey)) {
+        result[materialKey] = {
+          'material': this.materials[materialKey].materialPath,
+        };
+      }
+    }
+    return result;
+  }
 }
 
 export default Region;

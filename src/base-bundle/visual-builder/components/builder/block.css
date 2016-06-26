@@ -44,6 +44,8 @@ $editor-accent-color: #EC5035;
   }
 
   @b edit-mode {
+    float: left;
+
     @e layout-checkbox {
       margin: 0 $base-line-height;
     }
@@ -219,4 +221,25 @@ $editor-accent-color: #EC5035;
       color: $editor-inactive-color;
     }
   }
+}
+
+.monster-visual-builder {
+  .button {
+    padding: 0 $base-line-height;
+    line-height: calc(3 * $base-line-height);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: $editor-text-color;
+    cursor: pointer;
+    transition: 0.1s ease-out all;
+    &:hover {
+      border-color: $editor-link-color;
+      color: $editor-link-color;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+
 }

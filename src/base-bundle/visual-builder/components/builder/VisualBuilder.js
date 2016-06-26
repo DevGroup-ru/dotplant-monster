@@ -29,6 +29,8 @@ class VisualBuilder {
     FrameApi.bindMessageListener(this);
 
     this.editable = new Editable();
+
+    this.controls();
   }
 
   /**
@@ -120,6 +122,56 @@ class VisualBuilder {
     // FrameApi.sendMessage(this.frameContentWindow, 'serializeContent', ['log']);
     const result = this.environments.get('page-structure').serializePage();
     console.log(result);
+
+    // we have result which is content in format:
+    // region
+    // --- material id
+    // ------- keys => values
+    //
+    // our Providers should get only those keys that they provide
+    // provided keys are stored in frameContentWindow.MONSTER_EDIT_MODE_DATA.template.providedKeys
+    const resultByProviders = {};
+    const providedKeys = this.frameContentWindow.MONSTER_EDIT_MODE_DATA.template.providedKeys;
+
+    for (const providerIndex in providedKeys) {
+      if (providedKeys.hasOwnProperty(providerIndex) === false) {
+        continue;
+      }
+      resultByProviders[providerIndex] = {};
+      const regions = providedKeys[providerIndex];
+      for (const regionKey in regions) {
+        if (regions.hasOwnProperty(regionKey) === false) {
+          continue;
+        }
+        if (result.hasOwnProperty(regionKey) === false) {
+          continue;
+        }
+        resultByProviders[providerIndex][regionKey] = {};
+        // go deep to material indeces
+        const materials = regions[regionKey];
+        for (const materialIndex in materials) {
+          if (materials.hasOwnProperty(materialIndex) === false) {
+            continue;
+          }
+          if (result[regionKey].hasOwnProperty(materialIndex) === false) {
+            continue;
+          }
+          resultByProviders[providerIndex][regionKey][materialIndex] = {};
+          const dataKeys = materials[materialIndex];
+          for (const key of dataKeys) {
+            if (result[regionKey][materialIndex].hasOwnProperty(key) === false) {
+              continue;
+            }
+            resultByProviders
+              [providerIndex]
+              [regionKey]
+              [materialIndex]
+              [key] = result[regionKey][materialIndex][key];
+          }
+        }
+      }
+    }
+    return resultByProviders;
   }
 
   pageChanged() {
@@ -130,6 +182,39 @@ class VisualBuilder {
 
   log(result) {
     console.log(result);
+  }
+
+  controls() {
+    this.$controls = this.$builder.find('.controls');
+    const builder = this;
+    this.$controls.find('.controls__refresh').click(function handler() {
+      builder.frameContentWindow.location.reload();
+      return false;
+    });
+    this.$controls.find('.controls__save').click(function handler() {
+
+      $.ajax({
+        url: builder.frameContentWindow.location,
+        method: 'POST',
+        cache: false,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify({
+          template: {
+            providersEntities: builder.serialize(),
+            regionsMaterials: builder.environments.get('page-structure').materialsByRegions(),
+          },
+          action: 'save',
+        }),
+        success: function ok(data, textStatus, jqXHR) {
+          console.log(data);
+        },
+        error: function err(data, textStatus, errorThrown) {
+          console.log(data);
+        }
+      });
+      return false;
+    });
   }
 }
 

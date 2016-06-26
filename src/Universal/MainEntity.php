@@ -2,17 +2,22 @@
 
 namespace DotPlant\Monster\Universal;
 
+use DevGroup\Frontend\traits\ContentNegotiator;
 use DevGroup\Frontend\Universal\ActionData;
 use DevGroup\Frontend\Universal\UniversalAction;
+use DotPlant\Monster\DataEntity\StaticContentProvider;
 use DotPlant\Monster\DataProviderProcessor;
 use DotPlant\Monster\models\Layout;
 use DotPlant\Monster\models\Template;
 use DotPlant\Monster\models\TemplateRegion;
+use DotPlant\Monster\MonsterContent;
 use yii;
 use yii\helpers\ArrayHelper;
 
 class MainEntity extends UniversalAction
 {
+    use ContentNegotiator;
+
     public $mainEntityKey;
 
     public $defaultTemplateKey;
@@ -63,27 +68,152 @@ class MainEntity extends UniversalAction
         $actionData->viewFile = '@DotPlant/Monster/views/monster-template.php';
         $actionData->result['templateRegions'] = $template->templateRegions;
 
-        $providers = ArrayHelper::getValue(
-            $visualBuilderProvided,
-            'template.providers',
-            []
+        $action = ArrayHelper::getValue($visualBuilderProvided, 'action', 'default');
+        $providers = ArrayHelper::merge(
+            $template->getEntityDataProviders(),
+            $entity->getEntityDataProviders()
         );
-        if (count($providers) === 0) {
-            $providers = ArrayHelper::merge(
-                $template->getEntityDataProviders(),
-                $entity->getEntityDataProviders()
-            );
-        }
-        $packed = [];
 
-        $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process($providers, $actionData, $packed);
+        $providedEntities = ArrayHelper::getValue($visualBuilderProvided, 'template.providersEntities', null);
+        if (is_array($providedEntities)) {
+            // safely merge entities with provided
+            foreach ($providers as $i => $config) {
+                if (isset($providedEntities[$i])) {
+
+                    $providers[$i]['entities'] = $providedEntities[$i];
+
+                }
+            }
+        }
+        if ($action === 'render-material') {
+            // we should render and return the whole content and replace it
+            $materialIndex = ArrayHelper::getValue($visualBuilderProvided, 'materialId', null);
+            $materialRegion = ArrayHelper::getValue($visualBuilderProvided, 'materialRegion', null);
+            $materialName = ArrayHelper::getValue($visualBuilderProvided, 'material', null);
+            if ($materialIndex !== null && $materialRegion !== null && $materialName !== null) {
+
+                //! @todo Material can be inserted into layout, not template or entity! Take care of that too.
+                $staticContentFilled = false;
+                $material = MonsterContent::repository()->material($materialName);
+                $sampleData = $material->sampleData();
+
+                foreach ($providers as $index => &$provider) {
+                    if (isset($provider['class'])) {
+                        if ($provider['class'] !== StaticContentProvider::class) {
+                            continue;
+                        }
+                    }
+                    if (isset($provider['entities'])) {
+                        if (isset($provider['entities'][$materialRegion])) {
+                            $provider['entities'][$materialRegion][$materialIndex] = $sampleData;
+                            $staticContentFilled = true;
+                        }
+                    }
+                }
+                unset($provider);
+                if ($staticContentFilled===false) {
+                    // know if region is entity dependent
+                    $entityDependent = false;
+                    foreach ($actionData->result['templateRegions'] as $region) {
+                        /** @var TemplateRegion $region */
+                        if ($region->key === $materialRegion) {
+                            if ($region->entity_dependent) {
+                                $entityDependent = true;
+                            }
+                        }
+                    }
+                    $newProvider = [
+                        'class' => StaticContentProvider::class,
+                        'entities' => [
+                            $materialRegion => [
+                                $materialIndex => $sampleData,
+                            ],
+                        ],
+                    ];
+
+                    if ($entityDependent) {
+                        $entity->providers[$materialIndex] = $newProvider;
+                    } else {
+                        $template->providers[$materialIndex] = $newProvider;
+                    }
+                    $providers[$materialIndex] = $newProvider;
+                }
+            }
+        }
+
+//        \yii\helpers\VarDumper::dump($providers,10,true);die();
+        //\yii\helpers\VarDumper::dump($visualBuilderProvided,10,true);die();
+//        \yii\helpers\VarDumper::dump($actionData->result['templateRegions'][1], 10, true);die();
+
+        $packed = [];
+        $providedKeys = [];
+        $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process(
+            $providers,
+            $actionData,
+            $packed,
+            $providedKeys
+        );
         $actionData->result['model'] = &$entity;
+
+        // apply new materials for model
+        $regionsMaterials = ArrayHelper::getValue($visualBuilderProvided, 'template.regionsMaterials', null);
+        if (is_array($regionsMaterials) && count($regionsMaterials) > 0) {
+            $entityContent = [];
+            foreach ($actionData->result['templateRegions'] as $region) {
+                /** @var TemplateRegion $region */
+                if ($region->entity_dependent && isset($regionsMaterials[$region->key])) {
+                    $entityContent[$region->key] = $regionsMaterials[$region->key];
+                }
+            }
+            if (count($entityContent) > 0) {
+                $entity->content = $entityContent;
+            }
+        }
         
         if (YII_ENV === 'dev') {
             Yii::$app->params['actionData'] = &$actionData;
             Yii::$app->params['providers'] = $packed;
         }
         
+        $layoutData = $this->applyLayout($entity, $actionData);
+
+        if (Yii::$app->request->isEditMode()) {
+            $view = $actionData->controller->view;
+            $jsonData = yii\helpers\Json::encode([
+                'template' => [
+                    'id' => $template->id,
+                    'key' => $template->key,
+                    'dataByTemplateRegion' => $actionData->result['dataByTemplateRegion'],
+                    'providedKeys' => $providedKeys,
+                    'regions' => ArrayHelper::map($template->templateRegions, 'id', function (TemplateRegion $item) {
+                        return [
+                            'id' => $item->id,
+                            'name' => $item->name,
+                            'key' => $item->key,
+                            'entity_dependent' => (bool) $item->entity_dependent,
+                        ];
+                    }),
+                    'providers' => $packed,
+                    'entity' => [
+                        'id' => isset($entity->id) ? $entity->id : null,
+                        'name' => $entity->formName(),
+                        'class' => $entity::className(),
+                    ]
+                ],
+                'layout' => $layoutData,
+            ]);
+
+            $js = "window.MONSTER_EDIT_MODE_DATA = $jsonData;";
+            $view->registerJs($js, yii\web\View::POS_BEGIN, 'edit-mode-vars');
+
+
+
+        }
+    }
+
+    protected function applyLayout(&$entity, &$actionData)
+    {
+        /** @var \yii\base\Model|EntityTrait $entity */
         // apply layout
         $layoutId = $entity->getLayoutId();
         $layout = $layoutId > 0 ? Layout::findById($layoutId) : null;
@@ -102,8 +232,9 @@ class MainEntity extends UniversalAction
             );
 
             $packedLayoutProviders = [];
+            $providedLayoutKeys = [];
             Yii::$app->params['layoutDataByTemplateRegion'] =
-                DataProviderProcessor::process($providers, $actionData, $packedLayoutProviders);
+                DataProviderProcessor::process($providers, $actionData, $packedLayoutProviders, $providedLayoutKeys);
             $actionData->controller->layout = '@DotPlant/Monster/views/layout-template.php';
 
             $layoutData = [
@@ -118,45 +249,17 @@ class MainEntity extends UniversalAction
                         'entity_dependent' => (bool) $item->entity_dependent,
                     ];
                 }),
+                'providedKeys' => $providedLayoutKeys,
+                'dataByTemplateRegion' => Yii::$app->params['layoutDataByTemplateRegion'],
             ];
         }
-
-        if (Yii::$app->request->isEditMode()) {
-            $view = $actionData->controller->view;
-            $jsonData = yii\helpers\Json::encode([
-                'template' => [
-                    'id' => $template->id,
-                    'key' => $template->key,
-                    'dataByTemplateRegion' => $actionData->result['dataByTemplateRegion'],
-                    'regions' => ArrayHelper::map($template->templateRegions, 'id', function (TemplateRegion $item) {
-                        return [
-                            'id' => $item->id,
-                            'name' => $item->name,
-                            'key' => $item->key,
-                            'entity_dependent' => (bool) $item->entity_dependent,
-                        ];
-                    }),
-                    'providers' => $packed,
-                    'entity' => [
-                        'id' => $entity->hasAttribute('id') ? $entity->id : null,
-                        'name' => $entity->formName(),
-                        'class' => $entity->className(),
-                    ]
-                ],
-                'layout' => $layoutData,
-            ]);
-
-            $js = <<<js
-window.MONSTER_EDIT_MODE_DATA = $jsonData;
-js;
-            $view->registerJs($js, yii\web\View::POS_BEGIN, 'edit-mode-vars');
-
-        }
+        return $layoutData;
     }
     
     protected function visualBuilderProvided()
     {
         //! @todo add RBAC check here
-        return Yii::$app->request->post('editModeData', []);
+        $this->negotiate();
+        return is_array($this->requestJson) ? $this->requestJson : [];
     }
 }
