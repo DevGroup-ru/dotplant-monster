@@ -65,9 +65,17 @@ class EntitySearch
         $this->limit = $limit;
     }
 
-    public function whereAttributes($params = [])
+    public function whereAttributes($params = [], $intersect = true)
     {
-        $this->query->andWhere($params);
+        if ($intersect || count($params) < 2) {
+            $this->query->andWhere($params);
+        } else {
+            $orCondition = ['or'];
+            foreach ($params as $attributeName => $values) {
+                $orCondition[] = [$attributeName => $values];
+            }
+            $this->query->andWhere($orCondition);
+        }
         return $this;
     }
 
@@ -92,7 +100,7 @@ class EntitySearch
         if ($this->prepareQuery() === false) {
             return 0;
         }
-        return $this->query->count();
+        return (int) $this->query->count();
     }
 
     public function all($page = 1)

@@ -33,6 +33,13 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
         $es = new EntitySearch(Page::class);
         $es->whereAttributes(['active' => 1]);
         $this->assertSame(7, count($es->all()));
+        // test intersect mode
+        $es = new EntitySearch(Product::class);
+        $es->whereAttributes(['active' => 0, 'name' => 'Product 3']);
+        $this->assertSame(0, $es->count());
+        $es = new EntitySearch(Product::class);
+        $es->whereAttributes(['active' => 0, 'name' => 'Product 3'], false);
+        $this->assertSame(3, $es->count());
     }
 
     public function testPagination()
