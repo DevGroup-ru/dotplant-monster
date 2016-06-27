@@ -40,7 +40,7 @@ class EntitySearch
     protected function prepareQuery()
     {
         if (empty($this->properties) === false && \Yii::$app->getModule('properties') instanceof Module) {
-            /** @var AbstractSearch $component */
+            /** @var AbstractSearch $search */
             $search = \Yii::$app->getModule('properties')->getSearch();
             $ids = $search->findInProperties(
                 $this->className,
