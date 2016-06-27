@@ -50,7 +50,10 @@ class EntitySearch
             if (empty($ids) === true) {
                 return false;
             }
-            $this->query->andWhere(['id' => $ids]); // @todo change an id to a primary key
+            // I know that this code is correct no for any model.
+            // But yii2-data-structure-tools works with no-composite primary key only.
+            $pk = reset(call_user_func([$this->className, 'primaryKey']));
+            $this->query->andWhere([$pk => $ids]);
         }
         return true;
     }
