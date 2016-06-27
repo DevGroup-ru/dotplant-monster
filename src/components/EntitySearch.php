@@ -51,8 +51,8 @@ class EntitySearch
                 return false;
             }
             $this->query->andWhere(['id' => $ids]); // @todo change an id to a primary key
-            return true;
         }
+        return true;
     }
 
     public function __construct($className, $limit = 10)
