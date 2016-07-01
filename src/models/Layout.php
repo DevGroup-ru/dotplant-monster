@@ -2,7 +2,6 @@
 
 namespace DotPlant\Monster\models;
 
-use DevGroup\TagDependencyHelper\LazyCache;
 use yii;
 
 class Layout extends Template
