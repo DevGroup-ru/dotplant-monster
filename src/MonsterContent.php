@@ -197,6 +197,7 @@ class MonsterContent extends yii\base\Widget
 
     private function makeMaterials()
     {
+        Yii::beginProfile('MonsterContent -> Make materials');
         $materials = [];
         foreach ($this->materials as $index => $materialConfiguration) {
             if (!isset($materialConfiguration['data'])) {
@@ -211,6 +212,7 @@ class MonsterContent extends yii\base\Widget
             );
         }
         $this->materials = $materials;
+        Yii::endProfile('MonsterContent -> Make materials');
     }
 
     /**

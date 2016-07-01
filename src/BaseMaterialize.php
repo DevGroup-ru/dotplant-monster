@@ -113,7 +113,7 @@ class BaseMaterialize extends yii\base\Widget
             //! @todo Add contextual customization code here(we will need to introduce new param for materialize)
 
             $this->trigger(static::EVENT_BEFORE_TEMPLATE_CREATION, $event);
-
+            Yii::beginProfile('Materialize -> Template creation');
             // find editables and add them to js of block
             if ($this->editMode === true) {
                 $editableKeys = [];
@@ -192,7 +192,7 @@ php;
             $this->monsterBh->bh()->removeMatcherById(ArrayHelper::merge($newBhMatchers, $customizedBhMatchersIds));
 
 
-
+            Yii::endProfile('Materialize -> Template creation');
             if (file_put_contents($templateFilename, $template) === false) {
                 throw new \RuntimeException(
                     "Template file can't be saved: $templateFilename for ($this->uniqueContentId,$this->materialIndex)"
@@ -202,12 +202,15 @@ php;
             $this->trigger(static::EVENT_AFTER_TEMPLATE_CREATION, $event);
         }
         $this->trigger(static::EVENT_BEFORE_MATERIALIZE, $event);
-
+        Yii::beginProfile('Materialize -> Template render');
         $content = $this->renderFile($templateFilename, ['data' => &$this->data]);
+        Yii::endProfile('Materialize -> Template render');
 
         $this->trigger(static::EVENT_AFTER_MATERIALIZE, $event);
-        
+
+        Yii::beginProfile('Materialize -> Publish assets');
         $this->material->publishAssets();
+        Yii::endProfile('Materialize -> Publish assets');
 
         return $content;
     }
