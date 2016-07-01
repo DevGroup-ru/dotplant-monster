@@ -4,5 +4,9 @@
   "namespace": "core",
   "autoloadCss": true,
   "autoloadJs": true,
-  "hidden": true
+  "hidden": true,
+  "assetBundles": [
+    "DotPlant\\Monster\\assets\\IsJs",
+    "DotPlant\\Monster\\assets\\TouchPunch"
+  ]
 }

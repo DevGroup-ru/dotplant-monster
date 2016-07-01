@@ -28,6 +28,10 @@ abstract class BundleEntity
 
     public $hasBhExpander = false;
     public $hasBh = false;
+
+    public $assetBundles = [];
+
+    private $published = false;
     
     const MANIFEST_FILENAME = 'monster.json';
 
@@ -108,6 +112,9 @@ abstract class BundleEntity
 
     public function publishEntityAssets()
     {
+        if ($this->published) {
+            return;
+        }
         if ($this->hasJs) {
             $publishedPath = Yii::$app->assetManager->getPublishedPath($this->scriptsFilename());
             if (file_exists($publishedPath) === false) {
@@ -129,6 +136,14 @@ abstract class BundleEntity
             Yii::$app->view->registerCssFile($publishedUrl);
 
         }
+        
+        if (count($this->assetBundles) > 0) {
+            foreach ($this->assetBundles as $bundleName) {
+                /** @var yii\web\AssetBundle $object */
+                Yii::$app->view->registerAssetBundle(ltrim($bundleName,'\\'));
+            }
+        }
+        $this->published = true;
     }
 
     /**
@@ -177,6 +192,7 @@ abstract class BundleEntity
             'hidden',
             'hasBhExpander',
             'hasBh',
+            'assetBundles',
         ];
 
         if (count($this->css) > 0) {

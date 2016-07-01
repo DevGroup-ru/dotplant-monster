@@ -16,7 +16,7 @@ const bundlesToPack = [
 
 // import csso from 'postcss-csso';
 // import doiuse from 'doiuse';
-import stylelint from 'stylelint';
+// import stylelint from 'stylelint';
 import postbem from 'postcss-bem';
 import nested from 'postcss-nested';
 // var bemLinter = require('postcss-bem-linter');
@@ -30,6 +30,7 @@ import postcssImport from 'postcss-partial-import';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import WriteFilePlugin from 'write-file-webpack-plugin';
 import thePostCSS from 'postcss';
+import postAssets from 'postcss-assets';
 
 
 const columnHelper = thePostCSS.plugin('columnHelper', () =>
@@ -95,7 +96,8 @@ module.exports = {
     colors: true,
     reasons: true,
   },
-  debug: true,
+  debug: dev,
+  externals: { jquery: 'jQuery' },
   output,
   plugins,
   module: {
@@ -121,7 +123,6 @@ module.exports = {
   devtool: dev ? 'inline-source-map' : '',
   postcss: function postcss() {
     return [
-      stylelint(),
       flexbugs(),
       map({
         maps: ['settings.yml'],
@@ -166,6 +167,7 @@ module.exports = {
       cssnext({
         browsers: supportedBrowsers,
       }),
+      postAssets(),
       reporter({
         clearMessages: true,
       }),
