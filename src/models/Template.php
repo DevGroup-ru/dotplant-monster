@@ -128,10 +128,12 @@ class Template extends \yii\db\ActiveRecord
     {
         /** @var LazyCache $cache */
         $cache = Yii::$app->cache;
+        /** @var string|yii\db\ActiveRecord $className */
+        $className = static::class;
         /** @var Template $template */
         $template = $cache->lazy(
-            function () use ($key) {
-                return static::find()
+            function () use ($key, $className) {
+                return $className::find()
                     ->where(['key' => $key])
                     ->with('templateRegions')
                     ->one();
@@ -155,10 +157,12 @@ class Template extends \yii\db\ActiveRecord
     {
         /** @var LazyCache $cache */
         $cache = Yii::$app->cache;
+        /** @var string|yii\db\ActiveRecord $className */
+        $className = static::class;
         /** @var Template $template */
         $template = $cache->lazy(
-            function () use ($id) {
-                return static::find()
+            function () use ($id, $className) {
+                return $className::find()
                     ->where(['id' => $id])
                     ->with('templateRegions')
                     ->one();
