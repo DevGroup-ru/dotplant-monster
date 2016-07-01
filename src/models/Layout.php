@@ -2,7 +2,6 @@
 
 namespace DotPlant\Monster\models;
 
-use DevGroup\TagDependencyHelper\LazyCache;
 use yii;
 
 class Layout extends Template
@@ -28,15 +27,5 @@ class Layout extends Template
     {
         $this->is_layout = true;
         return parent::beforeSave($insert);
-    }
-
-    /**
-     * @param string $key
-     *
-     * @return \DotPlant\Monster\models\Layout
-     */
-    public static function findByKey($key)
-    {
-        return parent::findByKey($key);
     }
 }

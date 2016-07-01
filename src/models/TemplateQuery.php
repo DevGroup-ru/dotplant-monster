@@ -15,7 +15,7 @@ class TemplateQuery extends \yii\db\ActiveQuery
 
     public function prepare($builder)
     {
-        $this->andWhere(['is_layout' => $this->isLayout]);
+        $this->andWhere(['is_layout' => (int) $this->isLayout]);
         return parent::prepare($builder);
     }
 
