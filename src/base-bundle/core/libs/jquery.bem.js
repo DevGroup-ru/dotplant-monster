@@ -1,4 +1,7 @@
 /* @required jQuery */
+/**
+ * This is modified version of jquery-bem adding some new functions
+ */
 
 (function(root, factory) {
   if(typeof define === "function" && define.amd) {
@@ -29,10 +32,10 @@
    */
   BEM.prototype.setConfig = function(config) {
     this.config = $.extend({}, {
-      namePattern: '[a-zA-Z0-9-]+',
+      namePattern: '[a-zA-Z0-9\\-]+',
       elemPrefix: '__',
-      modPrefix: '_',
-      modDlmtr: '_'
+      modPrefix: '--',
+      modDlmtr: '_',
     }, config);
 
     this.blockClassRe = this.buildBlockClassRe();
@@ -536,6 +539,30 @@
   $.fn.extend({
     block: function() {
       return $.BEM.getBlock(this);
+    },
+
+    extractBlocks: function() {
+      return $.BEM.extractBlocks(this);
+    },
+
+    isBemBlock: function() {
+      const classes = this.attr('class').split(' ');
+      let isBlock = false;
+      classes.forEach(className => {
+        if ($.BEM.getClassType(className) === 'block') {
+          isBlock = true;
+        }
+      });
+      return isBlock;
+    },
+
+    blockSettings: function (defaultSettings) {
+      const userSettings = this.data('mBemSettings') || {};
+      const settings = defaultSettings || {};
+      Object.keys(userSettings).forEach(key => {
+        settings[key] = userSettings[key];
+      });
+      return settings;
     },
 
     elem: function(ctx, elemKey) {

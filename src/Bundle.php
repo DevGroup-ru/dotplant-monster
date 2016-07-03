@@ -108,7 +108,7 @@ class Bundle extends BundleEntity
     public function publishAssets()
     {
         Yii::trace("Publish assets for bundle {$this->fullPath}!");
-        $this->publishEntityAssets();
+        $this->publishEntityAssets($this->isCore);
     }
 
     /**

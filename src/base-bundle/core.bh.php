@@ -98,6 +98,8 @@ return [
                 $wrapChildrenJson['content'] = (array) $wrapChildrenJson['content'];
                 $wrapChildrenJson['content'][] =
                     "<?php if (isset(\$item['$childrenAttribute'])) {\n$uniq(\$item['$childrenAttribute'], \$recursiveNestingLevel+1); \n}\n?>";
+
+                $wrapChildrenJson = Yii::$app->monsterBh->expander()->bh()->processBemJson($wrapChildrenJson);
                 $goRecursive = $ctx->bh->apply($ctx->process($wrapChildrenJson));
 
                 $itemTemplateJson['content'][] = <<<PHP
@@ -121,16 +123,18 @@ PHP;
                 }
                 $itemTemplateJson['recursiveOf'] = $recursive;
                 $itemTemplateJson['attrs']['data-recursive-item-key'] = ['unsafe'=>'<?=$key?>'];
+                /**
+                 * @todo Сначала надо заэкспандить этот json, а потом процессить!
+                 */
 
-
-
+                $itemTemplateJson = Yii::$app->monsterBh->expander()->bh()->processBemJson($itemTemplateJson);
                 $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
                 $php = <<<PHP
 
 
 <?php
     // automatically generated function
-    $uniq = function (\$iterator, \$recursiveNestingLevel = 1) use (&$uniq) {
+    $uniq = function (\$iterator, \$recursiveNestingLevel = 1) use (&$uniq, \$data) {
         foreach (\$iterator as \$key => \$item) {
             ?>
             $itemTemplate

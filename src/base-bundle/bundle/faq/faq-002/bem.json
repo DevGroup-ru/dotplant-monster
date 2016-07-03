@@ -1,0 +1,59 @@
+{
+  "container": true,
+  "content": {
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "cls": "grid-full__half-after-tablet",
+        "content": [
+          {
+            "block": "faq-002",
+            "content": [
+              {
+                "recursive": "blocks",
+                "itemTemplate": {
+                  "elem": "nested",
+                  "content": [
+                    {
+                      "elem": "title-nested",
+                      "editable": {
+                        "key": "title",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "text",
+                      "editable": {
+                        "key": "answer",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "text",
+                      "mods": ["hide"],
+                      "cls": "faq__text-hide",
+                      "editable": {
+                        "key": "details",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "link",
+                      "link": true,
+                      "editable": {
+                        "key": "readMore"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

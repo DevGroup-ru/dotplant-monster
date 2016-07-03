@@ -1,0 +1,32 @@
+.m-wrapper {
+  /** @define faq002 */
+  @b faq-002 {
+
+    @e nested {
+      margin-top: calc($base-line-height * 4);
+      margin-bottom: calc($base-line-height * 4);
+    }
+
+    @e title-nested {
+      @mixin type-setting accent-text;
+      margin-bottom: calc($base-line-height * 2);
+      height: calc($base-line-height * 2);
+      overflow: hidden;
+    }
+
+    @e text {
+      @mixin type-setting text;
+      height: calc($base-line-height * 6);
+      overflow: hidden;
+
+      @m hide {
+        display: none;
+      }
+    }
+
+    @e link {
+      margin-top: calc($base-line-height * 2);
+      display: inline-block;
+    }
+  }
+}

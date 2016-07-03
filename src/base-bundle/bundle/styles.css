@@ -515,15 +515,6 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
 .m-wrapper .tooltip__rel {
     padding: 0.625rem 0;
 }
-/**
-ПОЧЕМУ Я УДАЛИЛ КОМПОНЕНТЫ ОТСЮДА:
-- Вы тут переопределяете базовые стили стандартных плагинов
-- Делаете вы это в стандартном бандле
-- Но стандартный бандл будет использоваться в 99% случаев
-- Смогут ли сторонние бандлы использовать эти компоненты? Если да, то им придётся самим переопределять стиль
-- Не лучше ли переопределить это в core-бандле?
-- Также надо всё это завернуть в .m-wrapper
-**/
 a.content-block-001__title-nested, a:link.content-block-001__title-nested, a:hover.content-block-001__title-nested, a:visited.content-block-001__title-nested, a:active.content-block-001__title-nested, a:focus.content-block-001__title-nested, button.content-block-001__title-nested {
     margin-bottom: 0.625rem;
     height: 2.5rem;
@@ -1882,6 +1873,28 @@ a.content-block-007__title-nested:hover, a:link.content-block-007__title-nested:
 .m-wrapper .content-block-007--left .content-block-007__nested {
     text-align: left;
 }
+/** @define faq002 */
+.m-wrapper .faq-002 {}
+.m-wrapper .faq-002__nested {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+}
+.m-wrapper .faq-002__title-nested {
+    margin-bottom: 1.25rem;
+    height: 1.25rem;
+    overflow: hidden;
+}
+.m-wrapper .faq-002__text {
+    height: 3.75rem;
+    overflow: hidden;
+}
+.m-wrapper .faq-002__text--hide {
+    display: none;
+}
+.m-wrapper .faq-002__link {
+    margin-top: 1.25rem;
+    display: inline-block;
+}
 /*
 2
 */
@@ -1890,6 +1903,5 @@ a.content-block-007__title-nested:hover, a:link.content-block-007__title-nested:
  *    TEST
  *
  ***************/
-
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJidW5kbGUvc3R5bGVzLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/

@@ -85,9 +85,9 @@ _:-ms-fullscreen {
     position: relative;
     /*width: 100%;*/
     max-width: 100%;
-    letter-spacing: -0.31em !important;
+    /*letter-spacing: -0.31em !important;*/
     /*ie7-hack-letter-spacing: normal !important;*/
-    word-spacing: -0.43em !important;
+    /*word-spacing: -0.43em !important;*/
     letter-spacing: normal;
     word-spacing: normal;
     white-space: normal;

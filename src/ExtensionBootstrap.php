@@ -5,6 +5,7 @@ namespace DotPlant\Monster;
 use yii;
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\web\View;
 
 class ExtensionBootstrap implements BootstrapInterface
 {
@@ -16,6 +17,7 @@ class ExtensionBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
+        
         if ($app instanceof yii\web\Application) {
             $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
                 $app->request->attachBehavior('monsterRequest', 'DotPlant\Monster\behaviors\MonsterRequest');

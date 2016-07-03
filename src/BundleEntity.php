@@ -110,7 +110,7 @@ abstract class BundleEntity
 
     abstract public function publishAssets();
 
-    public function publishEntityAssets()
+    public function publishEntityAssets($jsAtHead = false)
     {
         if ($this->published) {
             return;
@@ -121,8 +121,13 @@ abstract class BundleEntity
                 Yii::$app->assetManager->publish($this->scriptsFilename());
             }
             $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->scriptsFilename());
+            
+            $jsOptions = [];
+            if ($jsAtHead === true) {
+//                $jsOptions['position'] = yii\web\View::POS_BEGIN;
+            }
 
-            Yii::$app->view->registerJsFile($publishedUrl);
+            Yii::$app->view->registerJsFile($publishedUrl, $jsOptions);
 
         }
 

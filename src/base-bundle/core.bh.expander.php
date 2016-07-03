@@ -5,7 +5,7 @@ use BEM\Json;
 use BEM\Matcher;
 
 return [
-    'button' => new Matcher(
+    'commonHelpers' => new Matcher(
         '$before',
         function(Context $ctx) {
             if ($ctx->param('button')) {
@@ -14,9 +14,13 @@ return [
                     "block" => "button",
                 ]);
             }
+            if ($ctx->param('link')) {
+                $ctx->tag('a');
+                $ctx->attr('href', '#');
+            }
         }
     ),
-    'recursiveIterator' => new Matcher(
+    'gridHelpers' => new Matcher(
         '$after',
         function(Context $ctx) {
             $cls = explode(' ', $ctx->cls());
