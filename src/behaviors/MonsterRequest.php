@@ -13,6 +13,13 @@ class MonsterRequest extends yii\base\Behavior
         parent::attach($owner);
         Yii::$app->on(yii\web\Application::EVENT_BEFORE_ACTION, function () {
             if ($this->isEditMode()) {
+                $debugModule = Yii::$app->getModule('debug');
+                if ($debugModule !== false) {
+                    Yii::$app->getView()->off(
+                        yii\web\View::EVENT_END_BODY,
+                        [$debugModule, 'renderToolbar']
+                    );
+                }
                 $editModeVar = MonsterRequest::EDIT_MODE_VAR;
                 $js = <<<js
 $(function() {
