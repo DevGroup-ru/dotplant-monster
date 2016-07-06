@@ -10,6 +10,15 @@ use yii\web\Application;
 
 class EntitySearchTest extends \PHPUnit_Framework_TestCase
 {
+    protected function getQueryCount()
+    {
+        $logger = Yii::getLogger();
+        if ($logger === null) {
+            $this->markTestSkipped('I has no logger');
+        }
+        return $logger->getDbProfiling()[0];
+    }
+
     public static function setUpBeforeClass()
     {
         $config = require(__DIR__ . '/config/config.php');
@@ -51,6 +60,15 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('3', $result[0]->id);
     }
 
+    public function testBadPagination()
+    {
+        $es = new EntitySearch(Page::class, 2);
+        $es->whereAttributes(['active' => 1]);
+        $result = $es->all(0);
+        $this->assertTrue(isset($result[0]));
+        $this->assertEquals('1', $result[0]->id);
+    }
+
     public function testWhereAttributesContain()
     {
         // single field
@@ -74,7 +92,7 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
         // Multi property
         $this->assertEquals(2, count((new EntitySearch(Product::class))->whereProperties([1 => [2], 2 => [5]])->all()));
         // Not found
-        $this->assertEquals(0, count((new EntitySearch(Product::class))->whereProperties([9 => [85]])->all()));
+        $this->assertEquals(0, count((new EntitySearch(Product::class))->whereProperties([1 => [85]])->all()));
     }
 
     public function testMultiCondition()
@@ -95,7 +113,7 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
     public function testCount()
     {
         $this->assertSame(2, (new EntitySearch(Page::class))->whereAttributes(['active' => 0])->count());
-        $this->assertEquals(0, (new EntitySearch(Product::class))->whereProperties([9 => [85]])->count());
+        $this->assertEquals(0, (new EntitySearch(Product::class))->whereProperties([1 => [85]])->count());
     }
 
     /**
@@ -104,6 +122,15 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnknownClass()
     {
-        $es = new EntitySearch('bla/bla/bla/Class');
+        new EntitySearch('bla/bla/bla/Class');
+    }
+
+    public function testIsNewQuery()
+    {
+        $es = (new EntitySearch(Product::class))->whereProperties([1 => [1]]);
+        $es->count();
+        $queryCount = $this->getQueryCount();
+        $es->all();
+        $this->assertSame($queryCount + 1, $this->getQueryCount());
     }
 }
