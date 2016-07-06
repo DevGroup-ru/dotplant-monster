@@ -76,8 +76,12 @@ class EntitySearch
             if (empty($ids) === false) {
                 // I know that this code is correct no for any model.
                 // But yii2-data-structure-tools works with no-composite primary key only.
-                $pk = reset(call_user_func([$this->className, 'primaryKey']));
-                $this->query->andWhere([$pk => $ids]);
+                $pk = call_user_func([$this->className, 'primaryKey']);
+                if (count($pk) === 1) {
+                    $this->query->andWhere([reset($pk) => $ids]);
+                } else {
+                    $this->prepareResult = false;
+                }
             } else {
                 $this->prepareResult = false;
             }
