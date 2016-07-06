@@ -98,14 +98,12 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, (new EntitySearch(Product::class))->whereProperties([9 => [85]])->count());
     }
 
+    /**
+     * @expectedException \yii\base\Exception
+     * @expectedExceptionMessage Class not found
+     */
     public function testUnknownClass()
     {
-        $result = false;
-        try {
-            $es = new EntitySearch('bla/bla/bla/Class');
-        } catch (\Exception $e) {
-            $result = true;
-        }
-        $this->assertTrue($result);
+        $es = new EntitySearch('bla/bla/bla/Class');
     }
 }
