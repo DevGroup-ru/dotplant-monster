@@ -1,0 +1,63 @@
+.m-wrapper {
+  /** @define about-block-004 */
+  @b about-block-004 {
+    @mixin setupCols title;
+    @mixin setupCols text;
+    @mixin setupCols feature;
+    @mixin setupCols feature-item;
+
+    @e title {
+      @mixin header1;
+      @mixin col_12_of_12;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    @e text {
+      @mixin type-setting "text";
+    }
+
+    @e feature {
+      padding-top: 0;
+      margin-top: calc(-$base-line-height * 2);
+
+      @media (--greater-than-mobile) {
+        @mixin cellRow;
+        @mixin cellColumn;
+      }
+    }
+
+    @e feature-item {
+      @_ 6 6 6 12 12;
+      @mixin cellRow;
+      @mixin verticalCenter;
+      padding: 0;
+      padding-top: calc($base-line-height * 2);
+
+      @media (--greater-than-mobile) { 
+        padding-right: calc($base-line-height * 2);
+      }
+    }
+
+    @e feature-icon {
+      font-size: calc($base-line-height * 4);
+      width: calc($base-line-height * 4);
+      height: calc($base-line-height * 4);
+      line-height: calc($base-line-height * 4);
+      margin-right: calc($base-line-height * 2);
+      display: block;
+      float: left;
+      text-align: center;
+    }
+
+    @e feature-text {
+      @mixin type-setting "text";
+    }
+
+    @e btn-wrap {
+      text-align: center;
+      @mixin col_12_of_12;
+      @mixin resetWhitespace;
+    }
+  }
+}

@@ -1,0 +1,121 @@
+$news001-fon: #eee;
+
+.m-wrapper {
+  /** @define news-001 */
+  @b news-001 {
+    @mixin setupCols nested-wrap;
+    @mixin setupCols title;
+    @mixin setupCols nested;
+    @mixin setupCols date;
+
+    @e nested-wrap {
+      @_ 3 3 6 12 12;
+    }
+
+    @e nested {
+      background: $news001-fon;
+      padding: 0;
+      @mixin cellRow;
+      @mixin cellColumn;
+    }
+
+    @e title {
+      @mixin col_12_of_12;
+      @mixin header1;
+    }
+
+    @e img-link {
+      display: block;
+      @_ 12 12 12 6 12;
+    }
+
+    @e img {
+      display: block;
+      height: calc($base-line-height * 22);
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+
+      img {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: 0;
+        height: auto;
+        min-height: 100%;
+        min-width: 100%;
+        transform: translateX(-50%);
+      }
+    }
+
+    @e text-wrap {
+      padding: calc($base-line-height * 2);
+      @_ 12 12 12 6 12;
+    } 
+
+    @e date {
+      margin-bottom: $base-line-height;
+      padding: 0;
+      @mixin cellRow;
+      @mixin cellColumn;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: calc($base-line-height * 2);
+      }
+    }
+
+    @e time {
+      @mixin type-setting "text";
+      margin-right: calc($base-line-height * 2);
+    }
+
+    @e day {
+      @mixin type-setting "text";
+    }
+
+    @define-mixin %title-nested {
+      @mixin type-setting "accent-text";
+      margin-bottom: $base-line-height;
+      overflow: hidden;
+    }
+
+    @e title-nested {
+      @mixin %title-nested;
+    }  
+
+    @e btn-wrap {
+      text-align: center;
+      @mixin col_12_of_12;
+      @mixin resetWhitespace;
+      padding-left: calc($base-line-height * 2);
+      padding-right: calc($base-line-height * 2);
+      margin-top: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-top: calc($base-line-height * 2);
+      }
+    } 
+  }
+
+  @at-root {
+    :--allLinksWithButtons.news-001__title-nested {
+      @mixin %title-nested;
+      text-decoration: none;
+      display: block;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    :--allLinksWithButtons.news-001__full-link {
+      display: block;
+
+      @media (--greater-than-mobile) {
+        display: inline-block;
+      }
+    }
+  }
+}

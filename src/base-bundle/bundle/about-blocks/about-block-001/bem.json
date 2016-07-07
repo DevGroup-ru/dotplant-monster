@@ -1,0 +1,85 @@
+{
+  "container": true,
+  "content": {
+    "block": "about-block-001",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "elem": "nested",
+        "content": [
+          {
+            "elem": "img",
+            "editable": {
+              "type": "image",
+              "key": "img"
+            }
+          }
+        ]
+      }, 
+      {
+        "elem": "nested",
+        "content": [
+          {
+            "elem": "title",
+            "editable": {
+              "type": "text",
+              "key": "title"
+            }
+          },
+          {
+            "elem": "text",
+            "editable": {
+              "type": "wysiwyg",
+              "key": "content"
+            }
+          },
+          {
+            "elem": "feature",
+            "content": [
+              {
+              "recursive": "blocks",
+                "itemTemplate": {
+                  "elem": "feature-item",
+                  "content": [
+                    {
+                      "elem": "feature-icon",
+                      "content": "1",
+                      "icon": true
+                    },
+                    {
+                      "elem": "feature-text",
+                      "editable": {
+                        "type": "wysiwyg",
+                        "key": "content",
+                        "target": "item"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "elem": "btn-wrap",
+        "utils": [
+          "one-line--top"
+        ],
+        "content": [
+          {
+            "elem": "btn",
+            "cls": "button-simple",
+            "editable": {
+              "type": "link",
+              "key": "full-link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

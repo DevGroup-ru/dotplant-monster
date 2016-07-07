@@ -36,7 +36,7 @@
     position: relative;
     width: 100%;
     vertical-align: top;
-    padding: 1.25em; /* gutter! */
+    padding: 1.25rem; /* gutter! */
   }
 }
 
@@ -55,3 +55,18 @@
 @define-mixin cellRow {
   flex-direction: row;
 }
+
+@define-mixin cellColumn {
+  flex-wrap: wrap;
+}
+
+@define-mixin verticalCenter {
+  align-items: center;
+}
+
+@define-mixin resetWhitespace {
+  letter-spacing: normal;
+  word-spacing: normal;
+  white-space: normal;
+}
+

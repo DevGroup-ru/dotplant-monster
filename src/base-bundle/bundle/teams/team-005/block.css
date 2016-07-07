@@ -1,0 +1,277 @@
+$team-005-icon-fon: #eee;
+$team-005-icon-circle: 50%;
+$team-005-border-width: calc($base-line-height / 5);  
+$team-005-border-color: #eee;
+
+.m-wrapper {
+  /** @define team-005 */
+  @b team-005 {
+    @mixin setupCols nested;
+    @mixin setupCols title;
+    @mixin setupCols social-wrap;
+    @mixin setupCols main-info;
+    @mixin setupCols other-info;
+    @mixin setupCols hours;
+    text-align: center;
+
+    @e nested {
+      @_ 12 12 12 12 12;
+      text-align: center;
+      @mixin cellRow;
+      @mixin cellColumn;
+    }
+
+    @e title {
+      @mixin col_12_of_12;
+      @mixin header1;
+    }
+
+    @e main-info {
+      @_ 6 6 12 12 12;
+      @mixin cellRow;
+      @mixin cellColumn;
+      padding: 0;
+      border: $team-005-border-width solid $team-005-border-color;
+    }
+
+    @e photo-link {
+      display: block;
+      height: calc($base-line-height * 26);
+      width: 100%; 
+      @_ 6 6 6 6 12;
+      padding: calc($base-line-height * 2); 
+
+      @media (--greater-than-mobile) {
+        min-height: 100%;
+      } 
+    }
+
+    @e photo {
+      display: block;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+
+      img {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: 0;
+        height: auto;
+        min-height: 100%;
+        min-width: 100%;
+        transform: translateX(-50%);
+      }
+    }
+
+    @e main-info-text {
+      @_ 6 6 6 6 12;
+      padding: calc($base-line-height * 2);
+      text-align: center;
+
+      @media (--greater-than-mobile) {
+        text-align: left;
+        min-height: 100%;
+        border-left: $team-005-border-width solid $team-005-border-color;
+      }
+    }
+
+    @define-mixin %name {
+      @mixin type-setting "section";
+      margin-bottom: $base-line-height;
+    }
+
+    @e name {
+      @mixin %name;
+      margin-bottom: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: calc($base-line-height * 2);
+      }
+    }
+
+    @e position {
+      @mixin type-setting "text-bold";
+      margin-bottom: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: calc($base-line-height * 2);
+      }
+    }
+
+    @e other-info {
+      @_ 6 6 12 12 12;
+      @mixin cellRow;
+      @mixin cellColumn;
+      padding: 0;
+      border: $team-005-border-width solid $team-005-border-color;
+      border-top: none;
+
+      @media (--greater-than-desktop) {
+        border-left: none;
+        border-top: $team-005-border-width solid $team-005-border-color;
+      }
+    }
+
+    @e text {
+      @mixin type-setting "text";
+      margin-bottom: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-bottom: calc($base-line-height * 2);
+      }
+    }
+
+    @e hours-wrap {
+      @_ 6 6 6 6 12;
+      padding: calc($base-line-height * 2);
+    }
+
+    @e title-hours {
+      @mixin type-setting "text-bold";
+      margin-bottom: calc($base-line-height * 2);
+    }
+
+    @e hours {
+      @mixin cellRow;
+      @mixin cellColumn;
+      justify-content: space-between;
+      padding: 0;
+      margin-top: $base-line-height;
+    }
+
+    @e hours-day {
+      @mixin type-setting "text";
+      margin-right: $base-line-height;
+    }
+
+    @e hours-time {
+      @mixin type-setting "text";
+      margin-left: $base-line-height;
+    }
+
+    @e contacts {
+      @_ 6 6 6 6 12;
+      padding: calc($base-line-height * 2);
+      border-top: $team-005-border-width solid $team-005-border-color;
+      text-align: center;
+
+      @media (--greater-than-mobile) {
+        border-top: none;
+        border-left: $team-005-border-width solid $team-005-border-color;
+        min-height: 100%;
+        text-align: left;
+      }
+    }
+
+    @e title-contacts {
+      @mixin type-setting "text-bold";
+      margin-bottom: calc($base-line-height * 2);
+    }
+
+    @e phone {
+      @mixin type-setting "text";
+      margin-bottom: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-right: calc($base-line-height * 2);
+      }
+    }
+
+    @e mail {
+      @mixin type-setting "text";
+      margin-bottom: $base-line-height;
+    }
+
+    @e social-wrap {
+      margin-top: calc($base-line-height * 2);
+      @mixin cellRow;
+      @mixin cellColumn;
+      padding: 0;
+      justify-content: center;
+      text-align: center;
+
+      @media (--greater-than-mobile) {
+        justify-content: flex-start;
+        text-align: left;
+      }
+    }
+
+    @e social-item {
+      display: inline-block;
+      margin: 0 calc($base-line-height / 2);
+      width: calc($base-line-height * 4);
+      height: calc($base-line-height * 4);
+    }
+
+    @define-mixin %social-icon {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      background: $team-005-icon-fon;
+      border-radius: $team-005-icon-circle;
+      font-size: calc($base-line-height * 2);
+      line-height: calc($base-line-height * 4);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    @e social-icon {
+      @mixin %social-icon;
+    }
+
+    @e nested-link-wrap {
+      margin-top: calc($base-line-height * 3);
+    }
+
+    @e btn-wrap {
+      text-align: center;
+      @mixin col_12_of_12;
+      @mixin resetWhitespace;
+      padding-left: calc($base-line-height * 2);
+      padding-right: calc($base-line-height * 2);
+      margin-top: $base-line-height;
+
+      @media (--greater-than-tablet) {
+        margin-top: calc($base-line-height * 2);
+      }
+    } 
+  }
+
+  @at-root {
+    :--allLinksWithButtons.team-005__name {
+      @mixin %name;
+      text-decoration: none;
+      display: block;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    :--allLinksWithButtons.team-005__full-link {
+      display: block;
+
+      @media (--greater-than-mobile) {
+        display: inline-block;
+      }
+    }
+
+    :--allLinksWithButtons.team-005__nested-link {
+      display: block;
+
+      @media (--greater-than-mobile) {
+        display: inline-block;
+      }
+    }
+
+    :--allLinksWithButtons.team-005__social-icon {
+      text-decoration: none;
+    }
+  }
+}

@@ -1,0 +1,1 @@
+import './news-002/block';

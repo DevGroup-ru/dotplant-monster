@@ -1,6 +1,9 @@
 @import "../bootstrap/_bootstrap.pcss";
 @import "components/group.css";
 @import "content-blocks/group.css";
+@import "about-blocks/group.css";
+@import "news/group.css";
+@import "teams/group.css";
 @import "faq/group.css";
 /*
 2
@@ -10,3 +13,4 @@
  *    TEST
  *
  ***************/
+

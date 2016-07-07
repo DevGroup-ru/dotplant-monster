@@ -1,0 +1,246 @@
+{
+  "container": true,
+  "content": {
+    "block": "team-005",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "elem": "title",
+        "utils": [
+          "no-margin--top"
+        ],
+        "editable": {
+          "type": "text",
+          "key": "title"
+        }
+      },
+      {
+        "recursive": "blocks",
+        "itemTemplate": {
+          "elem": "nested",
+          "content": [
+            {
+              "elem": "main-info",
+              "content": [
+                {
+                  "elem": "photo-link",
+                  "editable": {
+                    "type": "link",
+                    "key": "photo-link",
+                    "target": "item"
+                  },
+                  "content": [
+                    {
+                      "elem": "photo",
+                      "editable": {
+                        "type": "image",
+                        "key": "img",
+                        "target": "item"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elem": "main-info-text",
+                  "content": [
+                    {
+                      "elem": "name",
+                      "editable": {
+                        "type": "link",
+                        "key": "name",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "position",
+                      "editable": {
+                        "key": "position",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "text",
+                      "editable": {
+                        "type": "wysiwyg",
+                        "key": "text",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "nested-link-wrap",
+                      "content": [
+                        {
+                          "elem": "nested-link",
+                          "cls": "button-simple",
+                          "editable": {
+                            "type": "link",
+                            "key": "nested-link",
+                            "target": "item"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "elem": "other-info",
+              "content": [
+                {
+                  "elem": "hours-wrap",
+                  "content": [
+                    {
+                      "elem": "title-hours",
+                      "editable": {
+                        "key": "title-hours",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "пн"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "10:00 - 15:00"
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "вт"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "10:00 - 15:00"
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "ср"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "10:00 - 15:00"
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "чт"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "10:00 - 15:00"
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "пт"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "10:00 - 15:00"
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "hours",
+                      "content": [
+                        {
+                          "elem": "hours-day",
+                          "html": "сб-вс"
+                        },
+                        {
+                          "elem": "hours-time",
+                          "html": "выходной"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "elem": "contacts",
+                  "content": [
+                    {
+                      "elem": "title-contacts",
+                      "editable": {
+                        "key": "title-contacts",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "phone",
+                      "editable": {
+                        "key": "phone",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "mail",
+                      "editable": {
+                        "key": "mail",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "social-wrap",
+                      "content": [
+                        {
+                          "elem": "social-item",
+                          "html": "<a href='/' class='team-001__social-icon'>f</a>"
+                        },
+                        {
+                          "elem": "social-item",
+                          "html": "<a href='/' class='team-001__social-icon'>v</a>"
+                        },
+                        {
+                          "elem": "social-item",
+                          "html": "<a href='/' class='team-001__social-icon'>t</a>"
+                        }
+                      ]
+                    }
+                  ]
+                }                
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "elem": "btn-wrap",
+        "content": [
+          {
+            "elem": "full-link",
+            "cls": "button-simple",
+            "editable": {
+              "type": "link",
+              "key": "full-link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

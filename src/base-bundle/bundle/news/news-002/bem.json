@@ -1,0 +1,117 @@
+{
+  "container": true,
+  "content": {
+    "block": "news-002",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "elem": "title",
+        "utils": [
+          "no-margin--top"
+        ],
+        "editable": {
+          "type": "text",
+          "key": "title"
+        }
+      },
+      {
+        "elem": "slider-wrap",
+        "cls": "flexslider",
+        "content": [
+          {
+            "elem": "slider",
+            "cls": "slides",
+            "tag": "ul",
+            "content": [
+              {
+                "recursive": "blocks",
+                "itemTemplate": {
+                  "elem": "nested-wrap",
+                  "tag": "li",
+                  "content": [
+                    {
+                      "elem": "nested",
+                      "content": [
+                        {
+                          "elem": "img-link",
+                          "editable": {
+                            "type": "link",
+                            "key": "img-link",
+                            "target": "item"
+                          },
+                          "content": [
+                            {
+                              "elem": "img",
+                              "editable": {
+                                "type": "image",
+                                "key": "img",
+                                "target": "item"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "elem": "text-wrap",
+                          "content": [
+                            {
+                              "elem": "date",
+                              "content": [
+                                {
+                                  "elem": "time",
+                                  "editable": {
+                                    "key": "time",
+                                    "target": "item"
+                                  }
+                                },
+                                {
+                                  "elem": "day",
+                                  "editable": {
+                                    "key": "day",
+                                    "target": "item"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "elem": "title-nested",
+                              "editable": {
+                                "type": "link",
+                                "key": "title-nested",
+                                "target": "item"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "elem": "chosen-test",
+            "html": "<label class='form-label'>Время приема</label><select data-placeholder='...' class='chosen-select' tabindex='1' name='' id=''><option value='9:00'>9:00</option><option value='10:00'>10:00</option><option value='11:00'>11:00</option><option value='12:00'>12:00</option><option value='13:00'>13:00</option><option value='14:00'>14:00</option><option value='15:00'>15:00</option><option value='16:00'>16:00</option><option value='17:00'>17:00</option><option value='18:00'>18:00</option></select>"
+          }
+        ]
+      },
+      {
+        "elem": "btn-wrap",
+        "utils": ["one-line--top"],
+        "content": [
+          {
+            "elem": "full-link",
+            "cls": "button-simple",
+            "editable": {
+              "type": "link",
+              "key": "full-link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
