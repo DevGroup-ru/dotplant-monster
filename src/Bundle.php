@@ -110,6 +110,40 @@ class Bundle extends BundleEntity
         Yii::trace("Publish assets for bundle {$this->fullPath}!");
         $this->publishEntityAssets($this->isCore);
     }
+    
+    public function publishEntityAssets($jsAtHead = false)
+    {
+        if ($this->published) {
+            return;
+        }
+        if ($this->hasJs) {
+            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->scriptsFilename());
+            if (file_exists($publishedPath) === false) {
+                Yii::$app->assetManager->publish($this->scriptsFilename());
+            }
+            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->scriptsFilename());
+
+            $jsOptions = [];
+
+            Yii::$app->view->registerJsFile($publishedUrl, $jsOptions);
+
+        }
+
+        if ($this->hasCss) {
+            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->stylesFilename());
+            if (file_exists($publishedPath) === false) {
+                Yii::$app->assetManager->publish($this->stylesFilename());
+            }
+            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->stylesFilename());
+
+            Yii::$app->view->registerCssFile($publishedUrl);
+
+        }
+        
+        $this->publishAssetBundles();
+        
+        $this->published = true;
+    }
 
     /**
      * @return array

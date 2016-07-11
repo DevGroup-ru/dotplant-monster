@@ -3,6 +3,8 @@
 namespace DotPlant\Monster;
 
 use BEM\BH;
+use BEM\Context;
+use BEM\Matcher;
 use DotPlant\Monster\Bundle\Material;
 use yii;
 use yii\base\Component;
@@ -97,6 +99,17 @@ abstract class BaseBh extends Component
                 $newMatchers = yii\helpers\ArrayHelper::merge($newMatchers, $new);
             }
         }
+
+        if ($material->hasJs && $isExpander) {
+            $mJs = new Matcher(
+                $material->id,
+                function(Context $ctx) {
+                    $ctx->cls($ctx->cls() . ' m-js', true);
+                }
+            );
+            $newMatchers['m-js'] = $this->bh()->matcher($mJs);
+        }
+
         return $newMatchers;
     }
 }

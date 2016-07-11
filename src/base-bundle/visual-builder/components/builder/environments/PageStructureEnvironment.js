@@ -9,7 +9,7 @@ class PageStructureEnvironment extends BaseEnvironment {
   }
 
   initPageStructureElement() {
-    this.$pageStructure = $(`<ul class="page-structure"></ul>`)
+    this.$pageStructure = $('<ul class="page-structure"></ul>');
   }
 
   activate() {
@@ -18,7 +18,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     this.$structurePane = this.visualBuilder.createStackablePane();
     this.$structurePane.append(this.$pageStructure);
   }
-  
+
   pageChanged() {
     super.pageChanged();
     this.$pageStructure.find('li').remove();
@@ -26,7 +26,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     const environment = this;
     this.regionsStructure = {};
     const that = this;
-    regions.each(function(){
+    regions.each(function iter() {
       const $regionNode = $(this);
       const regionObject = new Region($regionNode);
       const $regionLi = regionObject.processRegion();
@@ -35,26 +35,22 @@ class PageStructureEnvironment extends BaseEnvironment {
     });
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
   }
-  
+
   serializePage() {
     const result = {};
-    for (const regionKey in this.regionsStructure) {
-      if (this.regionsStructure.hasOwnProperty(regionKey)) {
-        const region = this.regionsStructure[regionKey];
-        result[region.key] = region.serialize();
-      }
-    }
+    Object.keys(this.regionsStructure).forEach(regionKey => {
+      const region = this.regionsStructure[regionKey];
+      result[region.key] = region.serialize();
+    });
     return result;
   }
 
   materialsByRegions() {
     const result = {};
-    for (const regionKey in this.regionsStructure) {
-      if (this.regionsStructure.hasOwnProperty(regionKey)) {
-        const region = this.regionsStructure[regionKey];
-        result[region.key] = region.materialsDecl();
-      }
-    }
+    Object.keys(this.regionsStructure).forEach(regionKey => {
+      const region = this.regionsStructure[regionKey];
+      result[region.key] = region.materialsDecl();
+    });
     return result;
   }
 }

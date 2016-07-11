@@ -26,5 +26,4 @@ window.MonsterBem.blockCallbacks['faq-002'] = function f() {
         $(this).prev('.faq__text-hide').fadeOut();
       }
     });
-
 };

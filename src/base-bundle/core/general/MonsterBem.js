@@ -20,12 +20,12 @@ class MonsterBem {
   update() {
     Object.keys(this.blockCallbacks).forEach(blockName => {
       const callback = this.blockCallbacks[blockName];
-      $(`.${blockName}.m-bem`).each(function iter() {
+      $(`.${blockName}.m-js`).each(function iter() {
         const $this = $(this);
         callback.call($this, blockName);
         $this
-          .removeClass('m-bem')
-          .addClass('m-bem-initialized');
+          .removeClass('m-js')
+          .addClass('m-js-initialized');
       });
     });
   }

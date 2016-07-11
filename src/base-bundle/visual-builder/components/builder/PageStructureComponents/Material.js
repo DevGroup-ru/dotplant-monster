@@ -2,14 +2,14 @@ class Material {
   constructor($node) {
     this.$node = $node;
     this.materialPath = this.$node.data('materialPath');
-    this.name = this.materialPath.replace(/.*\.(.*)$/, '$1');
-    //!@todo CHANGE THIS
+
+    this.materialName = this.materialPath.replace(/.*\.(.*)$/, '$1');
+    // @todo CHANGE THIS
     this.key = this.$node.data('materialIndex');
   }
 
   processMaterial() {
-    const $li = $(`<li class="page-structure__material">${this.name}</li>`);
-    return $li;
+    return $(`<li class="page-structure__material">${this.materialName}</li>`);
   }
 
   static serializeNode($node) {
@@ -21,7 +21,7 @@ class Material {
     const editableKeys = this.$node.data('editableKeys');
     const recursiveIterator = function iter(arr, path, $scope) {
       const final = {};
-      for (const key of Object.keys(arr)) {
+      Object.keys(arr).forEach(key => {
         let fullKeyPath = key;
         if (path) {
           fullKeyPath = `${path}.${key}`;
@@ -41,15 +41,11 @@ class Material {
           const $node = $scope.find(`[data-editable-key="${fullKeyPath}"]`);
           final[key] = Material.serializeNode($node);
         }
-      }
+      });
       return final;
     };
-    
-    const result = recursiveIterator(editableKeys, '', this.$node);
-    console.log(result);
-//    this.$node.find('')
-    
-    return result;
+
+    return recursiveIterator(editableKeys, '', this.$node);
   }
 }
 

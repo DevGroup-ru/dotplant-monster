@@ -26,10 +26,11 @@ return [
                     if ($editMode) {
                         $ctx->attr('data-editable', 1);
 
-
-                        $ctx->js([
-                            'editable' => $editable
-                        ]);
+//
+//                        $ctx->js([
+//                            'editable' => $editable
+//                        ]);
+                        $ctx->attr('data-editable-params', \yii\helpers\Json::encode($editable));
                     }
 
                     $type = isset($editable['type'])
@@ -152,12 +153,12 @@ PHP;
 PHP;
                 if ($editMode) {
                     if ($isBem === false) {
-                        $ctx->node->parentNode->json->js = $js;
+                        $ctx->node->parentNode->json->attrs['data-monster-debug'] = \yii\helpers\Json::encode($js);
                         $ctx->node->parentNode->json->attrs['data-recursive'] = 1;
                         $ctx->node->parentNode->json->attrs['data-editable-key'] = $recursive;
 
                     } else {
-                        $ctx->js($js);
+                        $ctx->attr('data-monster-debug', $js);
                         $ctx->attr('data-recursive', 1);
                         $ctx->attr('data-editable-key', $recursive);
                     }
@@ -174,14 +175,12 @@ PHP;
             // it is a child of recursive - itemTemplate or wrapTemplate
             if ($isItemTemplate = $ctx->param('isItemTemplate') && $editMode) {
                 // it's itemTemplate
-                $js = $ctx->js();
-                if (is_object($js)===false && is_array($js) === false) {
-                    $js = [];
-                }
+
+                $js=[];
                 $js['itemTemplateInside'] = $isItemTemplate;
                 $js['recursiveOf'] = $ctx->param('recursiveOf');
 
-                $ctx->js($js, true);
+                $ctx->attr('data-monster-debug', \yii\helpers\Json::encode($js));
                 $ctx->attr('data-recursive-item', $ctx->param('recursiveOf'));
             }
         }

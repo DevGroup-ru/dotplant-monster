@@ -102,4 +102,9 @@ class Group extends BundleEntity
         }
         return $result;
     }
+
+    public function publishEntityAssets($jsAtHead = false)
+    {
+        // do nothing for group for now
+    }
 }

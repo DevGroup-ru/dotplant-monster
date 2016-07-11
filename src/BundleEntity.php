@@ -31,7 +31,7 @@ abstract class BundleEntity
 
     public $assetBundles = [];
 
-    private $published = false;
+    protected $published = false;
     
     const MANIFEST_FILENAME = 'monster.json';
 
@@ -110,45 +110,16 @@ abstract class BundleEntity
 
     abstract public function publishAssets();
 
-    public function publishEntityAssets($jsAtHead = false)
+    abstract public function publishEntityAssets($jsAtHead = false);
+    
+    protected function publishAssetBundles()
     {
-        if ($this->published) {
-            return;
-        }
-        if ($this->hasJs) {
-            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->scriptsFilename());
-            if (file_exists($publishedPath) === false) {
-                Yii::$app->assetManager->publish($this->scriptsFilename());
-            }
-            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->scriptsFilename());
-            
-            $jsOptions = [];
-            if ($jsAtHead === true) {
-//                $jsOptions['position'] = yii\web\View::POS_BEGIN;
-            }
-
-            Yii::$app->view->registerJsFile($publishedUrl, $jsOptions);
-
-        }
-
-        if ($this->hasCss) {
-            $publishedPath = Yii::$app->assetManager->getPublishedPath($this->stylesFilename());
-            if (file_exists($publishedPath) === false) {
-                Yii::$app->assetManager->publish($this->stylesFilename());
-            }
-            $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->stylesFilename());
-
-            Yii::$app->view->registerCssFile($publishedUrl);
-
-        }
-        
         if (count($this->assetBundles) > 0) {
             foreach ($this->assetBundles as $bundleName) {
                 /** @var yii\web\AssetBundle $object */
                 Yii::$app->view->registerAssetBundle(ltrim($bundleName,'\\'));
             }
         }
-        $this->published = true;
     }
 
     /**

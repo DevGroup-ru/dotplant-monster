@@ -119,4 +119,15 @@ class Material extends BundleEntity
         list($namespace, $bundleId, $groupId, $materialId) = explode('.', $this->fullPath . ".\1.\2.\3");
         return $materialId;
     }
+
+    public function scriptsFilename()
+    {
+        return $this->getFsLocation() . 'block.js';
+    }
+
+
+    public function publishEntityAssets($jsAtHead = false)
+    {
+        // do nothing as bundle has scripts
+    }
 }
