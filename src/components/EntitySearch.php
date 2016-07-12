@@ -166,7 +166,23 @@ class EntitySearch
         if ($this->prepareQuery() === false) {
             return 0;
         }
-        return (int) $this->query->count();
+        return (int)$this->query->count();
+    }
+
+
+    /**
+     * Set pagination query
+     * @param int $page the page number
+     */
+    protected function setPagination($page)
+    {
+        $this->query->limit($this->limit);
+        if ($page < 1) {
+            $page = 1;
+        }
+        if ($page > 1) {
+            $this->query->offset(($page - 1) * $this->limit);
+        }
     }
 
     /**
@@ -179,16 +195,26 @@ class EntitySearch
         if ($this->prepareQuery() === false) {
             return [];
         }
-        $this->query->limit($this->limit);
-        if ($page < 1) {
-            $page = 1;
-        }
-        if ($page > 1) {
-            $this->query->offset(($page - 1) * $this->limit);
-        }
+        $this->setPagination($page);
         $rows = $this->query->all();
-        $this->query->limit(null);
-        $this->query->offset(null);
+        return $rows;
+    }
+
+    /**
+     * @param int $page
+     * @param string $attributeName
+     * @return array
+     */
+    public function listData($page = 1, $attributeName = 'name')
+    {
+        if ($this->prepareQuery() === false) {
+            return [];
+        }
+        $pk = call_user_func([$this->className, 'primaryKey']);
+        $this->setPagination($page);
+        $this->query->indexBy(reset($pk));
+        $this->query->select($attributeName);
+        $rows = $this->query->column();
         return $rows;
     }
 }

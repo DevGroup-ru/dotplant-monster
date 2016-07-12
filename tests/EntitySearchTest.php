@@ -85,6 +85,29 @@ class EntitySearchTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($es->all()));
     }
 
+
+    public function testGetList()
+    {
+        $es = new EntitySearch(Product::class);
+
+        /***
+         * @var $product Product
+         */
+        $product = Product::findOne(['name' => 'Product 6']);
+        $this->assertNotNull($product);
+
+        $es->whereAttributes(['name' => 'Product 6']);
+        $rows = $es->listData();
+
+        $this->assertSame($product->name, $rows[$product->id]);
+
+        $rows = $es->listData(1, 'content');
+        $this->assertSame($product->content, $rows[$product->id]);
+
+
+
+    }
+
     public function testWhereProperties()
     {
         // Single property

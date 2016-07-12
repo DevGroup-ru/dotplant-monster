@@ -4,7 +4,7 @@ use DotPlant\Monster\Tests\models\Product;
 use yii\db\Migration;
 use DevGroup\DataStructure\models\StaticValue;
 
-class m160610_061522_tests extends Migration
+class m160704_111550_tests extends Migration
 {
     public function up()
     {

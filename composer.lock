@@ -493,12 +493,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DevGroup-ru/yii2-admin-utils.git",
-                "reference": "298545d55b1747beb0ae4bd9e4cdb2d1b6aefcc1"
+                "reference": "36ef025f5d808744ff7a32f33be37c4eb6bcfe7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DevGroup-ru/yii2-admin-utils/zipball/298545d55b1747beb0ae4bd9e4cdb2d1b6aefcc1",
-                "reference": "298545d55b1747beb0ae4bd9e4cdb2d1b6aefcc1",
+                "url": "https://api.github.com/repos/DevGroup-ru/yii2-admin-utils/zipball/36ef025f5d808744ff7a32f33be37c4eb6bcfe7a",
+                "reference": "36ef025f5d808744ff7a32f33be37c4eb6bcfe7a",
                 "shasum": ""
             },
             "require": {
@@ -536,7 +536,7 @@
                 "extension",
                 "yii2"
             ],
-            "time": "2016-07-04 07:22:21"
+            "time": "2016-07-06 11:56:04"
         },
         {
             "name": "devgroup/yii2-data-structure-tools",
@@ -544,16 +544,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DevGroup-ru/yii2-data-structure-tools.git",
-                "reference": "9893a8090a3beaf8960275a6ff53cd91c7ab6585"
+                "reference": "35ba5e83163c60db777c819e412ba6e3901dfa42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DevGroup-ru/yii2-data-structure-tools/zipball/9893a8090a3beaf8960275a6ff53cd91c7ab6585",
-                "reference": "9893a8090a3beaf8960275a6ff53cd91c7ab6585",
+                "url": "https://api.github.com/repos/DevGroup-ru/yii2-data-structure-tools/zipball/35ba5e83163c60db777c819e412ba6e3901dfa42",
+                "reference": "35ba5e83163c60db777c819e412ba6e3901dfa42",
                 "shasum": ""
             },
             "require": {
                 "arogachev/yii2-sortable": "^0.1.5",
+                "devgroup/yii2-entity": "*",
                 "devgroup/yii2-jsoneditor": "*",
                 "devgroup/yii2-multilingual": "*",
                 "devgroup/yii2-tag-dependency-helper": "^1.3.0",
@@ -592,6 +593,10 @@
                 {
                     "name": "Alexander Kozhevnikov",
                     "email": "b37hr3z3n@gmail.com"
+                },
+                {
+                    "name": "Pavel Naumov",
+                    "email": "huggbies@email.su"
                 }
             ],
             "description": "Data structure collections, helpers and utilities for yii2 ActiveRecord models(trees, sorts and etc.)",
@@ -603,7 +608,59 @@
                 "tree",
                 "yii2"
             ],
-            "time": "2016-07-05 10:56:34"
+            "time": "2016-07-12 06:14:00"
+        },
+        {
+            "name": "devgroup/yii2-entity",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DevGroup-ru/yii2-entity.git",
+                "reference": "1fbe464fd330b7f4fe5124ebed5328386be93284"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DevGroup-ru/yii2-entity/zipball/1fbe464fd330b7f4fe5124ebed5328386be93284",
+                "reference": "1fbe464fd330b7f4fe5124ebed5328386be93284",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^2.2",
+                "yiisoft/yii2-codeception": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "DevGroup\\Entity\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Kozhevnikov",
+                    "email": "b37hr3z3n@gmail.com"
+                },
+                {
+                    "name": "Pavel Fedotov",
+                    "email": "fps.06@mail.ru"
+                }
+            ],
+            "description": "Yii2 entity",
+            "keywords": [
+                "active-record",
+                "ar",
+                "entity",
+                "extension",
+                "yii2"
+            ],
+            "time": "2016-07-07 12:26:15"
         },
         {
             "name": "devgroup/yii2-frontend-utils",
@@ -1670,12 +1727,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "756659a8a03937c3c4423f00a016797496d48b66"
+                "reference": "21292378c63697be45fdd4f842ec160a52ead489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/756659a8a03937c3c4423f00a016797496d48b66",
-                "reference": "756659a8a03937c3c4423f00a016797496d48b66",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/21292378c63697be45fdd4f842ec160a52ead489",
+                "reference": "21292378c63697be45fdd4f842ec160a52ead489",
                 "shasum": ""
             },
             "require": {
@@ -1756,7 +1813,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-07-05 22:33:30"
+            "time": "2016-07-11 21:49:43"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -2085,12 +2142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fzaninotto/Faker.git",
-                "reference": "726a36230cf4811db4b71f18fdd19b9ea4389a54"
+                "reference": "039eeba8a61788df89c7800eccb2c56723a0db34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/726a36230cf4811db4b71f18fdd19b9ea4389a54",
-                "reference": "726a36230cf4811db4b71f18fdd19b9ea4389a54",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/039eeba8a61788df89c7800eccb2c56723a0db34",
+                "reference": "039eeba8a61788df89c7800eccb2c56723a0db34",
                 "shasum": ""
             },
             "require": {
@@ -2127,7 +2184,7 @@
                 "faker",
                 "fixtures"
             ],
-            "time": "2016-07-01 12:18:29"
+            "time": "2016-07-11 08:36:05"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -2918,6 +2975,56 @@
             "time": "2015-12-08 07:14:41"
         },
         {
+            "name": "sebastian/environment",
+            "version": "1.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/environment.git",
+                "reference": "622c5dc0a8036cfc4ccd73c7b1b668a431e69d96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/622c5dc0a8036cfc4ccd73c7b1b668a431e69d96",
+                "reference": "622c5dc0a8036cfc4ccd73c7b1b668a431e69d96",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3 || ^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8 || ^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian Bergmann",
+                    "email": "sebastian@phpunit.de"
+                }
+            ],
+            "description": "Provides functionality to handle HHVM/PHP environments",
+            "homepage": "http://www.github.com/sebastianbergmann/environment",
+            "keywords": [
+                "Xdebug",
+                "environment",
+                "hhvm"
+            ],
+            "time": "2016-06-11 08:21:19"
+        },
+        {
             "name": "sebastian/exporter",
             "version": "dev-master",
             "source": {
@@ -3373,12 +3480,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "2385e71733d567b72d4e46ddde77f97904448c14"
+                "reference": "4f7bece043b6e60571ad855cd937bf0e07e1891d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/2385e71733d567b72d4e46ddde77f97904448c14",
-                "reference": "2385e71733d567b72d4e46ddde77f97904448c14",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/4f7bece043b6e60571ad855cd937bf0e07e1891d",
+                "reference": "4f7bece043b6e60571ad855cd937bf0e07e1891d",
                 "shasum": ""
             },
             "require": {
@@ -3418,7 +3525,7 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2016-06-15 11:31:00"
+            "time": "2016-07-07 16:09:06"
         }
     ],
     "aliases": [],
