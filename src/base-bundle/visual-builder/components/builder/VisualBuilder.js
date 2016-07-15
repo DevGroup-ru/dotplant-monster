@@ -25,7 +25,7 @@ class VisualBuilder {
     this.switchEnvironment('site-structure');
     $('.monster-environment-selector__environment-link')
       .first()
-      .addClass('monster-environment-selector__environment-link--active');
+      .mod('active', true);
     FrameApi.bindMessageListener(this);
 
     this.editable = new Editable();
@@ -185,11 +185,11 @@ class VisualBuilder {
   controls() {
     this.$controls = this.$builder.find('.controls');
     const builder = this;
-    this.$controls.find('.controls__refresh').click(() => {
+    this.$controls.elem('refresh').click(() => {
       builder.frameContentWindow.location.reload();
       return false;
     });
-    this.$controls.find('.controls__save').click(() => {
+    this.$controls.elem('save').click(() => {
       $.ajax({
         url: builder.frameContentWindow.location,
         method: 'POST',

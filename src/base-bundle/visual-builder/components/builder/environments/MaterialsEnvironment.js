@@ -7,22 +7,25 @@ class MaterialsEnvironment extends BaseEnvironment {
   }
 
   initMaterialsSelector() {
-    this.$materialsGroups = $(`<ul class="materials-groups"></ul>`);
+    this.$materialsGroups = $('<ul class="materials-groups"></ul>');
     this.$materialsList = [];
 
-    for (const bundle of this.visualBuilder.settings.bundles) {
-      const i18nBundleName = typeof(polyglot) !== 'undefined' ? polyglot.t(bundle.name) : bundle.name;
+    this.visualBuilder.settings.bundles.forEach(bundle => {
+      /* global polyglot: false */
+      const i18nBundleName = typeof(polyglot) !== 'undefined'
+        ? polyglot.t(bundle.name)
+        : bundle.name;
 
-      let $bundleTitle = `
+      const $bundleTitle = `
       <li class="materials-groups__item materials-groups__item--bundle-label">
-        <a href="#" class="materials-groups__switch-bundle" data-bundle-path=""${bundle.fullPath}>
+        <a href="#" class="materials-groups__switch-bundle" data-bundle-path="${bundle.fullPath}">
             ${i18nBundleName}
         </a>
       </li>
       `;
       this.$materialsList.push($bundleTitle);
 
-      for (const group of bundle.groups) {
+      bundle.groups.forEach(group => {
         const groupName = group.name;
         const materials = group.materials;
         const i18nGroupName = typeof(polyglot) !== 'undefined' ? polyglot.t(groupName) : groupName;
@@ -35,30 +38,33 @@ class MaterialsEnvironment extends BaseEnvironment {
         this.$materialsGroups.append($li);
         const $list = $(`<ul class="materials-list" data-group-path="${group.fullPath}"></ul>`);
         const items = [];
-        for (const material of materials) {
+
+        materials.forEach(material => {
           const materialName = material.name;
-          const i18nMaterialName = typeof(polyglot) !== 'undefined' ? polyglot.t(materialName) : materialName;
+          const i18nMaterialName = typeof(polyglot) !== 'undefined'
+            ? polyglot.t(materialName)
+            : materialName;
           const $item = $(`
 <li>
-  <a href="#" class="materials-list__item" data-material-path="${material.fullPath}">${i18nMaterialName}</a>
+  <a href="#" class="materials-list__item" data-material-path="${material.fullPath}">
+    ${i18nMaterialName}
+  </a>
 </li>
 `);
           items.push($item);
-        }
+        });
         $list.append(items);
         this.$materialsList.push($list);
-
-      }
-    }
+      });
+    });
 
     const that = this;
     $(document).on('click', '.materials-groups__switch-group', function clickHandler() {
       const $this = $(this);
-      const activeClass = 'materials-groups__switch-group--active';
-      $this.toggleClass(activeClass);
+      $this.toggleMod('active');
       const groupPath = $this.data('groupPath');
-      if ($this.hasClass(activeClass)) {
-        $('.materials-groups__switch-group').removeClass(activeClass);
+      if ($this.mod('active')) {
+        $('.materials-groups__switch-group').mod('active', false);
         const materialsListActiveClass = 'materials-list--active';
 
         $('.materials-list').each(function it() {
@@ -71,7 +77,7 @@ class MaterialsEnvironment extends BaseEnvironment {
           }
         });
 
-        $this.addClass(activeClass);
+        $this.mod('active', true);
         that.$materialsPane.show();
       } else {
         // that's just second click on the same group
@@ -84,7 +90,7 @@ class MaterialsEnvironment extends BaseEnvironment {
         'newBlock',
         [
           $(this).data('materialPath'),
-          'content'
+          'content',
         ]
       );
     });
@@ -100,7 +106,7 @@ class MaterialsEnvironment extends BaseEnvironment {
     this.$materialsPane.append(this.$materialsList);
     this.$materialsPane.hide();
 
-    $('.materials-groups__switch-group').removeClass('materials-groups__switch-group--active');
+    $('.materials-groups__switch-group').mod('active', false);
   }
 }
 export default MaterialsEnvironment;
