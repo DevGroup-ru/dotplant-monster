@@ -12,11 +12,10 @@ class FrontendMonster {
         this.VisualFrame = new VisualFrame();
       }
     }
-    /** globals: smoothScroll*/
+    /* global smoothScroll: false*/
     if (typeof(smoothScroll) !== 'undefined') {
       smoothScroll.init();
     }
-
   }
 
   /**
@@ -45,11 +44,9 @@ class FrontendMonster {
   params() {
     const userSettings = window.FrontendMonsterSettings || {};
     const settings = {};
-    for (const key in userSettings) {
-      if (userSettings.hasOwnProperty(key)) {
-        settings[key] = userSettings[key];
-      }
-    }
+    Object.keys(userSettings).forEach(key => {
+      settings[key] = userSettings[key];
+    });
     this.settings = settings;
   }
 }
