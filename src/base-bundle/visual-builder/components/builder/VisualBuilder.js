@@ -42,18 +42,16 @@ class VisualBuilder {
     const settings = {
       'element-selector': '.monster-visual-builder',
       'frame-selector': '.monster-visual-frame',
-      'bundles': {},
+      bundles: {},
       'stackable-container-class': 'monster-stackable-container',
       'new-block-url': '/monster/visual-builder/new-block',
     };
-    for (const key in userSettings) {
-      if (userSettings.hasOwnProperty(key)) {
-        settings[key] = userSettings[key];
-      }
-    }
+    Object.keys(userSettings).forEach(key => {
+      settings[key] = userSettings[key];
+    });
     this.settings = settings;
     this.$builder = $(this.settings['element-selector']);
-    this.$stackable = $('.' + this.settings['stackable-container-class']);
+    this.$stackable = $(`.${this.settings['stackable-container-class']}`);
   }
 
   resolutionSwitcher() {
@@ -101,7 +99,9 @@ class VisualBuilder {
 
   createStackablePane() {
     const paneClass = `${this.settings['stackable-container-class']}__pane`;
-    const modifier = this.$stackable.find('.' + paneClass).length === 0 ? `${paneClass}--first` : '';
+    const modifier = this.$stackable.find(`.${paneClass}`).length === 0
+      ? `${paneClass}--first`
+      : '';
     const $newPane = $(`<div class="${paneClass} ${modifier}"></div>`);
     this.$stackable.append($newPane);
     return $newPane;
@@ -133,51 +133,49 @@ class VisualBuilder {
     const resultByProviders = {};
     const providedKeys = this.frameContentWindow.MONSTER_EDIT_MODE_DATA.template.providedKeys;
 
-    for (const providerIndex in providedKeys) {
-      if (providedKeys.hasOwnProperty(providerIndex) === false) {
-        continue;
-      }
+    Object.keys(providedKeys).forEach(providerIndex => {
       resultByProviders[providerIndex] = {};
+
       const regions = providedKeys[providerIndex];
-      for (const regionKey in regions) {
-        if (regions.hasOwnProperty(regionKey) === false) {
-          continue;
-        }
+
+      Object.keys(regions).forEach(regionKey => {
         if (result.hasOwnProperty(regionKey) === false) {
-          continue;
+          return;
         }
         resultByProviders[providerIndex][regionKey] = {};
+
         // go deep to material indeces
         const materials = regions[regionKey];
-        for (const materialIndex in materials) {
-          if (materials.hasOwnProperty(materialIndex) === false) {
-            continue;
-          }
+
+        Object.keys(materials).forEach(materialIndex => {
           if (result[regionKey].hasOwnProperty(materialIndex) === false) {
-            continue;
+            return;
           }
           resultByProviders[providerIndex][regionKey][materialIndex] = {};
+
           const dataKeys = materials[materialIndex];
-          for (const key of dataKeys) {
+
+          Object.keys(dataKeys).forEach(key => {
             if (result[regionKey][materialIndex].hasOwnProperty(key) === false) {
-              continue;
+              return;
             }
             resultByProviders
               [providerIndex]
               [regionKey]
               [materialIndex]
               [key] = result[regionKey][materialIndex][key];
-          }
-        }
-      }
-    }
+          });
+        });
+      });
+    });
     return resultByProviders;
   }
 
   pageChanged() {
-    for (const environment of this.environments) {
-      environment[1].pageChanged();
-    }
+    this.environments.forEach(
+      environment =>
+        environment.pageChanged()
+    );
   }
 
   log(result) {
@@ -187,12 +185,11 @@ class VisualBuilder {
   controls() {
     this.$controls = this.$builder.find('.controls');
     const builder = this;
-    this.$controls.find('.controls__refresh').click(function handler() {
+    this.$controls.find('.controls__refresh').click(() => {
       builder.frameContentWindow.location.reload();
       return false;
     });
-    this.$controls.find('.controls__save').click(function handler() {
-
+    this.$controls.find('.controls__save').click(() => {
       $.ajax({
         url: builder.frameContentWindow.location,
         method: 'POST',
@@ -211,7 +208,7 @@ class VisualBuilder {
         },
         error: function err(data, textStatus, errorThrown) {
           console.log(data);
-        }
+        },
       });
       return false;
     });
