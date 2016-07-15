@@ -32,8 +32,8 @@ class FrameApi {
 
   static sendMessage(target, func, args) {
     const data = {
-      'func': func,
-      'args': args,
+      func,
+      args
     };
     const message = FrameApi.isIe ? JSON.stringify(data) : data;
 
