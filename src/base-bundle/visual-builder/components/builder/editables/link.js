@@ -1,6 +1,8 @@
 export default function link($node) {
+  console.log($node.data());
+  console.log($node.data('originalHref'));
   return {
-    src: $node.attr('href'),
+    href: $node.data('originalHref') ? $node.data('originalHref') : $node.attr('href'),
     anchor: $node.html(),
   };
 }

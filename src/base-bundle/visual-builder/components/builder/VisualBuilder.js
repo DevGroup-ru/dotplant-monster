@@ -155,7 +155,7 @@ class VisualBuilder {
 
           const dataKeys = materials[materialIndex];
 
-          Object.keys(dataKeys).forEach(key => {
+          dataKeys.forEach(key => {
             if (result[regionKey][materialIndex].hasOwnProperty(key) === false) {
               return;
             }
@@ -168,6 +168,7 @@ class VisualBuilder {
         });
       });
     });
+    console.log(resultByProviders);
     return resultByProviders;
   }
 
@@ -183,23 +184,22 @@ class VisualBuilder {
   }
 
   controls() {
-    this.$controls = this.$builder.find('.controls');
-    const builder = this;
+    this.$controls = this.$builder.find('.controls').first();
     this.$controls.elem('refresh').click(() => {
-      builder.frameContentWindow.location.reload();
+      this.frameContentWindow.location.reload();
       return false;
     });
     this.$controls.elem('save').click(() => {
       $.ajax({
-        url: builder.frameContentWindow.location,
+        url: this.frameContentWindow.location,
         method: 'POST',
         cache: false,
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify({
           template: {
-            providersEntities: builder.serialize(),
-            regionsMaterials: builder.environments.get('page-structure').materialsByRegions(),
+            providersEntities: this.serialize(),
+            regionsMaterials: this.environments.get('page-structure').materialsByRegions(),
           },
           action: 'save',
         }),

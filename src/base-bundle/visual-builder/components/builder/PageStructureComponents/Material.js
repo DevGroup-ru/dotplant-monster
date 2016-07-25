@@ -16,6 +16,10 @@ class Material {
     return window.FrontendMonster.builder.editable.serializeEditable($node);
   }
 
+  static get frame$() {
+    return window.FrontendMonster.builder.frameContentWindow.$;
+  }
+
   serialize() {
     // material has data-editable-keys with schema
     const editableKeys = this.$node.data('editableKeys');
@@ -30,7 +34,7 @@ class Material {
           const $items = $scope.find(`[data-recursive-item="${fullKeyPath}"]`);
           final[key] = {};
           $items.each(function itemsRec() {
-            const $this = $(this);
+            const $this = Material.frame$(this);
             final[key][$this.data('recursiveItemKey')] = recursiveIterator(
               arr[key],
               'item',
@@ -38,14 +42,14 @@ class Material {
             );
           });
         } else {
-          const $node = $scope.find(`[data-editable-key="${fullKeyPath}"]`);
+          const $node = Material.frame$($scope.find(`[data-editable-key="${fullKeyPath}"]`).first());
           final[key] = Material.serializeNode($node);
         }
       });
       return final;
     };
 
-    return recursiveIterator(editableKeys, '', this.$node);
+    return recursiveIterator(editableKeys, '', Material.frame$(this.$node));
   }
 }
 

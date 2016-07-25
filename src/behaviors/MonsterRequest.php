@@ -24,11 +24,12 @@ class MonsterRequest extends yii\base\Behavior
                 $js = <<<js
 $(function() {
   $('a').each(function() {
-    var href = $(this).attr('href');
+    var LINK = $(this);
+    var href = originalHref = LINK.attr('href');
     var anchorPart = href.match(/#(.*)$/);
     if (anchorPart) {
       href = href.replace(/#(.*)$/, '');
-      anchorPart=anchorPart[0];
+      anchorPart = anchorPart[0];
     } else {
       anchorPart = '';
     }
@@ -38,7 +39,9 @@ $(function() {
       href += '?';
     }
     href += '$editModeVar=1';
-    $(this).attr('href', href+anchorPart);
+    LINK
+      .attr('href', href + anchorPart)
+      .data('originalHref', originalHref);
   });
 });
 js;
