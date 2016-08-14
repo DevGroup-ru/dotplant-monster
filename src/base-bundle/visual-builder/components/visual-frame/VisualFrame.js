@@ -207,15 +207,45 @@ class VisualFrame
     FrameApi.sendMessage(this.parentWindow, func, args);
   }
 
+  save() {
+    const data = {
+      template: this.constructTemplateData(),
+      action: 'save'
+    };
+    VisualFrame.formSubmit(data);
+    return false;
+  }
+
+  static formSubmit(data) {
+    const $form = $('<form method="POST"></form>');
+    const $input = $('<input type="hidden" name="__json">');
+    const $csrf = $('<input type="hidden">');
+
+    $csrf
+      .attr('name', $('meta[name=csrf-param]').attr('content'))
+      .val($('meta[name=csrf-token]').attr('content'))
+      .appendTo($form);
+
+    $input
+      .val(JSON.stringify(data))
+      .appendTo($form);
+
+    $form[0].submit();
+  }
+
+  constructTemplateData() {
+    return {
+      providersEntities: this.parentBuilder.serialize(),
+      regionsMaterials: this.parentBuilder
+        .environments.get('page-structure').materialsByRegions(),
+    };
+  }
+
   newBlock(materialName, regionName) {
     // @todo Add loader here as we are using form post !
     const randomIndex = uniqueId('mat');
     const newData = {
-      template: {
-        providersEntities: this.parentBuilder.serialize(),
-        regionsMaterials: this.parentBuilder
-          .environments.get('page-structure').materialsByRegions(),
-      },
+      template: this.constructTemplateData(),
       action: 'render-material',
       materialId: randomIndex,
       materialRegion: regionName,
@@ -229,20 +259,7 @@ class VisualFrame
       material: materialName,
     };
     newData.template.regionsMaterials[regionName].materialsOrder.push(randomIndex);
-    const $form = $('<form method="POST"></form>');
-    const $input = $('<input type="hidden" name="__json">');
-    const $csrf = $('<input type="hidden">');
-
-    $csrf
-      .attr('name', $('meta[name=csrf-param]').attr('content'))
-      .val($('meta[name=csrf-token]').attr('content'))
-      .appendTo($form);
-
-    $input
-      .val(JSON.stringify(newData))
-      .appendTo($form);
-
-    $form[0].submit();
+    VisualFrame.formSubmit(newData);
 
     return false;
     // $.ajax({

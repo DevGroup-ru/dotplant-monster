@@ -190,26 +190,7 @@ class VisualBuilder {
       return false;
     });
     this.$controls.elem('save').click(() => {
-      $.ajax({
-        url: this.frameContentWindow.location,
-        method: 'POST',
-        cache: false,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify({
-          template: {
-            providersEntities: this.serialize(),
-            regionsMaterials: this.environments.get('page-structure').materialsByRegions(),
-          },
-          action: 'save',
-        }),
-        success: function ok(data, textStatus, jqXHR) {
-          console.log(data);
-        },
-        error: function err(data, textStatus, errorThrown) {
-          console.log(data);
-        },
-      });
+      FrameApi.sendMessage(this.frameContentWindow, 'save');
       return false;
     });
   }

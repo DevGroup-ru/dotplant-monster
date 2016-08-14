@@ -141,6 +141,7 @@ class MainEntity extends UniversalAction
             }
         }
 
+
 //        \yii\helpers\VarDumper::dump($providers,10,true);die();
         //\yii\helpers\VarDumper::dump($visualBuilderProvided,10,true);die();
 //        \yii\helpers\VarDumper::dump($actionData->result['templateRegions'][1], 10, true);die();
@@ -176,6 +177,10 @@ class MainEntity extends UniversalAction
             if (count($entityContent) > 0) {
                 $entity->content = $entityContent;
             }
+        }
+        if ($action === 'save' && $entity instanceof yii\db\ActiveRecord) {
+            // perform actual saving
+            $entity->save();
         }
         
         if (YII_ENV === 'dev') {
