@@ -21,6 +21,9 @@ class MonsterRequest extends yii\base\Behavior
                     );
                 }
                 $editModeVar = MonsterRequest::EDIT_MODE_VAR;
+                /**
+                 * @todo This should be done as click handler later.
+                 */
                 $js = <<<js
 $(function() {
   $('a').each(function() {

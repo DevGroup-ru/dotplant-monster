@@ -27,8 +27,8 @@ class PageStructureEnvironment extends BaseEnvironment {
     this.regionsStructure = {};
     const that = this;
     regions.each(function iter() {
-      const $regionNode = $(this);
-      const regionObject = new Region($regionNode);
+      const $regionNode = that.target.$(this);
+      const regionObject = new Region($regionNode, that.target.$);
       const $regionLi = regionObject.processRegion();
       that.regionsStructure[regionObject.key] = regionObject;
       environment.$pageStructure.append($regionLi);

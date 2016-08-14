@@ -1,15 +1,18 @@
 import Material from './Material';
 
 class Region {
-  constructor($node) {
+  constructor($node, target$) {
     this.materials = {};
     this.$node = $node;
     this.description = $node.data('contentDescription');
+    this.target$ = target$;
   }
 
   processRegion() {
-    const $regionLi = $(`<li class="page-structure__region">${this.regionDescription}</li>`);
     this.key = this.$node.data('regionKey');
+    const description = this.regionDescription ? this.regionDescription : this.key;
+    const $regionLi = $(`<li class="page-structure__region">${description}</li>`);
+
     this.id = this.$node.data('regionId');
     const $regionUl = $('<ul class="page-structure__region-materials"></ul>');
 
@@ -17,7 +20,7 @@ class Region {
     const that = this;
 
     $materials.each(function materialsIterator() {
-      const $materialNode = $(this);
+      const $materialNode = that.target$(this);
       const materialObject = new Material($materialNode);
       const $li = materialObject.processMaterial();
       that.materials[materialObject.key] = materialObject;
@@ -39,14 +42,27 @@ class Region {
 
   materialsDecl() {
     const result = {};
-    for (const materialKey in this.materials) {
-      if (this.materials.hasOwnProperty(materialKey)) {
-        result[materialKey] = {
-          'material': this.materials[materialKey].materialPath,
-        };
-      }
-    }
-    return result;
+    // for (const materialKey in this.materials) {
+    //   if (this.materials.hasOwnProperty(materialKey)) {
+    //     result[materialKey] = {
+    //       'material': this.materials[materialKey].materialPath,
+    //     };
+    //   }
+    // }
+    const $materials = this.$node.find('[data-is-material=1]');
+    const materialsOrder = [];
+    $materials.each(function materialsIterator() {
+      const $this = $(this);
+      const materialIndex = $this.data('materialIndex');
+      materialsOrder.push(materialIndex);
+      result[materialIndex] = {
+        material: $this.data('materialPath'),
+      };
+    });
+    return {
+      decl: result,
+      materialsOrder
+    };
   }
 }
 

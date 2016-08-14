@@ -42,7 +42,9 @@ class Material {
             );
           });
         } else {
-          const $node = Material.frame$($scope.find(`[data-editable-key="${fullKeyPath}"]`).first());
+          const $node = Material.frame$(
+            $scope.find(`[data-editable-key="${fullKeyPath}"]`).first()
+          );
           final[key] = Material.serializeNode($node);
         }
       });

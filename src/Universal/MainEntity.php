@@ -162,7 +162,15 @@ class MainEntity extends UniversalAction
             foreach ($actionData->result['templateRegions'] as $region) {
                 /** @var TemplateRegion $region */
                 if ($region->entity_dependent && isset($regionsMaterials[$region->key])) {
-                    $entityContent[$region->key] = $regionsMaterials[$region->key];
+                    $newMaterials = $regionsMaterials[$region->key];
+                    if (array_key_exists('decl', $newMaterials)) {
+                        $entityContent[$region->key] = [];
+                        foreach ($newMaterials['materialsOrder'] as $key) {
+                            $entityContent[$region->key][$key] = $newMaterials['decl'][$key];
+                        }
+                    } else {
+                        $entityContent[$region->key] = $newMaterials;
+                    }
                 }
             }
             if (count($entityContent) > 0) {

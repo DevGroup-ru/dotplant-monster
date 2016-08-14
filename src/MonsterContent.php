@@ -156,7 +156,7 @@ class MonsterContent extends yii\base\Widget
                     foreach ($dependency->dependencies as $chainItem) {
                         if ($chainItem instanceof TagDependency) {
                             // merge tags of tag dependencies
-                            foreach ($chainItem->tags as $tag) {
+                            foreach ((array) $chainItem->tags as $tag) {
                                 $tags[] = $tag;
                             }
                         } else {
@@ -165,7 +165,7 @@ class MonsterContent extends yii\base\Widget
                     }
                 } elseif ($dependency instanceof TagDependency) {
                     // merge tags
-                    foreach ($dependency->tags as $tag) {
+                    foreach ((array) $dependency->tags as $tag) {
                         $tags[] = $tag;
                     }
                 } else {

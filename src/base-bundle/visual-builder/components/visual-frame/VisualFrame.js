@@ -20,7 +20,9 @@ class VisualFrame
       this.updateHandlers();
       return true;
     });
-    this.parentBuilder.pageChanged();
+    $(() => {
+      this.parentBuilder.pageChanged();
+    });
   }
 
   get $monsterContent() {
@@ -223,9 +225,10 @@ class VisualFrame
       newData.template.regionsMaterials[regionName] = {};
     }
 
-    newData.template.regionsMaterials[regionName][randomIndex] = {
+    newData.template.regionsMaterials[regionName].decl[randomIndex] = {
       material: materialName,
     };
+    newData.template.regionsMaterials[regionName].materialsOrder.push(randomIndex);
     const $form = $('<form method="POST"></form>');
     const $input = $('<input type="hidden" name="__json">');
     const $csrf = $('<input type="hidden">');
