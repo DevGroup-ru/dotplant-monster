@@ -16,7 +16,7 @@
         "devgroup/bh": "~5.1",
         "devgroup/yii2-admin-utils": "dev-master",
         "symfony/finder": "^3.0",
-        "bower-assets/alloyeditor": "^1.2.3"
+        "bower-asset/alloyeditor": "^1.2.3"
     },
     "require-dev": {
         "devgroup/dotplant-dev": "~1.0",
