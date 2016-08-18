@@ -6,6 +6,10 @@ class BaseEditable {
   initializeEditables(w) {
 
   }
+
+  static get frame$() {
+    return window.FrontendMonster.builder.frameContentWindow.$;
+  }
 }
 
 export default BaseEditable;
