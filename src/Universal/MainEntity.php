@@ -111,7 +111,7 @@ class MainEntity extends UniversalAction
                     }
                 }
                 unset($provider);
-                if ($staticContentFilled===false) {
+                if ($staticContentFilled === false) {
                     // know if region is entity dependent
                     $entityDependent = false;
                     foreach ($actionData->result['templateRegions'] as $region) {

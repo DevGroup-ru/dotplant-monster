@@ -2,6 +2,10 @@
 
 namespace DotPlant\Monster;
 
+use DotPlant\Monster\assets\CKEditor;
+use DotPlant\Monster\assets\ContentTools;
+use DotPlant\Monster\assets\MediumEditor;
+use DotPlant\Monster\assets\TinyMCE;
 use DotPlant\Monster\assets\VisualBuilder;
 use DotPlant\Monster\Bundle\Material;
 use yii;
@@ -104,6 +108,8 @@ class MonsterContent extends yii\base\Widget
     public function runImpl()
     {
         if ($this->editModeOn()) {
+//            TinyMCE::register($this->view);
+            CKEditor::register($this->view);
             $contentDescription = Html::encode($this->contentDescription);
             VisualBuilder::register($this->view);
             $modifier = $this->isLayout ? 'm-monster-content__layout' : 'm-monster-content__content';

@@ -20,7 +20,14 @@ class Editable {
 
     const exportVariable = editable.hasOwnProperty('target') ? editable.target : 'data';
 
-    return this.editablesByType[type]($node, exportVariable);
+    return this.editablesByType[type].serializeNode($node, exportVariable);
+  }
+
+  initializeEditables(w) {
+    Object.keys(this.editablesByType).forEach(editableKey => {
+      const editable = this.editablesByType[editableKey];
+      editable.initializeEditables(w);
+    });
   }
 }
 

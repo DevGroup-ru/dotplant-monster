@@ -22,6 +22,7 @@ class VisualFrame
     });
     $(() => {
       this.parentBuilder.pageChanged();
+      this.parentBuilder.editable.initializeEditables(window);
     });
   }
 
@@ -210,7 +211,7 @@ class VisualFrame
   save() {
     const data = {
       template: this.constructTemplateData(),
-      action: 'save'
+      action: 'save',
     };
     VisualFrame.formSubmit(data);
     return false;

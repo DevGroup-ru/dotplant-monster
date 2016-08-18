@@ -41,6 +41,7 @@ return [
                     $repository = Yii::$app->get('monsterRepository');
                     $editableFactory = $repository->editable();
                     $ctx->attr('data-editable-key', $editableFactory->dataAttribute($type, $editable));
+                    $ctx->attr('data-editable-type', $type);
                     $result = $editableFactory->handleType($type, $ctx, $json, $editable);
                     if ($result !== null) {
                         return $result;
