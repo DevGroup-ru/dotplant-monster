@@ -2,17 +2,29 @@ import BaseEditable from './BaseEditable';
 
 class WYSIWYG extends BaseEditable {
   serializeNode($node) {
-    return $node.html();
+    const node = BaseEditable.frame$($node);
+    const editor = node.data('editor');
+    if (editor) {
+      return editor.getData();
+    }
+    return node.html();
   }
 
   initializeEditables(w) {
-    // w.tinymce.init({
-    //   selector: '[data-editable-type=wysiwyg]',
-    //   element_format: 'html',
-    //   hidden_input: false,
-    //   forced_root_block: false,
-    //   inline: true,
-    // });
+    const selector = '[data-editable-type=wysiwyg]';
+    const config = {
+      autoParagraph: false,
+      enableContentEditable: true,
+      ignoreEmptyParagraph: true,
+      enterMode: w.CKEDITOR.ENTER_BR,
+    };
+
+    w.$(() => {
+      w.$(selector).each(function iter() {
+        const editor = w.AlloyEditor.editable(this, config).get('nativeEditor');
+        w.$(this).data('editor', editor);
+      });
+    });
   }
 }
 

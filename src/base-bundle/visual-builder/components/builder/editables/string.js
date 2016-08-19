@@ -6,9 +6,8 @@ class TextString extends BaseEditable {
     const editor = node.data('editor');
     if (editor) {
       return editor.getData();
-    } else {
-      return node.html();
     }
+    return node.html();
   }
 
   initializeEditables(w) {
@@ -44,30 +43,6 @@ class TextString extends BaseEditable {
       });
     });
 
-
-    // w.tinymce.init({
-    //   selector: '[data-editable-type=string],[data-editable-type=text]',
-    //   element_format: 'html',
-    //   hidden_input: false,
-    //   forced_root_block: false,
-    //   inline: true,
-    //   menubar: false,
-    //   valid_elements: 'br,p,a',
-    //   formats: {
-    //     underline: {},
-    //     italic: {},
-    //     bold: {},
-    //   },
-    //   toolbar: 'undo redo',
-    // });
-    // const editor = new w.MediumEditor('[data-editable-type=string],[data-editable-type=text]', {
-    //   disableReturn: true,
-    //   toolbar: {
-    //     sticky: true,
-    //     buttons: [],
-    //   },
-    //   keyboardCommands: false,
-    // });
   }
 }
 
