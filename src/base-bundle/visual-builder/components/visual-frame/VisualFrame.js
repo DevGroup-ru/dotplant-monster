@@ -208,15 +208,6 @@ class VisualFrame
     FrameApi.sendMessage(this.parentWindow, func, args);
   }
 
-  save() {
-    const data = {
-      template: this.constructTemplateData(),
-      action: 'save',
-    };
-    VisualFrame.formSubmit(data);
-    return false;
-  }
-
   static formSubmit(data) {
     const $form = $('<form method="POST"></form>');
     const $input = $('<input type="hidden" name="__json">');
@@ -247,15 +238,12 @@ class VisualFrame
     const randomIndex = uniqueId('mat');
     const newData = {
       template: this.constructTemplateData(),
-      action: 'render-material',
-      materialId: randomIndex,
-      materialRegion: regionName,
-      material: materialName,
+      action: 'preview',
     };
     if (newData.template.regionsMaterials.hasOwnProperty(regionName) === false) {
       newData.template.regionsMaterials[regionName] = {};
     }
-
+    // we are modifying template data by adding new material into needed region
     newData.template.regionsMaterials[regionName].decl[randomIndex] = {
       material: materialName,
     };
@@ -263,20 +251,15 @@ class VisualFrame
     VisualFrame.formSubmit(newData);
 
     return false;
-    // $.ajax({
-    //   url: window.location,
-    //   method: 'POST',
-    //   cache: false,
-    //   contentType: 'application/json; charset=utf-8',
-    //   dataType: 'json',
-    //   data: JSON.stringify(newData),
-    // }).done(function ok(data) {
-    //   const $element = $(data);
-    //   that.$monsterContent[that.currentMonsterContent].append($element);
-    //   this.parentBuilder.pageChanged();
-    //   /* global smoothScroll:false */
-    //   smoothScroll.animateScroll($element[0].offsetTop);
-    // });
+  }
+
+  save() {
+    const data = {
+      template: this.constructTemplateData(),
+      action: 'save',
+    };
+    VisualFrame.formSubmit(data);
+    return false;
   }
 }
 

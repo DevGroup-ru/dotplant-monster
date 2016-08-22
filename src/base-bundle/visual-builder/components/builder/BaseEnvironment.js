@@ -17,6 +17,10 @@ class BaseEnvironment {
     }
   }
 
+  get target$() {
+    return this.target.$;
+  }
+
   deactivate() {
     this.visualBuilder.clearStackable();
   }

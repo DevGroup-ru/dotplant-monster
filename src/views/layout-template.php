@@ -8,7 +8,7 @@ use app\assets\AppAsset;
 use DevGroup\Multilingual\widgets\HrefLang;
 use DotPlant\Monster\models\TemplateRegion;
 use DotPlant\Monster\MonsterContent;
-use DotPlant\Monster\Universal\EntityTrait;
+use DotPlant\Monster\Universal\MonsterEntityTrait;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 AppAsset::register($this);
@@ -35,7 +35,7 @@ AppAsset::register($this);
 <?php
 /** @var TemplateRegion $templateRegions */
 $templateRegions = Yii::$app->params['layoutTemplateRegions'];
-/** @var \yii\base\Model|EntityTrait $model */
+/** @var \yii\base\Model|MonsterEntityTrait $model */
 $model = Yii::$app->params['layoutMainEntity'];
 /** @var array $dataByTemplateRegion */
 $dataByTemplateRegion = Yii::$app->params['layoutDataByTemplateRegion'];

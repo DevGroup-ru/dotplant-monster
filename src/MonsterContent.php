@@ -109,8 +109,6 @@ class MonsterContent extends yii\base\Widget
     public function runImpl()
     {
         if ($this->editModeOn()) {
-//            TinyMCE::register($this->view);
-
             AlloyEditor::register($this->view);
             $contentDescription = Html::encode($this->contentDescription);
             VisualBuilder::register($this->view);

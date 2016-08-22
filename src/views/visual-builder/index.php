@@ -1,15 +1,12 @@
 <?php
 /** @var \yii\web\View $this */
+use kartik\icons\Icon;
 use yii\helpers\Json;
 use yii\helpers\Url;
-//Yii::$app->cache->flush();
-//\yii\helpers\VarDumper::dump(
-//    Yii::$app->bemRepository->materials,//['monster-section-selector'],
-//    30,
-//    true
-//);
-//die();
-\kartik\icons\Icon::map($this);
+use devgroup\JsTreeWidget\widgets\JsTreeAssetBundle;
+
+JsTreeAssetBundle::register($this);
+Icon::map($this);
 echo \DotPlant\Monster\MonsterContent::widget([
     'uniqueContentId' => 'visual-builder',
     'materials' => [

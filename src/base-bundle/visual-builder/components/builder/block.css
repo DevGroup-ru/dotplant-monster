@@ -241,5 +241,12 @@ $editor-accent-color: #EC5035;
       outline: none;
     }
   }
-
+  @b page-structure {
+    ul {
+      padding-left: 0;
+    }
+    .jstree-hovered, .jstree-clicked {
+      color: #000;
+    }
+  }
 }

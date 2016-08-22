@@ -248,6 +248,12 @@
     cursor: pointer;
     color: #666773;
 }
+.monster-visual-builder .page-structure ul {
+    padding-left: 0;
+}
+.monster-visual-builder .page-structure .jstree-hovered {
+    color: #000;
+}
 .monster-visual-builder .button {
     padding: 0 0.625rem;
     line-height: 1.875rem;

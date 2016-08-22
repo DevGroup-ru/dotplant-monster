@@ -5,7 +5,7 @@ namespace DotPlant\Monster\Universal;
 use DevGroup\Frontend\traits\ContentNegotiator;
 use DevGroup\Frontend\Universal\ActionData;
 use DevGroup\Frontend\Universal\UniversalAction;
-use DotPlant\Monster\DataEntity\StaticContentProvider;
+use DotPlant\Monster\DataEntity\ProvidersHelper;
 use DotPlant\Monster\DataProviderProcessor;
 use DotPlant\Monster\models\Layout;
 use DotPlant\Monster\models\Template;
@@ -28,6 +28,16 @@ class MainEntity extends UniversalAction
     public $forceTemplate = false;
 
     /**
+     * @var null|array JSON from VisualFrame.formSubmit
+     */
+    private $visualBuilderProvidedData = null;
+
+    const ACTION_VAR_NAME = 'action';
+    const ACTION_DEFAULT = 'default';
+    const ACTION_SAVE = 'save';
+    const ACTION_PREVIEW = 'preview';
+
+    /**
      * @param ActionData $actionData
      *
      * @throws \yii\base\InvalidConfigException
@@ -43,10 +53,8 @@ class MainEntity extends UniversalAction
             throw new yii\base\InvalidConfigException('You must provide default template key');
         }
 
-        $visualBuilderProvided = $this->visualBuilderProvided();
-
         // first we need to find our entity
-        /** @var \yii\base\Model|EntityTrait $entity */
+        /** @var \yii\base\Model|MonsterEntityTrait $entity */
         $entity = null;
         if (array_key_exists($this->mainEntityKey, $actionData->entities)) {
             $entity = ($actionData->entities[$this->mainEntityKey] ?: null);
@@ -68,83 +76,18 @@ class MainEntity extends UniversalAction
         $actionData->viewFile = '@DotPlant/Monster/views/monster-template.php';
         $actionData->result['templateRegions'] = $template->templateRegions;
 
-        $action = ArrayHelper::getValue($visualBuilderProvided, 'action', 'default');
+        /**
+         * @var string $action Action type
+         */
+        $action = ArrayHelper::getValue($this->visualBuilderProvided(), self::ACTION_VAR_NAME, self::ACTION_DEFAULT);
+
+        $this->handleProvidedEntities($entity, $template);
+        $this->handleRegionsMaterials($entity, $actionData);
+        // merge providers from template and entity
         $providers = ArrayHelper::merge(
             $template->getEntityDataProviders(),
             $entity->getEntityDataProviders()
         );
-
-        $providedEntities = ArrayHelper::getValue($visualBuilderProvided, 'template.providersEntities', null);
-        if (is_array($providedEntities)) {
-            // safely merge entities with provided
-            foreach ($providers as $i => $config) {
-                if (isset($providedEntities[$i])) {
-
-                    $providers[$i]['entities'] = $providedEntities[$i];
-
-                }
-            }
-        }
-        if ($action === 'render-material') {
-            // we should render and return the whole content and replace it
-            $materialIndex = ArrayHelper::getValue($visualBuilderProvided, 'materialId', null);
-            $materialRegion = ArrayHelper::getValue($visualBuilderProvided, 'materialRegion', null);
-            $materialName = ArrayHelper::getValue($visualBuilderProvided, 'material', null);
-            if ($materialIndex !== null && $materialRegion !== null && $materialName !== null) {
-
-                //! @todo Material can be inserted into layout, not template or entity! Take care of that too.
-                $staticContentFilled = false;
-                $material = MonsterContent::repository()->material($materialName);
-                $sampleData = $material->sampleData();
-
-                foreach ($providers as $index => &$provider) {
-                    if (isset($provider['class'])) {
-                        if ($provider['class'] !== StaticContentProvider::class) {
-                            continue;
-                        }
-                    }
-                    if (isset($provider['entities'])) {
-                        if (isset($provider['entities'][$materialRegion])) {
-                            $provider['entities'][$materialRegion][$materialIndex] = $sampleData;
-                            $staticContentFilled = true;
-                        }
-                    }
-                }
-                unset($provider);
-                if ($staticContentFilled === false) {
-                    // know if region is entity dependent
-                    $entityDependent = false;
-                    foreach ($actionData->result['templateRegions'] as $region) {
-                        /** @var TemplateRegion $region */
-                        if ($region->key === $materialRegion) {
-                            if ($region->entity_dependent) {
-                                $entityDependent = true;
-                            }
-                        }
-                    }
-                    $newProvider = [
-                        'class' => StaticContentProvider::class,
-                        'entities' => [
-                            $materialRegion => [
-                                $materialIndex => $sampleData,
-                            ],
-                        ],
-                    ];
-
-                    if ($entityDependent) {
-                        $entity->providers[$materialIndex] = $newProvider;
-                    } else {
-                        $template->providers[$materialIndex] = $newProvider;
-                    }
-                    $providers[$materialIndex] = $newProvider;
-                }
-            }
-        }
-
-
-//        \yii\helpers\VarDumper::dump($providers,10,true);die();
-        //\yii\helpers\VarDumper::dump($visualBuilderProvided,10,true);die();
-//        \yii\helpers\VarDumper::dump($actionData->result['templateRegions'][1], 10, true);die();
 
         $packed = [];
         $providedKeys = [];
@@ -156,31 +99,10 @@ class MainEntity extends UniversalAction
         );
         $actionData->result['model'] = &$entity;
 
-        // apply new materials for model
-        $regionsMaterials = ArrayHelper::getValue($visualBuilderProvided, 'template.regionsMaterials', null);
-        if (is_array($regionsMaterials) && count($regionsMaterials) > 0) {
-            $entityContent = [];
-            foreach ($actionData->result['templateRegions'] as $region) {
-                /** @var TemplateRegion $region */
-                if ($region->entity_dependent && isset($regionsMaterials[$region->key])) {
-                    $newMaterials = $regionsMaterials[$region->key];
-                    if (array_key_exists('decl', $newMaterials)) {
-                        $entityContent[$region->key] = [];
-                        foreach ($newMaterials['materialsOrder'] as $key) {
-                            $entityContent[$region->key][$key] = $newMaterials['decl'][$key];
-                        }
-                    } else {
-                        $entityContent[$region->key] = $newMaterials;
-                    }
-                }
-            }
-            if (count($entityContent) > 0) {
-                $entity->content = $entityContent;
-            }
-        }
-        if ($action === 'save' && $entity instanceof yii\db\ActiveRecord) {
+
+        if ($action === self::ACTION_SAVE) {
             // perform actual saving
-            $entity->save();
+            $entity->saveMonsterContent();
         }
         
         if (YII_ENV === 'dev') {
@@ -218,15 +140,82 @@ class MainEntity extends UniversalAction
 
             $js = "window.MONSTER_EDIT_MODE_DATA = $jsonData;";
             $view->registerJs($js, yii\web\View::POS_BEGIN, 'edit-mode-vars');
-
-
-
         }
+    }
+
+    /**
+     * @param MonsterEntityTrait $entity
+     * @param Template $template
+     */
+    protected function handleProvidedEntities(&$entity, &$template)
+    {
+//        $providedEntities = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.providersEntities', null);
+//        if (is_array($providedEntities)) {
+//            // safely merge entities with provided
+//            $entityProviders = $entity->getEntityDataProviders();
+//            foreach ($entityProviders as $i => $provider) {
+//                /** @var DataEntityProvider $provider */
+//                if ($provider instanceof StaticContentProvider && isset($providedEntities[$i])) {
+//                    $provider->setEntities($providedEntities[$i]);
+//                }
+//            }
+//        }
+    }
+
+    /**
+     * @param MonsterEntityTrait $entity
+     * @param ActionData $actionData
+     */
+    protected function handleRegionsMaterials(&$entity, &$actionData)
+    {
+        $hash = ProvidersHelper::hashEntityProviders($entity);
+        // apply new materials for model
+        $regionsMaterials = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.regionsMaterials', null);
+        if (is_array($regionsMaterials) && count($regionsMaterials) > 0) {
+            $entityContent = [];
+            foreach ($actionData->result['templateRegions'] as $region) {
+                /** @var TemplateRegion $region */
+                if (isset($regionsMaterials[$region->key])) {
+                    $newMaterials = $regionsMaterials[$region->key];
+                    if (array_key_exists('decl', $newMaterials)) {
+                        $entityContent[$region->key] = [];
+                        foreach ($newMaterials['materialsOrder'] as $key) {
+                            $entityContent[$region->key][$key] = $newMaterials['decl'][$key];
+                        }
+                    } else {
+                        $entityContent[$region->key] = $newMaterials;
+                    }
+                }
+            }
+            if (count($entityContent) > 0) {
+                $entity->setMaterials($entityContent);
+            }
+        }
+        // check all entity materials for existing providers
+        // if no provider for material - create one with sample data
+        $entityMaterials = $entity->getMaterials();
+
+        $providers = $entity->getEntityDataProviders();
+        foreach ($entityMaterials as $region => $materials) {
+            foreach ($materials as $key => $materialConfiguration) {
+                $hashToSearch = "$region.$key";
+                if (in_array($hashToSearch, $hash, true) === false) {
+                    $providerId = ProvidersHelper::ensureStaticProvider($entity);
+                    if (array_key_exists($region, $providers[$providerId]['entities']) === false) {
+                        $providers[$providerId]['entities'][$region] = [];
+                    }
+                    $material = MonsterContent::repository()->material($materialConfiguration['material']);
+
+                    $providers[$providerId]['entities'][$region][$key] = $material->sampleData();;
+                }
+            }
+        }
+        $entity->setEntityDataProviders($providers);
     }
 
     protected function applyLayout(&$entity, &$actionData)
     {
-        /** @var \yii\base\Model|EntityTrait $entity */
+        /** @var \yii\base\Model|MonsterEntityTrait $entity */
         // apply layout
         $layoutId = $entity->getLayoutId();
         $layout = $layoutId > 0 ? Layout::findById($layoutId) : null;
@@ -272,7 +261,10 @@ class MainEntity extends UniversalAction
     protected function visualBuilderProvided()
     {
         //! @todo add RBAC check here
-        $this->negotiate();
-        return is_array($this->requestJson) ? $this->requestJson : [];
+        if ($this->visualBuilderProvidedData === null) {
+            $this->negotiate();
+            $this->visualBuilderProvidedData = is_array($this->requestJson) ? $this->requestJson : [];
+        }
+        return $this->visualBuilderProvidedData;
     }
 }

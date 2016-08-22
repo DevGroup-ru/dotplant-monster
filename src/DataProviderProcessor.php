@@ -38,13 +38,7 @@ class DataProviderProcessor
                 $keys[$regionKey] = $result;
             });
             $providedKeys[$i] = $keys;
-//            array_walk($providerResult, function($item, $key) use (&$providedKeys, $i) {
-//                $keys = [];
-//                array_walk($item, function($subItem, $subKey) use (&$keys, $i) {
-//                    $keys[$subKey] = array_fill_keys(array_keys($subItem), $i);
-//                });
-//                $providedKeys = ArrayHelper::merge($providedKeys, [$key=>$keys]);
-//            });
+
             $result = ArrayHelper::merge($result, $providerResult);
             $packed[$i] = $instance->pack();
             Yii::endProfile($profileKey);

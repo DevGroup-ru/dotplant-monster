@@ -3,7 +3,7 @@
 namespace DotPlant\Monster\Universal;
 
 
-trait EntityTrait
+trait MonsterEntityTrait
 {
     public function getTemplateId()
     {
@@ -21,6 +21,27 @@ trait EntityTrait
     {
         /** @var \yii\base\Model $this */
         return $this->providers;
+    }
+
+    /**
+     * @param array $materials
+     */
+    public function setMaterials($materials)
+    {
+        $this->content = $materials;
+    }
+
+    public function saveMonsterContent()
+    {
+        return $this->save();
+    }
+
+    /**
+     * @param array $providers
+     */
+    public function setEntityDataProviders($providers)
+    {
+        $this->providers = $providers;
     }
     
     public function uniqueContentIdPrefix()
