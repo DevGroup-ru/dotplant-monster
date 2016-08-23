@@ -35,6 +35,7 @@ class MonsterContent extends yii\base\Widget
     public $contentDescription = 'Content';
     public $regionId;
     public $regionKey;
+    public $regionEntityDependent = false;
     public static $perPageCounter = [];
 
     /**
@@ -115,6 +116,8 @@ class MonsterContent extends yii\base\Widget
             $modifier = $this->isLayout ? 'm-monster-content__layout' : 'm-monster-content__content';
             $region = $this->regionId ? " data-region-id=\"{$this->regionId}\"" : '';
             $region .= $this->regionKey ? " data-region-key=\"{$this->regionKey}\"" : '';
+            $entityDependent = (int) $this->regionEntityDependent;
+            $region .= $this->regionKey ? " data-region-entity-dependent=\"$entityDependent\"" : '';
 
             $result = "<div class=\"m-monster-content $modifier\" data-unique-content-id=\"{$this->uniqueContentId}\""
                 . " data-content-description=\"$contentDescription\" $region"

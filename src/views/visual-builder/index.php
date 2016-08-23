@@ -1,11 +1,11 @@
 <?php
 /** @var \yii\web\View $this */
+use DotPlant\Monster\assets\JsTreeDark;
 use kartik\icons\Icon;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use devgroup\JsTreeWidget\widgets\JsTreeAssetBundle;
 
-JsTreeAssetBundle::register($this);
+JsTreeDark::register($this);
 Icon::map($this);
 echo \DotPlant\Monster\MonsterContent::widget([
     'uniqueContentId' => 'visual-builder',

@@ -248,10 +248,13 @@
     cursor: pointer;
     color: #666773;
 }
+.monster-visual-builder .page-structure {
+    background-color: transparent;
+}
 .monster-visual-builder .page-structure ul {
     padding-left: 0;
 }
-.monster-visual-builder .page-structure .jstree-hovered {
+.monster-visual-builder .page-structure .jstree-default .jstree-hovered, .monster-visual-builder .page-structure .jstree-default .jstree-clicked {
     color: #000;
 }
 .monster-visual-builder .button {

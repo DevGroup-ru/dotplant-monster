@@ -242,11 +242,14 @@ $editor-accent-color: #EC5035;
     }
   }
   @b page-structure {
+    background-color: transparent;
     ul {
       padding-left: 0;
     }
-    .jstree-hovered, .jstree-clicked {
-      color: #000;
+    .jstree-default {
+      .jstree-hovered, .jstree-clicked {
+          color: #000;
+      }
     }
   }
 }

@@ -20,6 +20,7 @@ foreach ($templateRegions as $region) {
         'uniqueContentId' => 'template-' . $region->template->id . '/' . $region->key,
         'regionId' => $region->id,
         'regionKey' => $region->key,
+        'regionEntityDependent' => (bool) $region->entity_dependent,
         'contentDescription' => $region->name . " [{$region->key}]",
     ];
     $materials = $region->content;

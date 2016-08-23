@@ -1,5 +1,4 @@
 import BaseEnvironment from './../BaseEnvironment';
-import Region from './../PageStructureComponents/Region';
 
 class PageStructureEnvironment extends BaseEnvironment {
   constructor(visualBuilder, name) {
@@ -22,11 +21,13 @@ class PageStructureEnvironment extends BaseEnvironment {
   pageChanged() {
     super.pageChanged();
     this.$pageStructure.jstree('destroy');
-    const environment = this;
     const layout = this.target.MONSTER_EDIT_MODE_DATA.layout;
     const template = this.target.MONSTER_EDIT_MODE_DATA.template;
 
     const layoutItem = {
+      data: {
+        id: 'layout',
+      },
       text: `Layout - ${layout.key} #${layout.id}`,
       icon: 'fa fa-columns',
       state: {
@@ -35,6 +36,9 @@ class PageStructureEnvironment extends BaseEnvironment {
       children: [],
     };
     const templateItem = {
+      data: {
+        id: 'template',
+      },
       text: `Template - ${template.key} #${template.id}`,
       icon: 'fa fa-th',
       state: {
@@ -59,16 +63,33 @@ class PageStructureEnvironment extends BaseEnvironment {
     this.$pageStructure.jstree({
       core: {
         data: this.pageStructure,
+        themes: {
+          name: 'default-dark',
+        },
       },
+      plugins: [
+        'types',
+      ],
+      types: {
+        layout: {
+          icon: 'fa fa-columns',
+        },
+        template: {
+          icon: 'fa fa-th',
+        },
+        templateRegion: {
+          icon: 'fa fa-folder-o',
+        },
+        contentTemplateRegion: {
+          icon: 'fa fa-folder',
+        },
+        material: {
+          icon: 'fa fa-puzzle-piece',
+        },
+      },
+
     });
 
-    // regions.each(function iter() {
-    //   const $regionNode = that.target.$(this);
-    //   const regionObject = new Region($regionNode, that.target.$);
-    //   const $regionLi = regionObject.processRegion();
-    //   that.regionsStructure[regionObject.key] = regionObject;
-    //   environment.$pageStructure.append($regionLi);
-    // });
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
   }
 
@@ -78,14 +99,14 @@ class PageStructureEnvironment extends BaseEnvironment {
       opened: true,
     };
     item.children = [];
-    item.id = `layout.${item.regionKey}`;
+    item.data.id = `layout.templateRegion.${item.data.regionKey}`;
     const templateRegions = [];
 
     // find materials
     const $layoutMaterials = $layoutRegion.find('>[data-is-material]');
     $layoutMaterials.each(function iter() {
       const $layoutMaterial = $(this);
-      const result = PageStructureEnvironment.processLayoutMaterial($layoutMaterial);
+      const result = PageStructureEnvironment.processLayoutMaterial($layoutMaterial, item.id);
       const layoutMaterialItem = result.layoutMaterial;
       result.templateRegions.forEach(region => {
         templateRegions.push(region);
@@ -99,7 +120,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     };
   }
 
-  static processLayoutMaterial($layoutMaterial) {
+  static processLayoutMaterial($layoutMaterial, prefix) {
     const materialIndex = $layoutMaterial.data('materialIndex');
     const materialPath = $layoutMaterial.data('materialPath');
     const item = {
@@ -108,10 +129,14 @@ class PageStructureEnvironment extends BaseEnvironment {
           ? 'Main Entity Content'
           : `Material: ${materialIndex}`}
       `,
-      icon: 'fa fa-puzzle-piece',
-      materialIndex,
-      materialPath,
-      editableKeys: $layoutMaterial.data('editableKeys'),
+      type: 'material',
+      data: {
+        id: `${prefix}.${materialIndex}`,
+        materialIndex,
+        materialPath,
+        editableKeys: $layoutMaterial.data('editableKeys'),
+        node: $layoutMaterial,
+      },
     };
     const templateRegions = [];
     const $regions = $layoutMaterial.find('> .m-monster-content__content');
@@ -120,7 +145,7 @@ class PageStructureEnvironment extends BaseEnvironment {
       templateRegions.push(result);
     });
     if (templateRegions.length > 0) {
-      item.isContent = true;
+      item.data.isContent = true;
     }
     return {
       layoutMaterial: item,
@@ -134,33 +159,47 @@ class PageStructureEnvironment extends BaseEnvironment {
       opened: true,
     };
     item.children = [];
+    item.data.entityDependent = $templateRegion.data('regionEntityDependent') === 1;
+
+    const prefix = item.data.entityDependent ? 'template' : 'content';
+    item.data.id = `${prefix}.templateRegion.${item.data.regionKey}`;
+
+    if (item.data.entityDependent) {
+      item.type = 'contentTemplateRegion';
+    }
     const $regionMaterials = $templateRegion.find('>[data-is-material]');
     $regionMaterials.each(function iter() {
-      item.children.push(PageStructureEnvironment.processTemplateRegionMaterial($(this)));
+      item.children.push(PageStructureEnvironment.processTemplateRegionMaterial($(this), item.id));
     });
     return item;
   }
 
-  static processTemplateRegionMaterial($regionMaterial) {
+  static processTemplateRegionMaterial($regionMaterial, prefix) {
     const materialIndex = $regionMaterial.data('materialIndex');
     const materialPath = $regionMaterial.data('materialPath');
     return {
       text: `Material: ${materialIndex}`,
-      materialIndex,
-      materialPath,
-      icon: 'fa fa-puzzle-piece',
-      editableKeys: $regionMaterial.data('editableKeys'),
+      type: 'material',
+      data: {
+        id: `${prefix}.${materialIndex}`,
+        materialIndex,
+        materialPath,
+        editableKeys: $regionMaterial.data('editableKeys'),
+        node: $regionMaterial,
+      },
     };
   }
 
   static extractRegionData($node) {
     return {
       text: $node.data('contentDescription'),
-      icon: 'fa fa-folder-o',
-      regionId: $node.data('regionId'),
-      regionKey: $node.data('regionKey'),
-      uniqueContentId: $node.data('uniqueContentId'),
-      node: $node,
+      type: 'templateRegion',
+      data: {
+        regionId: $node.data('regionId'),
+        regionKey: $node.data('regionKey'),
+        uniqueContentId: $node.data('uniqueContentId'),
+        node: $node,
+      },
     };
   }
 
