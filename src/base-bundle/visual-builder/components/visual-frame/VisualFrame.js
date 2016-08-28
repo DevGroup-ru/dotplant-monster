@@ -1,5 +1,6 @@
 import FrameApi from './FrameApi';
 import uniqueId from './../uniqid';
+import DataProviderFactory from './DataProviderFactory';
 
 class VisualFrame
 {
@@ -10,6 +11,7 @@ class VisualFrame
 
   initialize() {
     FrameApi.bindMessageListener(this);
+    this.pageStructureJson = null;
     this.parentWindow = window.parent;
     /** @var FrontendMonster */
     this.parentMonster = this.parentWindow.FrontendMonster;
@@ -24,6 +26,29 @@ class VisualFrame
       this.parentBuilder.pageChanged();
       this.parentBuilder.editable.initializeEditables(window);
     });
+    this.MonsterEditData = window.MONSTER_EDIT_MODE_DATA;
+    this.initProviders();
+  }
+
+  initProviders() {
+    this.providers = {
+      layout: this.getProviders(this.MonsterEditData.layout),
+      template: this.getProviders(this.MonsterEditData.template),
+      entity: this.getProviders(this.MonsterEditData.entity),
+    };
+    debugger;
+  }
+
+  getProviders(arr) {
+    const result = {};
+    Object.keys(arr.providers).forEach(key => {
+      const providerDecl = arr.providers[key];
+      result[key] = DataProviderFactory.factory(
+        providerDecl,
+        arr.providedKeys[key] || {}
+      );
+    });
+    return result;
   }
 
   get $monsterContent() {
@@ -43,21 +68,6 @@ class VisualFrame
       }
       that.$monsterContentCache[$(this).data('uniqueContentId')] = $(this);
     });
-  }
-
-  getNewMaterialIndex() {
-    if (!this.lastMaterialIndex) {
-      let lastIndex = 0;
-      $('[data-is-material]').each(function iter() {
-        const index = $(this).data('material-index');
-        if (index > lastIndex) {
-          lastIndex = index;
-        }
-      });
-      this.lastMaterialIndex = lastIndex;
-    }
-    this.lastMaterialIndex++;
-    return this.lastMaterialIndex;
   }
 
   updateHandlers() {
@@ -116,6 +126,7 @@ class VisualFrame
           if ($prev.length === 1) {
             that.$selectedMaterial.insertBefore($prev);
             that.updateHandlers();
+            that.parentBuilder.pageChanged();
           }
         }
         return false;
@@ -126,6 +137,7 @@ class VisualFrame
           if ($next.length === 1) {
             that.$selectedMaterial.insertAfter($next);
             that.updateHandlers();
+            that.parentBuilder.pageChanged();
           }
         }
         return false;
@@ -133,13 +145,16 @@ class VisualFrame
       .on('click', '.monster-block-handlers__clone', () => {
         if (that.$selectedMaterial) {
           const $clonedMaterial = that.$selectedMaterial.clone();
+          const randomIndex = uniqueId('mat');
           $clonedMaterial
+            .insertAfter(that.$selectedMaterial)
             .data(
-              'material-index',
-              that.getNewMaterialIndex()
+              'materialIndex',
+              randomIndex
             )
-            .insertAfter(that.$selectedMaterial);
+            .attr('data-material-index', randomIndex);
           that.selectMaterial($clonedMaterial);
+          that.parentBuilder.pageChanged();
         }
         return false;
       })
@@ -149,6 +164,7 @@ class VisualFrame
             that.$selectedMaterial.remove();
             that.$selectedMaterial = null;
             that.$handlers.hide(); // it does not work. why? Need to fix!
+            that.parentBuilder.pageChanged();
           }
         }
         return false;
@@ -254,12 +270,52 @@ class VisualFrame
   }
 
   save() {
-    const data = {
-      template: this.constructTemplateData(),
-      action: 'save',
-    };
+    const data = VisualFrame.iterateTemplateType(this.pageStructureJson);
+    debugger;
     VisualFrame.formSubmit(data);
     return false;
+  }
+
+  static iterateTemplateType(arr) {
+    const result = {};
+    arr.forEach(obj => {
+      const key = obj.data.id;
+      // layout or template
+      result[key] = {
+        templateRegions: VisualFrame.iterateTemplateRegions(obj.children),
+      };
+    });
+    return result;
+  }
+
+  static iterateTemplateRegions(arr) {
+    const result = {};
+    arr.forEach(obj => {
+      const key = obj.data.id.replace(/^.*\./, '');
+      // this is an exact template region
+      result[key] = {
+        regionId: obj.data.regionId,
+        regionKey: obj.data.regionKey,
+        uniqueContentId: obj.data.uniqueContentId,
+        materials: VisualFrame.iterateMaterials(obj.children),
+      };
+      if (typeof(obj.data.entityDependent) !== 'undefined') {
+        result[key].entityDependent = obj.data.entityDependent;
+      }
+    });
+    return result;
+  }
+
+  static iterateMaterials(arr) {
+    const result = {};
+    arr.forEach(obj => {
+      const key = obj.data.materialIndex;
+      result[key] = {
+        // editablesKeys: obj.data.editableKeys,
+        material: obj.data.materialPath,
+      };
+    });
+    return result;
   }
 }
 

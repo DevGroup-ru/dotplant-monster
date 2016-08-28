@@ -189,6 +189,7 @@ class VisualBuilder {
       this.frameContentWindow.location.reload();
       return false;
     });
+
     this.$controls.elem('save').click(() => {
       FrameApi.sendMessage(this.frameContentWindow, 'save');
       return false;

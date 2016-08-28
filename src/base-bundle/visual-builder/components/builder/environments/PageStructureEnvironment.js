@@ -60,7 +60,7 @@ class PageStructureEnvironment extends BaseEnvironment {
       layoutItem,
       templateItem,
     ];
-    this.$pageStructure.jstree({
+    const jt = this.$pageStructure.jstree({
       core: {
         data: this.pageStructure,
         themes: {
@@ -87,7 +87,17 @@ class PageStructureEnvironment extends BaseEnvironment {
           icon: 'fa fa-puzzle-piece',
         },
       },
+    });
 
+    const jstreeObj = this.$pageStructure.jstree();
+    this.$pageStructure.on('loaded.jstree', () => {
+      this.pageStructureJson = jstreeObj.get_json(this.$pageStructure, {
+        no_state: true,
+        no_id: true,
+        no_li_attr: true,
+        no_a_attr: true,
+      });
+      this.target.FrontendMonster.VisualFrame.pageStructureJson = this.pageStructureJson;
     });
 
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
@@ -169,7 +179,12 @@ class PageStructureEnvironment extends BaseEnvironment {
     }
     const $regionMaterials = $templateRegion.find('>[data-is-material]');
     $regionMaterials.each(function iter() {
-      item.children.push(PageStructureEnvironment.processTemplateRegionMaterial($(this), item.id));
+      item.children.push(
+        PageStructureEnvironment.processTemplateRegionMaterial(
+          $(this),
+          item.data.id
+        )
+      );
     });
     return item;
   }

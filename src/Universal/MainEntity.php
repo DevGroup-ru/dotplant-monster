@@ -83,19 +83,29 @@ class MainEntity extends UniversalAction
 
         $this->handleProvidedEntities($entity, $template);
         $this->handleRegionsMaterials($entity, $actionData);
-        // merge providers from template and entity
-        $providers = ArrayHelper::merge(
+
+        $packedTemplateProviders = [];
+        $providedKeysTemplate = [];
+
+        $packedEntityProviders = [];
+        $providedKeysEntity = [];
+
+        $dataTemplate = DataProviderProcessor::process(
             $template->getEntityDataProviders(),
-            $entity->getEntityDataProviders()
+            $actionData,
+            $packedTemplateProviders,
+            $providedKeysTemplate
+        );
+        $dataEntity = DataProviderProcessor::process(
+            $entity->getEntityDataProviders(),
+            $actionData,
+            $packedEntityProviders,
+            $providedKeysEntity
         );
 
-        $packed = [];
-        $providedKeys = [];
-        $actionData->result['dataByTemplateRegion'] = DataProviderProcessor::process(
-            $providers,
-            $actionData,
-            $packed,
-            $providedKeys
+        $actionData->result['dataByTemplateRegion'] = ArrayHelper::merge(
+            $dataTemplate,
+            $dataEntity
         );
         $actionData->result['model'] = &$entity;
 
@@ -107,10 +117,10 @@ class MainEntity extends UniversalAction
         
         if (YII_ENV === 'dev') {
             Yii::$app->params['actionData'] = &$actionData;
-            Yii::$app->params['providers'] = $packed;
+//            Yii::$app->params['providers'] = $packed;
         }
         
-        $layoutData = $this->applyLayout($entity, $actionData);
+        $layoutData = $this->applyLayout($entity, $actionData, $dataEntity);
 
         if (Yii::$app->request->isEditMode()) {
             $view = $actionData->controller->view;
@@ -118,8 +128,8 @@ class MainEntity extends UniversalAction
                 'template' => [
                     'id' => $template->id,
                     'key' => $template->key,
-                    'dataByTemplateRegion' => $actionData->result['dataByTemplateRegion'],
-                    'providedKeys' => $providedKeys,
+//                    'dataByTemplateRegion' => $dataTemplate,
+                    'providedKeys' => $providedKeysTemplate,
                     'regions' => ArrayHelper::map($template->templateRegions, 'id', function (TemplateRegion $item) {
                         return [
                             'id' => $item->id,
@@ -128,12 +138,15 @@ class MainEntity extends UniversalAction
                             'entity_dependent' => (bool) $item->entity_dependent,
                         ];
                     }),
-                    'providers' => $packed,
-                    'entity' => [
-                        'id' => isset($entity->id) ? $entity->id : null,
-                        'name' => $entity->formName(),
-                        'class' => $entity::className(),
-                    ]
+                    'providers' => $packedTemplateProviders,
+                ],
+                'entity' => [
+                    'id' => isset($entity->id) ? $entity->id : null,
+                    'name' => $entity->formName(),
+                    'class' => $entity::className(),
+//                    'dataByTemplateRegion' => $dataEntity,
+                    'providedKeys' => $providedKeysEntity,
+                    'providers' => $packedEntityProviders,
                 ],
                 'layout' => $layoutData,
             ]);
@@ -213,7 +226,7 @@ class MainEntity extends UniversalAction
         $entity->setEntityDataProviders($providers);
     }
 
-    protected function applyLayout(&$entity, &$actionData)
+    protected function applyLayout(&$entity, &$actionData, $dataEntity)
     {
         /** @var \yii\base\Model|MonsterEntityTrait $entity */
         // apply layout
@@ -223,23 +236,31 @@ class MainEntity extends UniversalAction
             $layout = Layout::findByKey($this->defaultLayoutKey);
         }
 
-        $layoutData = [];
+        $layoutEditData = [];
 
         if ($layout !== null) {
             Yii::$app->params['layoutTemplateRegions'] = $layout->templateRegions;
             Yii::$app->params['layoutMainEntity'] = &$entity;
-            $providers = ArrayHelper::merge(
-                $layout->getEntityDataProviders(),
-                $entity->getEntityDataProviders()
-            );
 
             $packedLayoutProviders = [];
             $providedLayoutKeys = [];
-            Yii::$app->params['layoutDataByTemplateRegion'] =
-                DataProviderProcessor::process($providers, $actionData, $packedLayoutProviders, $providedLayoutKeys);
+
+            $dataLayout = DataProviderProcessor::process(
+                $layout->getEntityDataProviders(),
+                $actionData,
+                $packedLayoutProviders,
+                $providedLayoutKeys
+            );
+            // merged data is needed for rendering the layout
+            $mergedData = ArrayHelper::merge(
+                $dataLayout,
+                $dataEntity
+            );
+
+            Yii::$app->params['layoutDataByTemplateRegion'] = $mergedData;
             $actionData->controller->layout = '@DotPlant/Monster/views/layout-template.php';
 
-            $layoutData = [
+            $layoutEditData = [
                 'id' => $layout->id,
                 'providers' => $packedLayoutProviders,
                 'key' => $layout->key,
@@ -252,10 +273,10 @@ class MainEntity extends UniversalAction
                     ];
                 }),
                 'providedKeys' => $providedLayoutKeys,
-                'dataByTemplateRegion' => Yii::$app->params['layoutDataByTemplateRegion'],
+//                'dataByTemplateRegion' => Yii::$app->params['layoutDataByTemplateRegion'],
             ];
         }
-        return $layoutData;
+        return $layoutEditData;
     }
     
     protected function visualBuilderProvided()
