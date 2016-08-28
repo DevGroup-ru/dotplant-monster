@@ -7,6 +7,6 @@ use yii\web\AssetBundle;
 class CKEditor extends AssetBundle
 {
     public $js = [
-        '//cdn.ckeditor.com/4.5.10/full/ckeditor.js',
+        'https://cdn.ckeditor.com/4.5.10/full/ckeditor.js',
     ];
 }

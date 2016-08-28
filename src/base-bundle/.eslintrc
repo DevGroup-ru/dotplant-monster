@@ -4,5 +4,14 @@
   "extends": "airbnb/base",
   "globals": {
     "$": false
+  },
+  "rules": {
+    "max-len": [
+      "error",
+      120,
+      {
+        "ignoreComments": true
+      }
+    ]
   }
 }

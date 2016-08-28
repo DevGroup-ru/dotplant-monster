@@ -100,6 +100,7 @@ abstract class BundleEntity
 
     public function scriptsFilename()
     {
+
         return $this->getFsLocation() . (YII_ENV === 'dev' ? 'scripts.js' : 'scripts.min.js');
     }
 

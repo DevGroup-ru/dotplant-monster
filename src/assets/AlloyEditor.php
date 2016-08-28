@@ -2,9 +2,7 @@
 
 namespace DotPlant\Monster\assets;
 
-use yii\web\AssetBundle;
-
-class AlloyEditor extends AssetBundle
+class AlloyEditor extends HeadBundle
 {
     public $sourcePath = '@bower/alloyeditor';
     public $css = [
@@ -12,7 +10,7 @@ class AlloyEditor extends AssetBundle
     ];
     public $js = [
         'dist/alloy-editor/alloy-editor-all-min.js',
-        '//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.10/adapters/jquery.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.10/adapters/jquery.js',
     ];
     public $publishOptions = [
         'only' => [

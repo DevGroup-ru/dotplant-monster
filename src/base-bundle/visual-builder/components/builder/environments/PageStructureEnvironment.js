@@ -62,7 +62,7 @@ class PageStructureEnvironment extends BaseEnvironment {
       layoutItem,
       templateItem,
     ];
-    const jt = this.$pageStructure.jstree({
+    this.$pageStructure.jstree({
       core: {
         data: this.pageStructure,
         themes: {

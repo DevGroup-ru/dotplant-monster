@@ -676,13 +676,21 @@ html, body, .m-container {}
     speak: none;
     font-style: normal;
     font-weight: normal;
-    -webkit-font-feature-settings: normal, normal;
-            font-feature-settings: normal, normal;
+    -webkit-font-feature-settings: normal;
+            font-feature-settings: normal;
     font-variant: normal;
     text-transform: none;
     line-height: 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+/* Dialogs are not inside .m-wrapper */
+.monster-dialog {
+    /* Hide dialog by-default, it will be shown via $el.show() */
+    display: none;
+    background: #fff;
+    padding: 1em;
+}
+
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJjb3JlL3N0eWxlcy5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

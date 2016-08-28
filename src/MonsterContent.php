@@ -3,12 +3,7 @@
 namespace DotPlant\Monster;
 
 use DotPlant\Monster\assets\AlloyEditor;
-use DotPlant\Monster\assets\CKEditor;
-use DotPlant\Monster\assets\ContentTools;
-use DotPlant\Monster\assets\MediumEditor;
-use DotPlant\Monster\assets\TinyMCE;
 use DotPlant\Monster\assets\VisualBuilder;
-use DotPlant\Monster\Bundle\Material;
 use yii;
 use yii\base\InvalidConfigException;
 use yii\caching\ChainedDependency;
@@ -88,12 +83,16 @@ class MonsterContent extends yii\base\Widget
 
     public function editModeOn()
     {
-        /** @var Repository $repository */
-        $repository = Yii::$app->get('monsterRepository');
-        $repository->material('core.visual-builder.components.builder')->publishAssets();
+
 
         if (Yii::$app instanceof yii\web\Application) {
-            return Yii::$app->request->isEditMode();
+            $editMode = Yii::$app->request->isEditMode();
+            if ($editMode) {
+                /** @var Repository $repository */
+                $repository = Yii::$app->get('monsterRepository');
+                $repository->material('core.visual-builder.components.builder')->publishAssets();
+            }
+            return $editMode;
         }
         return false;
     }

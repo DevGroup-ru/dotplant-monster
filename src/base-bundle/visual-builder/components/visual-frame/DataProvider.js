@@ -36,7 +36,6 @@ class DataProvider {
         };
         const materialEditableKeys = $material.data('editableKeys');
         this.initializeMaterialEdit(materialEditableKeys, $material, dataKeys);
-
       });
       this.associations[regionKey] = {
         $region,
