@@ -27,6 +27,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     const layoutItem = {
       data: {
         id: 'layout',
+        templateId: layout.id,
       },
       text: `Layout - ${layout.key} #${layout.id}`,
       icon: 'fa fa-columns',
@@ -38,6 +39,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     const templateItem = {
       data: {
         id: 'template',
+        templateId: template.id,
       },
       text: `Template - ${template.key} #${template.id}`,
       icon: 'fa fa-th',

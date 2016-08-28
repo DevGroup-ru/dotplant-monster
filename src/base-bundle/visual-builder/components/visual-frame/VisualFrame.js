@@ -1,6 +1,7 @@
 import FrameApi from './FrameApi';
 import uniqueId from './../uniqid';
 import DataProviderFactory from './DataProviderFactory';
+import Editable from './Editable';
 
 class VisualFrame
 {
@@ -11,12 +12,13 @@ class VisualFrame
 
   initialize() {
     FrameApi.bindMessageListener(this);
-    this.pageStructureJson = null;
+    this.pageStructureJsonData = null;
     this.parentWindow = window.parent;
     /** @var FrontendMonster */
     this.parentMonster = this.parentWindow.FrontendMonster;
     this.parentBuilder = this.parentMonster.builder;
     this.currentMonsterContent = false;
+    this.editable = new Editable();
     this.makeItMove();
     $(window).resize(() => {
       this.updateHandlers();
@@ -24,10 +26,10 @@ class VisualFrame
     });
     $(() => {
       this.parentBuilder.pageChanged();
-      this.parentBuilder.editable.initializeEditables(window);
+      this.initProviders();
     });
     this.MonsterEditData = window.MONSTER_EDIT_MODE_DATA;
-    this.initProviders();
+
   }
 
   initProviders() {
@@ -36,7 +38,14 @@ class VisualFrame
       template: this.getProviders(this.MonsterEditData.template),
       entity: this.getProviders(this.MonsterEditData.entity),
     };
-    debugger;
+  }
+
+  set pageStructureJson(value) {
+    this.pageStructureJsonData = value;
+  }
+
+  get pageStructureJson() {
+    return this.pageStructureJsonData;
   }
 
   getProviders(arr) {
@@ -270,50 +279,96 @@ class VisualFrame
   }
 
   save() {
-    const data = VisualFrame.iterateTemplateType(this.pageStructureJson);
+    const data = this.iterateTemplateType(this.pageStructureJson);
+    console.log(data);
     debugger;
     VisualFrame.formSubmit(data);
     return false;
   }
 
-  static iterateTemplateType(arr) {
-    const result = {};
+  iterateTemplateType(arr) {
+    const result = {
+      entity: {
+        materialsByRegionDecl: {},
+        providers: {},
+      },
+    };
     arr.forEach(obj => {
       const key = obj.data.id;
+      const regionsResult = VisualFrame.iterateTemplateRegions(obj.children);
       // layout or template
       result[key] = {
-        templateRegions: VisualFrame.iterateTemplateRegions(obj.children),
+        templateRegions: regionsResult.templateRegions,
+        templateId: obj.data.templateId,
+        providers: {},
       };
+      if (Object.keys(regionsResult.entityMaterials).length > 0) {
+        Object.keys(regionsResult.entityMaterials).forEach(regionKey => {
+          result.entity.materialsByRegionDecl[regionKey] = regionsResult.entityMaterials[regionKey];
+        });
+      }
+      result[key].providers = this.serializeProviders(key);
+    });
+    result.entity.providers = this.serializeProviders('entity');
+    return result;
+  }
+
+  serializeProviders(type) {
+    const result = {};
+    Object.keys(this.providers[type]).forEach(providerKey => {
+      result[providerKey] = this.providers[type][providerKey].serialize();
     });
     return result;
   }
 
   static iterateTemplateRegions(arr) {
-    const result = {};
+    const result = {
+      templateRegions: {},
+      entityMaterials: {},
+    };
     arr.forEach(obj => {
-      const key = obj.data.id.replace(/^.*\./, '');
-      // this is an exact template region
-      result[key] = {
-        regionId: obj.data.regionId,
-        regionKey: obj.data.regionKey,
-        uniqueContentId: obj.data.uniqueContentId,
-        materials: VisualFrame.iterateMaterials(obj.children),
-      };
-      if (typeof(obj.data.entityDependent) !== 'undefined') {
-        result[key].entityDependent = obj.data.entityDependent;
+      // const key = obj.data.id.replace(/^.*\./, '');
+      const regionKey = obj.data.regionKey;
+      const entityDependent = obj.data.entityDependent || false;
+
+      const regionMaterials = VisualFrame.iterateMaterials(obj.children, regionKey);
+
+      if (entityDependent === false) {
+        // this is an exact template region
+        result.templateRegions[regionKey] = {
+          regionId: obj.data.regionId,
+          regionKey,
+          uniqueContentId: obj.data.uniqueContentId,
+          materialsDecls: regionMaterials,
+          entityDependent,
+        };
+      } else {
+        result.templateRegions[regionKey] = {
+          regionId: obj.data.regionId,
+          regionKey,
+          uniqueContentId: obj.data.uniqueContentId,
+          entityDependent,
+        };
+        // this is entity-dependent region
+        result.entityMaterials[regionKey] = regionMaterials;
       }
+
     });
     return result;
   }
 
-  static iterateMaterials(arr) {
-    const result = {};
+  static iterateMaterials(arr, regionKey) {
+    const result = {
+      decl: {},
+      materialsOrder: [],
+    };
     arr.forEach(obj => {
       const key = obj.data.materialIndex;
-      result[key] = {
+      result.decl[key] = {
         // editablesKeys: obj.data.editableKeys,
         material: obj.data.materialPath,
       };
+      result.materialsOrder.push(key);
     });
     return result;
   }

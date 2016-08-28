@@ -23,11 +23,14 @@ class Editable {
     return this.editablesByType[type].serializeNode($node, exportVariable);
   }
 
-  initializeEditables(w) {
-    Object.keys(this.editablesByType).forEach(editableKey => {
-      const editable = this.editablesByType[editableKey];
-      editable.initializeEditables(w);
-    });
+  initializeEditable($node) {
+    const type = $node.data('editable-type') || 'uneditable';
+    if (type === 'uneditable') {
+      return null;
+    }
+
+    const editable = this.editablesByType[type] || this.editablesByType.string;
+    return editable.initializeEditable($node);
   }
 }
 

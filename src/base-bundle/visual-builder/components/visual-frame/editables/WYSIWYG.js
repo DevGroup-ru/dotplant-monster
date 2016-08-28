@@ -10,22 +10,20 @@ class WYSIWYG extends BaseEditable {
     return node.html();
   }
 
-  initializeEditables(w) {
-    const selector = '[data-editable-type=wysiwyg]';
+  initializeEditable($node) {
+    const node = $node[0];
     const config = {
       autoParagraph: false,
       enableContentEditable: true,
       ignoreEmptyParagraph: true,
-      enterMode: w.CKEDITOR.ENTER_BR,
+      enterMode: window.CKEDITOR.ENTER_BR,
     };
-
-    w.$(() => {
-      w.$(selector).each(function iter() {
-        const editor = w.AlloyEditor.editable(this, config).get('nativeEditor');
-        w.$(this).data('editor', editor);
-      });
-    });
+    // $(() => {
+      const editor = window.AlloyEditor.editable(node, config).get('nativeEditor');
+      $node.data('editor', editor);
+    // });
   }
+
 }
 
 export default WYSIWYG;

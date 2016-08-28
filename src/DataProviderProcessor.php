@@ -21,7 +21,9 @@ class DataProviderProcessor
     {
         $result = [];
         $providedKeys = [];
+
         foreach ($providers as $i => $provider) {
+
             $profileKey = "DataProviderProcessor: $i";
             Yii::beginProfile($profileKey);
             //! @todo Add check for correct class names here

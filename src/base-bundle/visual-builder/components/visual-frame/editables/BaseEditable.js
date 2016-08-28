@@ -3,12 +3,12 @@ class BaseEditable {
 
   }
 
-  initializeEditables(w) {
+  initializeEditable($node) {
 
   }
 
   static get frame$() {
-    return window.FrontendMonster.builder.frameContentWindow.$;
+    return window.$;
   }
 }
 

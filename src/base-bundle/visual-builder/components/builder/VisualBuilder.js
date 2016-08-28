@@ -4,7 +4,7 @@ import CustomizationEnvironment from './environments/CustomizationEnvironment';
 import ActionEnvironment from './environments/ActionEnvironment';
 import PageStructureEnvironment from './environments/PageStructureEnvironment';
 import FrameApi from './../visual-frame/FrameApi';
-import Editable from './Editable';
+// import Editable from './Editable';
 
 class VisualBuilder {
   constructor() {
@@ -28,7 +28,7 @@ class VisualBuilder {
       .mod('active', true);
     FrameApi.bindMessageListener(this);
 
-    this.editable = new Editable();
+    // this.editable = new Editable();
 
     this.controls();
   }

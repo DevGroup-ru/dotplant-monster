@@ -103,6 +103,7 @@ class MainEntity extends UniversalAction
             $providedKeysEntity
         );
 
+
         $actionData->result['dataByTemplateRegion'] = ArrayHelper::merge(
             $dataTemplate,
             $dataEntity
