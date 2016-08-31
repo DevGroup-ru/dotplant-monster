@@ -4,6 +4,9 @@ namespace DotPlant\Monster\models;
 
 use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
 use DevGroup\TagDependencyHelper\LazyCache;
+use DevGroup\TagDependencyHelper\TagDependencyTrait;
+use DotPlant\Monster\Universal\MonsterContentTrait;
+use DotPlant\Monster\Universal\MonsterProvidersTrait;
 use yii;
 
 /**
@@ -20,7 +23,8 @@ use yii;
  */
 class Template extends \yii\db\ActiveRecord
 {
-    use \DevGroup\TagDependencyHelper\TagDependencyTrait;
+    use TagDependencyTrait;
+    use MonsterProvidersTrait;
 
     /**
      * @inheritdoc
@@ -36,7 +40,7 @@ class Template extends \yii\db\ActiveRecord
             ],
         ];
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -109,7 +113,10 @@ class Template extends \yii\db\ActiveRecord
         return new TemplateQuery(get_called_class());
     }
 
-    /** @inheritdoc */
+    /**
+     * Table inheritance pattern here.
+     * @inheritdoc
+     */
     public static function instantiate($row)
     {
         if ($row['is_layout']) {
@@ -177,8 +184,4 @@ class Template extends \yii\db\ActiveRecord
         return $template;
     }
 
-    public function getEntityDataProviders()
-    {
-        return $this->providers;
-    }
 }

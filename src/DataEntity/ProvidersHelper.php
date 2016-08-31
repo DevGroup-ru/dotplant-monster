@@ -43,10 +43,11 @@ class ProvidersHelper
                 return $index;
             }
         }
-        $providers[] = [
+        $providers[uniqid('prov', true)] = [
             'class' => StaticContentProvider::class,
             'entities' => []
         ];
+        $entity->setEntityDataProviders($providers);
         return key(array_slice($providers, -1, 1, true));
     }
 }

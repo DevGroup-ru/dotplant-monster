@@ -2,6 +2,7 @@
 
 namespace DotPlant\Monster\models;
 
+use DotPlant\Monster\Universal\MonsterContentTrait;
 use yii;
 use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
 
@@ -22,6 +23,7 @@ use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
 class TemplateRegion extends \yii\db\ActiveRecord
 {
     use \DevGroup\TagDependencyHelper\TagDependencyTrait;
+    use MonsterContentTrait;
 
     /**
      * @inheritdoc

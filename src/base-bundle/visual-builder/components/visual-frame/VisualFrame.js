@@ -13,6 +13,7 @@ class VisualFrame
   initialize() {
     FrameApi.bindMessageListener(this);
     this.pageStructureJsonData = null;
+    /* global window:false */
     this.parentWindow = window.parent;
     /** @var FrontendMonster */
     this.parentMonster = this.parentWindow.FrontendMonster;
@@ -29,7 +30,6 @@ class VisualFrame
       this.initProviders();
     });
     this.MonsterEditData = window.MONSTER_EDIT_MODE_DATA;
-
   }
 
   initProviders() {
@@ -280,7 +280,7 @@ class VisualFrame
 
   save() {
     const data = this.iterateTemplateType(this.pageStructureJson);
-    console.log(data);
+    data.action = 'save';
     debugger;
     VisualFrame.formSubmit(data);
     return false;

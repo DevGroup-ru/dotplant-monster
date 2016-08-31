@@ -51,7 +51,7 @@ class BaseMaterialize extends yii\base\Widget
     public $materialIndex;
     /** @var array */
     public $data;
-    
+
     /** @var MonsterBh */
     private $monsterBh;
 
@@ -120,11 +120,17 @@ class BaseMaterialize extends yii\base\Widget
                 $fillEditable = function($editable, $root = null) use (&$editableKeys) {
                     $editableKey = $editable['key'];
                     $editableType = isset($editable['type']) ? $editable['type'] : 'string';
-                    if ($root !== null) {
+                    $target = isset($editable['target']) ? $editable['target'] : null;
+                    if ($root !== null && $target === 'item') {
                         if (isset($editableKeys[$root]) === false) {
                             $editableKeys[$root] = [];
                         }
                         $editableKeys[$root][$editableKey] = $editableType;
+                    } else if ($target !== null) {
+                        if (isset($editableKeys[$target]) === false) {
+                            $editableKeys[$target] = [];
+                        }
+                        $editableKeys[$target][$editableKey] = $editableType;
                     } else {
                         $editableKeys[$editableKey] = $editableType;
                     }

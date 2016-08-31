@@ -19,9 +19,11 @@ class StaticContent extends DataProvider {
 
   recursiveSerialize(materialEditableKeys, $root, dataKeys, prefix = '') {
     const result = {};
+
     dataKeys.forEach(key => {
       const obj = materialEditableKeys[key] || 'NO_SUCH_KEY';
       if (obj === 'NO_SUCH_KEY') {
+        debugger;
         return;
       }
       if (obj === Object(obj)) {
@@ -40,6 +42,7 @@ class StaticContent extends DataProvider {
         // it's plain field
         const $node = $root.find(`[data-editable-key="${prefix}${key}"]`).first();
         if ($node.length === 0) {
+          console.warn(`Skipped [data-editable-key="${prefix}${key}"] as not found`);
           return;
         }
         result[key] = DataProvider.editable.serializeEditable($node);

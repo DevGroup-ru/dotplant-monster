@@ -12,6 +12,7 @@ class TextString extends BaseEditable {
 
   initializeEditable($node) {
     const node = $node[0];
+    /* global window:false */
 
     const config = {
       allowedContent: 'i u',
@@ -42,7 +43,7 @@ class TextString extends BaseEditable {
       $node.data('editor', editor);
     } catch (e) {
       console.log($node, node);
-      throw e;
+      // throw e;
     }
     // });
   }

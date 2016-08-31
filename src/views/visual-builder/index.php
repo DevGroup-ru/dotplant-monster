@@ -22,23 +22,23 @@ echo \DotPlant\Monster\MonsterContent::widget([
             'data' => [
                 'environments' => [
                     [
-                        'icon' => \kartik\icons\Icon::show('list-ul'),
+                        'icon' => Icon::show('list-ul'),
                         'environment' => 'structure',
                     ],
                     [
-                        'icon' => \kartik\icons\Icon::show('tree'),
+                        'icon' => Icon::show('tree'),
                         'environment' => 'page-structure',
                     ],
                     [
-                        'icon' => \kartik\icons\Icon::show('list-alt'),
+                        'icon' => Icon::show('list-alt'),
                         'environment' => 'materials',
                     ],
                     [
-                        'icon' => \kartik\icons\Icon::show('paint-brush'),
+                        'icon' => Icon::show('paint-brush'),
                         'environment' => 'customization',
                     ],
                     [
-                        'icon' => \kartik\icons\Icon::show('link'),
+                        'icon' => Icon::show('link'),
                         'environment' => 'action',
                     ],
                 ],

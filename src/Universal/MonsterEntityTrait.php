@@ -5,53 +5,30 @@ namespace DotPlant\Monster\Universal;
 
 trait MonsterEntityTrait
 {
+    use MonsterContentTrait;
+    use MonsterProvidersTrait;
+
     public function getTemplateId()
     {
         /** @var \yii\base\Model $this */
         return (int) $this->template_id;
     }
 
-    public function getMaterials()
+    public function setTemplateId($id)
     {
         /** @var \yii\base\Model $this */
-        return $this->content;
-    }
-
-    public function getEntityDataProviders()
-    {
-        /** @var \yii\base\Model $this */
-        return $this->providers;
-    }
-
-    /**
-     * @param array $materials
-     */
-    public function setMaterials($materials)
-    {
-        $this->content = $materials;
-    }
-
-    public function saveMonsterContent()
-    {
-        return $this->save();
-    }
-
-    /**
-     * @param array $providers
-     */
-    public function setEntityDataProviders($providers)
-    {
-        $this->providers = $providers;
-    }
-    
-    public function uniqueContentIdPrefix()
-    {
-        return static::tableName() . '/' . $this->id;
+        $this->template_id = (int) $id;
     }
 
     public function getLayoutId()
     {
         /** @var \yii\base\Model $this */
         return (int) $this->layout_id;
+    }
+
+    public function setLayoutId($id)
+    {
+        /** @var \yii\base\Model $this */
+        $this->layout_id = (int) $id;
     }
 }
