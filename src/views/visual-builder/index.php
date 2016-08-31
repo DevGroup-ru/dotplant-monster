@@ -1,9 +1,16 @@
 <?php
 /** @var \yii\web\View $this */
+/** @var string $url */
 use DotPlant\Monster\assets\JsTreeDark;
 use kartik\icons\Icon;
 use yii\helpers\Json;
 use yii\helpers\Url;
+
+if (parse_url($url, PHP_URL_QUERY)) {
+    $url .= '&__monster_edit_mode__=1';
+} else {
+    $url .= '?__monster_edit_mode__=1';
+}
 
 JsTreeDark::register($this);
 Icon::map($this);
@@ -35,6 +42,7 @@ echo \DotPlant\Monster\MonsterContent::widget([
                         'environment' => 'action',
                     ],
                 ],
+                'url' => $url,
             ],
         ],
     ],
@@ -51,7 +59,7 @@ $js = <<<js
       'bundles': $bundles,
       'new-block-url': $newBlockUrl
     };
-    $(function(){
+    $(function() {
       window.FrontendMonster.builder;
     });
 js;

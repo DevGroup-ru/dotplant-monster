@@ -21,10 +21,15 @@ class VisualBuilderController extends Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($url = '/')
     {
 //        $this->title = Yii::t('monster', 'Visual Builder');
-        return $this->render('index');
+        return $this->render(
+            'index',
+            [
+                'url' => $url,
+            ]
+        );
     }
 
     public function actionNewBlock()
