@@ -26,6 +26,8 @@ class Template extends \yii\db\ActiveRecord
     use TagDependencyTrait;
     use MonsterProvidersTrait;
 
+    public $templateRegionsOverride = null;
+
     /**
      * @inheritdoc
      */
@@ -98,10 +100,12 @@ class Template extends \yii\db\ActiveRecord
      */
     public function getTemplateRegions()
     {
-        return $this
-            ->hasMany(TemplateRegion::className(), ['template_id' => 'id'])
-            ->orderBy(['sort_order' => SORT_ASC])
-            ->inverseOf('template');
+        return $this->templateRegionsOverride !== null
+            ? $this->templateRegionsOverride
+            : $this
+                ->hasMany(TemplateRegion::className(), ['template_id' => 'id'])
+                ->orderBy(['sort_order' => SORT_ASC])
+                ->inverseOf('template');
     }
 
     /**

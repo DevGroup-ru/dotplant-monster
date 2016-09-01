@@ -1,7 +1,7 @@
 {
     "name": "dotplant/monster",
     "description": "Here be monsters",
-    "type": "yii2-extension",
+    "type": "dotplant-extension",
     "license": "MIT",
     "authors": [
         {

@@ -324,11 +324,13 @@ class VisualFrame
   static iterateTemplateRegions(arr) {
     const result = {
       templateRegions: {},
+      templateRegionsOrder: [],
       entityMaterials: {},
     };
     arr.forEach(obj => {
       // const key = obj.data.id.replace(/^.*\./, '');
       const regionKey = obj.data.regionKey;
+      result.templateRegionsOrder.push(regionKey);
       const entityDependent = obj.data.entityDependent || false;
 
       const regionMaterials = VisualFrame.iterateMaterials(obj.children, regionKey);

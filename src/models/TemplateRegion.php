@@ -59,10 +59,20 @@ class TemplateRegion extends \yii\db\ActiveRecord
             [['entity_dependent'], 'filter', 'filter'=>'boolval'],
             [['content'], 'safe'],
             [['name', 'key'], 'string', 'max' => 255],
-            [['template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Template::className(), 'targetAttribute' => ['template_id' => 'id']],
+            [
+                ['template_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => Template::className(),
+                'targetAttribute' => ['template_id' => 'id'],
+            ],
         ];
     }
 
+    /**
+     * Adding unique key generation
+     * @inheritdoc
+     */
     public function beforeValidate()
     {
         if (empty($this->key)) {

@@ -86,15 +86,12 @@ class MainEntity extends UniversalAction
         /**
          * @var string $action Action type
          */
+        if ($this->action() !== self::ACTION_DEFAULT) {
+            $this->providersSupplied($entity, 'entity');
+            $this->materialsSupplied($entity, 'entity.materialsByRegionDecl', true);
 
-        $this->providersSupplied($entity, 'entity');
-        $this->materialsSupplied($entity, 'entity.materialsByRegionDecl', true);
-
-        $this->providersSupplied($template, "template");
-        foreach ($template->templateRegions as $region) {
-            //! @todo Add crud for regions(we must have regions order also)
-            //! @todo Move this to function for use both with template & layout
-            $this->materialsSupplied($region, "template.templateRegions.{$region->key}.materialsDecl");
+            $this->providersSupplied($template, 'template');
+            $this->templateRegions($template, 'template');
         }
 
 
@@ -256,6 +253,7 @@ class MainEntity extends UniversalAction
         }
 
         $result = [];
+
         if ($byRegions === true) {
             $regions = (array) ArrayHelper::getValue(
                 $this->visualBuilderProvided(),
@@ -266,12 +264,19 @@ class MainEntity extends UniversalAction
                 $result[$index] = $this->materialsDecl("$path.$index");
             }
         } else {
+
             $result = $this->materialsDecl($path);
         }
 
         $model->setMaterials($result);
     }
 
+    /**
+     * Parse materialsDecl block
+     * @param string $path
+     *
+     * @return array
+     */
     protected function materialsDecl($path)
     {
         $result = [];
@@ -296,6 +301,49 @@ class MainEntity extends UniversalAction
         return $result;
     }
 
+    /**
+     * @param Template $model
+     * @param string $path
+     */
+    protected function templateRegions(&$model, $path)
+    {
+        $currentRegions = ArrayHelper::index($model->templateRegions, 'key');
+
+        $newRegions = [];
+        $regionsOrder = ArrayHelper::getValue(
+            $this->visualBuilderProvided(),
+            "$path.templateRegionsOrder",
+            []
+        );
+
+        $counter = 0;
+
+        foreach ($regionsOrder as $regionKey) {
+            /** @var TemplateRegion $regionModel */
+            $regionModel = null;
+            if (isset($currentRegions[$regionKey])) {
+                $regionModel = $currentRegions[$regionKey];
+            } else {
+                $regionModel = Yii::createObject([
+                    'class' => TemplateRegion::class,
+                    'key' => $regionKey,
+                    'template_id' => $model->id,
+                ]);
+            }
+            $regionModel->sort_order = $counter;
+            $regionModel->entity_dependent = (bool) ArrayHelper::getValue(
+                $this->visualBuilderProvided(),
+                "$path.templateRegions.$regionKey.entityDependent",
+                false
+            );
+            $this->materialsSupplied($regionModel, "$path.templateRegions.{$regionModel->key}.materialsDecls");
+            $newRegions[$regionKey] = $regionModel;
+        }
+        //!@todo add delete for deleted regions(foreach by order, if not exist - delete) -- only on save$path action
+        $model->templateRegionsOverride = $newRegions;
+
+    }
+
     protected function applyLayout(&$entity, &$actionData, $dataEntity)
     {
         /** @var \yii\base\Model|MonsterEntityTrait $entity */
@@ -313,11 +361,15 @@ class MainEntity extends UniversalAction
         $layoutEditData = [];
 
         if ($layout !== null) {
-            $this->providersSupplied($layout, 'layout');
-            foreach ($layout->templateRegions as $region) {
-                //! @todo Add crud for regions(we must have regions order also)
-//                var_dump($region);
-//                $this->materialsSupplied($region, "layout.templateRegions.{$region->key}.materialsDecl");
+            if ($this->action() !== self::ACTION_DEFAULT) {
+                $this->providersSupplied($layout, 'layout');
+                $this->templateRegions($layout, 'layout');
+//                foreach ($layout->templateRegions as $region) {
+//                    //! @todo Add crud for regions(we must have regions order also)
+////                var_dump($region);
+//                    $this->materialsSupplied($region, "layout.templateRegions.{$region->key}.materialsDecls");
+//
+//                }
             }
 //            die();
 
