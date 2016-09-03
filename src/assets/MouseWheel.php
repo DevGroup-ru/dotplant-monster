@@ -14,6 +14,6 @@ class MouseWheel extends HeadBundle
         'https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js',
     ];
     public $depends = [
-        '\yii\web\JqueryAsset'
+        'yii\web\JqueryAsset'
     ];
 }

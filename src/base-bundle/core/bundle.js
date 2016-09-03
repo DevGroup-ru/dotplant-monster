@@ -10,7 +10,7 @@ import './libs/jquery.bem';
 $.BEM.setConfig({
   namePattern: '[a-zA-Z0-9\\-]+',
   elemPrefix: '__',
-  modPrefix: '--',
+  modPrefix: '_',
   modDlmtr: '_',
 });
 

@@ -241,6 +241,15 @@ $editor-accent-color: #EC5035;
       outline: none;
     }
   }
+  label {
+    color: $editor-text-color;
+    font-weight: normal;
+    margin: 0 $base-line-height;
+  }
+  .button_checked {
+    border-color: $editor-link-color;
+    color: $editor-link-color;
+  }
   @b page-structure {
     background-color: transparent;
     ul {

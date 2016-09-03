@@ -8,6 +8,7 @@
   "assetBundles": [
     "DotPlant\\Monster\\assets\\IsJs",
     "DotPlant\\Monster\\assets\\TouchPunch",
-    "DotPlant\\Monster\\assets\\JQueryPopupOverlay"
+    "DotPlant\\Monster\\assets\\JQueryPopupOverlay",
+    "DotPlant\\Monster\\assets\\BemComponents"
   ]
 }

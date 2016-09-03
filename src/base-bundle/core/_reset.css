@@ -15,5 +15,8 @@ _:-ms-fullscreen {
   width: 100%;
 }
 .m-wrapper {
-    font-family: $font-family;
+  font-family: $font-family;
+  .checkbox, .radio {
+    margin: auto;
+  }
 }

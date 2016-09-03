@@ -15,7 +15,7 @@ abstract class BaseBh extends Component
     /** @var BH */
     private $bh;
 
-    public $modsDelimiter = '--';
+    public $modsDelimiter = '_';
 
     public $formatHtml = false;
 
@@ -46,7 +46,7 @@ abstract class BaseBh extends Component
             'indent' => $this->formatHtml,
             'jsAttrScheme' => false,
             'jsAttrName' => 'data-bem',
-            'jsCls' => 'm-bem',
+            'jsCls' => 'i-bem',
         ]);
     }
 

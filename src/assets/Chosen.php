@@ -18,6 +18,6 @@ class Chosen extends HeadBundle
         'https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.min.css',
     ];
     public $depends = [
-        '\yii\web\JqueryAsset'
+        'yii\web\JqueryAsset'
     ];
 }

@@ -149,7 +149,7 @@ module.exports = {
         separators: {
           namespace: '-',
           descendent: '__',
-          modifier: '--',
+          modifier: '_',
         },
         shortcuts: {
           component: 'b',

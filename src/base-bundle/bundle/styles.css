@@ -124,10 +124,10 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
         font-size: 1rem;
     }
 }
-.m-wrapper .m-pagination-arrow--center {
+.m-wrapper .m-pagination-arrow_center {
     text-align: center;
 }
-.m-wrapper .m-pagination-arrow--right {
+.m-wrapper .m-pagination-arrow_right {
     text-align: right;
 }
 .m-wrapper .m-pagination-arrow__number {
@@ -145,7 +145,7 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
         display: inline-block;
     }
 }
-.m-wrapper .m-pagination-arrow__number--active {
+.m-wrapper .m-pagination-arrow__number_active {
     background: #aaa;
     border: 0.0625rem solid #aaa;
 }
@@ -201,10 +201,10 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
         font-size: 1rem;
     }
 }
-.m-wrapper .m-pagination-btn--center {
+.m-wrapper .m-pagination-btn_center {
     text-align: center;
 }
-.m-wrapper .m-pagination-btn--right {
+.m-wrapper .m-pagination-btn_right {
     text-align: right;
 }
 .m-wrapper .m-pagination-btn__number {
@@ -222,7 +222,7 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
         display: inline-block;
     }
 }
-.m-wrapper .m-pagination-btn__number--active {
+.m-wrapper .m-pagination-btn__number_active {
     background: #aaa;
     border: 0.0625rem solid #aaa;
 }
@@ -403,7 +403,7 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
 .m-wrapper .rating-css__input.rating-css__input--active:hover ~ .rating-css__label .rating-css__icon:before, .m-wrapper .rating-css__input.rating-css__input--active:disabled ~ .rating-css__label .rating-css__icon:before {
     color: #ffd700;
 }
-.m-wrapper .rating-css--noselect .rating-css__label {
+.m-wrapper .rating-css_noselect .rating-css__label {
     cursor: inherit;
 }
 .m-wrapper .rating-js {
@@ -429,10 +429,10 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
     display: inline-block;
     cursor: pointer;
 }
-.m-wrapper .rating-js__item--hover .rating-js__icon:before {
+.m-wrapper .rating-js__item_hover .rating-js__icon:before {
     color: #000;
 }
-.m-wrapper .rating-js__item--chosen .rating-js__icon:before {
+.m-wrapper .rating-js__item_chosen .rating-js__icon:before {
     color: #ffd700;
 }
 .m-wrapper .rating-tooltip {
@@ -486,10 +486,10 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
     -webkit-transition: all 0.3s ease-out 0s;
     transition: all 0.3s ease-out 0s;
 }
-.m-wrapper .tooltip__popup--top {
+.m-wrapper .tooltip__popup_top {
     bottom: 100%;
 }
-.m-wrapper .tooltip__popup--bottom {
+.m-wrapper .tooltip__popup_bottom {
     top: 100%;
 }
 .m-wrapper .tooltip__arrow {
@@ -498,14 +498,14 @@ a.button-ghost--round, a:link.button-ghost--round, a:hover.button-ghost--round, 
     border-style: solid;
     position: absolute;
 }
-.m-wrapper .tooltip__arrow--top {
+.m-wrapper .tooltip__arrow_top {
     border-width: 0.3125rem 0.3125rem 0 0.3125rem;
     border-color: #eee transparent transparent transparent;
     bottom: -0.3125rem;
     left: 48%;
     left: calc(50% - 0.3125rem);
 }
-.m-wrapper .tooltip__arrow--bottom {
+.m-wrapper .tooltip__arrow_bottom {
     border-width: 0 0.3125rem 0.3125rem 0.3125rem;
     border-color: transparent transparent #eee transparent;
     top: -0.3125rem;
@@ -856,7 +856,7 @@ a.content-block-002__title-nested:hover, a:link.content-block-002__title-nested:
     height: 3.75rem;
     overflow: hidden;
 }
-.m-wrapper .content-block-002--left .content-block-002__nested {
+.m-wrapper .content-block-002_left .content-block-002__nested {
     text-align: left;
 }
 a.content-block-003__title-nested, a:link.content-block-003__title-nested, a:hover.content-block-003__title-nested, a:visited.content-block-003__title-nested, a:active.content-block-003__title-nested, a:focus.content-block-003__title-nested, button.content-block-003__title-nested {
@@ -1800,7 +1800,7 @@ a.content-block-007__title-nested:hover, a:link.content-block-007__title-nested:
     height: 3.75rem;
     overflow: hidden;
 }
-.m-wrapper .content-block-007--left .content-block-007__nested {
+.m-wrapper .content-block-007_left .content-block-007__nested {
     text-align: left;
 }
 /** @define about-block-001 */
@@ -2508,52 +2508,52 @@ a.content-block-007__title-nested:hover, a:link.content-block-007__title-nested:
 }
 .m-wrapper .about-block-003__nested {}
 @media (min-width: 84.001em) {
-    .m-wrapper .about-block-003__nested--big {
+    .m-wrapper .about-block-003__nested_big {
         width: 66.66666667%;
     }
 }
 @media (max-width: 84em) {
-    .m-wrapper .about-block-003__nested--big {
+    .m-wrapper .about-block-003__nested_big {
         width: 66.66666667%;
     }
 }
 @media (max-width: 75em) {
-    .m-wrapper .about-block-003__nested--big {
+    .m-wrapper .about-block-003__nested_big {
         width: 50%;
     }
 }
 @media (max-width: 60em) {
-    .m-wrapper .about-block-003__nested--big {
+    .m-wrapper .about-block-003__nested_big {
         width: 50%;
     }
 }
 @media (max-width: 40em) {
-    .m-wrapper .about-block-003__nested--big {
+    .m-wrapper .about-block-003__nested_big {
         width: 100%;
     }
 }
 @media (min-width: 84.001em) {
-    .m-wrapper .about-block-003__nested--min {
+    .m-wrapper .about-block-003__nested_min {
         width: 33.33333333%;
     }
 }
 @media (max-width: 84em) {
-    .m-wrapper .about-block-003__nested--min {
+    .m-wrapper .about-block-003__nested_min {
         width: 33.33333333%;
     }
 }
 @media (max-width: 75em) {
-    .m-wrapper .about-block-003__nested--min {
+    .m-wrapper .about-block-003__nested_min {
         width: 50%;
     }
 }
 @media (max-width: 60em) {
-    .m-wrapper .about-block-003__nested--min {
+    .m-wrapper .about-block-003__nested_min {
         width: 50%;
     }
 }
 @media (max-width: 40em) {
-    .m-wrapper .about-block-003__nested--min {
+    .m-wrapper .about-block-003__nested_min {
         width: 100%;
     }
 }
@@ -6093,7 +6093,7 @@ a.team-005__social-icon, a:link.team-005__social-icon, a:hover.team-005__social-
     height: 3.75rem;
     overflow: hidden;
 }
-.m-wrapper .faq-002__text--hide {
+.m-wrapper .faq-002__text_hide {
     display: none;
 }
 .m-wrapper .faq-002__link {

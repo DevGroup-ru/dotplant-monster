@@ -87,7 +87,7 @@ class VisualFrame
           + this.$selectedMaterial.height()
           - this.$handlers.height()
       );
-      this.$selectedMaterial.addClass('m-monster-content__material--active');
+      this.$selectedMaterial.mod('active', true);
     }
   }
 
@@ -185,7 +185,7 @@ class VisualFrame
       return;
     }
     if (this.$selectedMaterial) {
-      this.$selectedMaterial.removeClass('m-monster-content__material--active');
+      this.$selectedMaterial.mod('active', false);
     }
     this.$selectedMaterial = $material;
     this.updateHandlers();
@@ -261,18 +261,16 @@ class VisualFrame
   newBlock(materialName, regionName) {
     // @todo Add loader here as we are using form post !
     const randomIndex = uniqueId('mat');
-    const newData = {
-      template: this.constructTemplateData(),
-      action: 'preview',
-    };
-    if (newData.template.regionsMaterials.hasOwnProperty(regionName) === false) {
-      newData.template.regionsMaterials[regionName] = {};
+    const newData = this.iterateTemplateType(this.pageStructureJson);
+    debugger;
+    if (newData.entity.regionsMaterials.hasOwnProperty(regionName) === false) {
+      newData.entity.regionsMaterials[regionName] = {};
     }
     // we are modifying template data by adding new material into needed region
-    newData.template.regionsMaterials[regionName].decl[randomIndex] = {
+    newData.entity.regionsMaterials[regionName].decl[randomIndex] = {
       material: materialName,
     };
-    newData.template.regionsMaterials[regionName].materialsOrder.push(randomIndex);
+    newData.entity.regionsMaterials[regionName].materialsOrder.push(randomIndex);
     VisualFrame.formSubmit(newData);
 
     return false;

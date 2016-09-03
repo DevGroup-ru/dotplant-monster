@@ -65,15 +65,14 @@ class MaterialsEnvironment extends BaseEnvironment {
       const groupPath = $this.data('groupPath');
       if ($this.mod('active')) {
         $('.materials-groups__switch-group').mod('active', false);
-        const materialsListActiveClass = 'materials-list--active';
 
         $('.materials-list').each(function it() {
           const $list = $(this);
-          if ($list.hasClass(materialsListActiveClass)) {
-            $list.removeClass(materialsListActiveClass);
+          if ($list.mod('active')) {
+            $list.mod('active', false);
           }
           if ($list.data('groupPath') === groupPath) {
-            $list.addClass(materialsListActiveClass);
+            $list.mod('active', true);
           }
         });
 

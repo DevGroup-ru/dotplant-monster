@@ -18,6 +18,6 @@ class FlexSlider extends HeadBundle
         'https://cdnjs.cloudflare.com/ajax/libs/flexslider/2.6.1/flexslider.min.css',
     ];
     public $depends = [
-        '\yii\web\JqueryAsset'
+        'yii\web\JqueryAsset'
     ];
 }

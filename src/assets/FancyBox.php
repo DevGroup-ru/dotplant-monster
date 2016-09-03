@@ -26,6 +26,6 @@ class FancyBox extends HeadBundle
         'https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/helpers/jquery.fancybox-buttons.css',
     ];
     public $depends = [
-        '\yii\web\JqueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

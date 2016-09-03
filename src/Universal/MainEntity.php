@@ -35,6 +35,8 @@ class MainEntity extends UniversalAction
     const ACTION_VAR_NAME = 'action';
     const ACTION_DEFAULT = 'default';
     const ACTION_SAVE = 'save';
+    const ACTION_SAVE_TEMPLATE = 'save-template';
+    const ACTION_SAVE_LAYOUT = 'save-layout';
     const ACTION_PREVIEW = 'preview';
 
     private $actionType;
@@ -126,7 +128,7 @@ class MainEntity extends UniversalAction
 
         if ($this->action() === self::ACTION_SAVE) {
             // perform actual saving
-//            $entity->saveMonsterContent();
+            $entity->saveMonsterContent();
         }
 
         if (YII_ENV === 'dev') {

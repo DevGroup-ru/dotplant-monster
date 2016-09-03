@@ -57,12 +57,12 @@ class VisualBuilder {
   resolutionSwitcher() {
     const that = this;
     const bemElem = 'resolution-switcher__resolution-link';
-    const activeModifier = `${bemElem}--active`;
+
     const $resolutionLinks = $(`.${bemElem}`);
     $resolutionLinks.click(function callback() {
-      $resolutionLinks.removeClass(activeModifier);
+      $resolutionLinks.mod('active', false);
       $(that.settings['frame-selector']).width($(this).data('resolutionWidth'));
-      $(this).addClass(activeModifier);
+      $(this).mod('active', true);
       return false;
     });
   }
@@ -70,20 +70,20 @@ class VisualBuilder {
   environmentSelector() {
     const that = this;
     const bemElem = 'monster-environment-selector__environment-link';
-    const activeModifier = `${bemElem}--active`;
+
     const $sectionLinks = $(`.${bemElem}`);
     $sectionLinks.click(function callback() {
       const environmentName = $(this).data('environmentName');
       if (that.currentEnvironment === environmentName) {
-        $sectionLinks.removeClass(activeModifier);
+        $sectionLinks.mod('active', false);
         that.environments.get(environmentName).deactivate();
         that.currentEnvironment = null;
         return false;
       }
 
-      $sectionLinks.removeClass(activeModifier);
+      $sectionLinks.mod('active', false);
       that.switchEnvironment(environmentName);
-      $(this).addClass(activeModifier);
+      $(this).mod('active', true);
       return false;
     });
   }
@@ -100,7 +100,7 @@ class VisualBuilder {
   createStackablePane() {
     const paneClass = `${this.settings['stackable-container-class']}__pane`;
     const modifier = this.$stackable.find(`.${paneClass}`).length === 0
-      ? `${paneClass}--first`
+      ? `${paneClass}_first`
       : '';
     const $newPane = $(`<div class="${paneClass} ${modifier}"></div>`);
     this.$stackable.append($newPane);

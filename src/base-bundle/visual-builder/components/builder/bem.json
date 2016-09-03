@@ -58,20 +58,29 @@
           "block": "edit-mode",
           "content": [
             {
-              "elem": "layout",
+              "elem": "label",
               "tag": "label",
-              "attrs": {
-                "for": "edit-mode__layout-checkbox"
+              "content": "Edit mode:"
+            },
+            {
+              "block": "radio-group",
+              "mods": {
+                "size": "s",
+                "type": "button"
               },
-              "content": [
-                "Layout",
+              "val": "content",
+              "options": [
                 {
-                  "elem": "layout-checkbox",
-                  "tag": "input",
-                  "attrs": {
-                    "type": "checkbox",
-                    "id": "edit-mode__layout-checkbox"
-                  }
+                  "val": "content",
+                  "text": "Content"
+                },
+                {
+                  "val": "template",
+                  "text": "Template"
+                },
+                {
+                  "val": "layout",
+                  "text": "Layout"
                 }
               ]
             }
