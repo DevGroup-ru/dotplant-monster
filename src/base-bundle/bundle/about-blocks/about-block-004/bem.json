@@ -18,9 +18,9 @@
         "elem": "text",
         "editable": {
           "type": "wysiwyg",
-          "key": "content"
+          "key": "text"
         }
-      }, 
+      },
       {
         "elem": "feature",
         "content": [
@@ -38,7 +38,7 @@
                   "elem": "feature-text",
                   "editable": {
                     "type": "wysiwyg",
-                    "key": "content",
+                    "key": "text",
                     "target": "item"
                   }
                 }

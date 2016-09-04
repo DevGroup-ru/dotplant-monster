@@ -224,7 +224,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     item.data.entityDependent = $templateRegion.data('regionEntityDependent') === 1;
 
     const prefix = item.data.entityDependent ? 'content' : 'template';
-    item.data.entityType = prefix;
+    item.data.entityType = item.data.entityDependent ? 'entity' : 'template';
     item.data.id = `${prefix}.templateRegion.${item.data.regionKey}`;
     item.id = `psj_${item.data.id}`;
 

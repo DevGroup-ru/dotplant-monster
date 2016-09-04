@@ -93,9 +93,7 @@ class MaterialsEnvironment extends BaseEnvironment {
       const selectedRegionKey = PageStructureEnv.selectedRegionKey;
       const selectedEntity = PageStructureEnv.selectedEntity;
 
-      alert(`${selectedRegionKey} of ${selectedEntity}`);
       if (selectedRegionKey !== null && selectedEntity !== null) {
-        return;
         that.sendMessage(
           'newBlock',
           [

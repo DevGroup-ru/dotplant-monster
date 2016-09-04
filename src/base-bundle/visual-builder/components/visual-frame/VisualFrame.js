@@ -20,7 +20,7 @@ class VisualFrame
     this.parentBuilder = this.parentMonster.builder;
     this.currentMonsterContent = false;
     this.editable = new Editable();
-    this.makeItMove();
+    // this.makeItMove();
     $(window).resize(() => {
       this.updateHandlers();
       return true;
@@ -89,95 +89,6 @@ class VisualFrame
       );
       this.$selectedMaterial.mod('active', true);
     }
-  }
-
-  makeItMove() {
-    this.$handlers = $(`
-<div class="monster-block-handlers">
-  <a href="#" class="monster-block-handlers__configure">
-    <i class="fa fa-cog"></i>
-  </a>
-  <span class="monster-block-handlers__block-name">Block name here</span>
-  <a href="#" class="monster-block-handlers__move-up">
-    <i class="fa fa-angle-up"></i>
-  </a>
-  <a href="#" class="monster-block-handlers__move-down">
-    <i class="fa fa-angle-down"></i>
-  </a>
-  <a href="#" class="monster-block-handlers__clone">
-    <i class="fa fa-clone"></i>
-  </a>
-  <a href="#" class="monster-block-handlers__remove">
-    <i class="fa fa-times"></i>
-  </a>
-</div>`);
-    $('body').append(this.$handlers);
-    this.$handlers.hide();
-    const that = this;
-    $(this.settings['monster-content-selector']).on({
-      mouseenter: function hoverIn() {
-        const $this = $(this);
-        $this.addClass('m-monster-content__material--highlighted');
-      },
-      mouseleave: function hoverOut() {
-        const $this = $(this);
-        $this.removeClass('m-monster-content__material--highlighted');
-      },
-      click: function clickHandler() {
-        const $this = $(this);
-        that.selectMaterial($this);
-      },
-    }, '[data-is-material]');
-    that.$handlers
-      .on('click', '.monster-block-handlers__move-up', () => {
-        if (that.$selectedMaterial) {
-          const $prev = that.$selectedMaterial.prev('[data-is-material]');
-          if ($prev.length === 1) {
-            that.$selectedMaterial.insertBefore($prev);
-            that.updateHandlers();
-            that.parentBuilder.pageChanged();
-          }
-        }
-        return false;
-      })
-      .on('click', '.monster-block-handlers__move-down', () => {
-        if (that.$selectedMaterial) {
-          const $next = that.$selectedMaterial.next('[data-is-material]');
-          if ($next.length === 1) {
-            that.$selectedMaterial.insertAfter($next);
-            that.updateHandlers();
-            that.parentBuilder.pageChanged();
-          }
-        }
-        return false;
-      })
-      .on('click', '.monster-block-handlers__clone', () => {
-        if (that.$selectedMaterial) {
-          const $clonedMaterial = that.$selectedMaterial.clone();
-          const randomIndex = uniqueId('mat');
-          $clonedMaterial
-            .insertAfter(that.$selectedMaterial)
-            .data(
-              'materialIndex',
-              randomIndex
-            )
-            .attr('data-material-index', randomIndex);
-          that.selectMaterial($clonedMaterial);
-          that.parentBuilder.pageChanged();
-        }
-        return false;
-      })
-      .on('click', '.monster-block-handlers__remove', () => {
-        if (that.$selectedMaterial) {
-          if (confirm('Are you sure you want to remove this material?')) {
-            that.$selectedMaterial.remove();
-            that.$selectedMaterial = null;
-            that.$handlers.hide(); // it does not work. why? Need to fix!
-            that.parentBuilder.pageChanged();
-          }
-        }
-        return false;
-      });
   }
 
   selectMaterial($material) {
@@ -261,17 +172,20 @@ class VisualFrame
   newBlock(materialName, selectedEntity, regionName) {
     // @todo Add loader here as we are using form post !
     const randomIndex = uniqueId('mat');
-    const newData = this.iterateTemplateType(this.pageStructureJson);
-    debugger;
-    if (newData.entity.regionsMaterials.hasOwnProperty(regionName) === false) {
-      newData.entity.regionsMaterials[regionName] = {};
+    const data = this.iterateTemplateType(this.pageStructureJson);
+    if (selectedEntity === 'entity') {
+      data.entity.materialsByRegionDecl[regionName].decl[randomIndex] = {
+        material: materialName,
+      };
+      data.entity.materialsByRegionDecl[regionName].materialsOrder.push(randomIndex);
+    } else {
+      data[selectedEntity].templateRegions[regionName].materialsDecls.decl[randomIndex] = {
+        material: materialName,
+      };
+      data[selectedEntity].templateRegions[regionName].materialsDecls.materialsOrder.push(randomIndex);
     }
-    // we are modifying template data by adding new material into needed region
-    newData.entity.regionsMaterials[regionName].decl[randomIndex] = {
-      material: materialName,
-    };
-    newData.entity.regionsMaterials[regionName].materialsOrder.push(randomIndex);
-    VisualFrame.formSubmit(newData);
+    data.action = 'preview';
+    VisualFrame.formSubmit(data);
 
     return false;
   }
@@ -279,7 +193,6 @@ class VisualFrame
   save() {
     const data = this.iterateTemplateType(this.pageStructureJson);
     data.action = 'save';
-    debugger;
     VisualFrame.formSubmit(data);
     return false;
   }
@@ -297,6 +210,7 @@ class VisualFrame
       // layout or template
       result[key] = {
         templateRegions: regionsResult.templateRegions,
+        templateRegionsOrder: regionsResult.templateRegionsOrder,
         templateId: obj.data.templateId,
         providers: {},
       };
