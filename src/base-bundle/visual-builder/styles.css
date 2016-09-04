@@ -113,6 +113,12 @@
     min-width: 200px;
     color: #F7F7FC;
 }
+.m-wrapper .monster-stackable-container__pane-header {
+    font-size: 0.9375rem;
+    line-height: 1.875rem;
+    padding: 0 1.25rem;
+    color: #4FD18A;
+}
 .m-wrapper .monster-stackable-container__pane {
     background: #1E1B35;
     min-width: 300px;
@@ -249,45 +255,69 @@
     color: #666773;
 }
 .monster-visual-builder .page-structure {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     background-color: transparent;
+    padding: 0 2px;
 }
 .monster-visual-builder .page-structure ul {
     padding-left: 0;
 }
+.monster-visual-builder .page-structure >ul {
+    padding-right: 120px;
+}
 .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon:empty, .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor, .monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow {
-    height: 1.25rem;
-    line-height: 1.25rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    color: #1E1B35;
+    text-shadow: none;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor {
+    max-width: 260px;
+    text-overflow: ellipsis;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow-hovered + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-hovered
+      .jstree-wholerow-clicked + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-clicked {
+    color: #F7F7FC !important;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-hovered .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-clicked .jstree-icon {
+    color: #F7F7FC;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow.jstree-wholerow-hovered, .monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow.jstree-wholerow-clicked {
+    background: #4FD18A;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow {
+    background: #F7F7FC;
 }
 .monster-visual-builder .page-structure.jstree-default-dark .jstree-node {
-    min-height: 1.25rem;
-    line-height: 1.25rem;
+    min-height: 1.5rem;
+    line-height: 1.5rem;
 }
 .monster-visual-builder .page-structure.jstree-default-dark .jstree-node {
-    margin-left: 1.25rem;
-    min-width: 1.25rem;
+    margin-left: 1.5rem;
+    min-width: 1.5rem;
+    margin-top: 2px;
 }
 .monster-visual-builder .page-structure.jstree-default-dark > .jstree-container-ul > .jstree-node {
     margin-left: 0;
     margin-right: 0;
 }
 .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon:empty, .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon {
-    width: 1.25rem;
+    width: 1.5rem;
 }
 .monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-open>.jstree-ocl {
     background-color: transparent;
     background-image: none;
     background-position: 0 0;
     display: inline-block;
-    font: normal normal normal 14px/20px FontAwesome;
-    font: normal normal normal 14px/20px FontAwesome;
-    font: normal normal normal 0.875rem/1.25rem FontAwesome;
+    font: normal normal normal 16px/24px FontAwesome;
+    font: normal normal normal 16px/24px FontAwesome;
+    font: normal normal normal 1rem/1.5rem FontAwesome;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #999;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+    text-shadow: none;
 }
 .monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-open>.jstree-ocl:before {
     content: "\F147";
@@ -297,15 +327,15 @@
     background-image: none;
     background-position: 0 0;
     display: inline-block;
-    font: normal normal normal 14px/20px FontAwesome;
-    font: normal normal normal 14px/20px FontAwesome;
-    font: normal normal normal 0.875rem/1.25rem FontAwesome;
+    font: normal normal normal 16px/24px FontAwesome;
+    font: normal normal normal 16px/24px FontAwesome;
+    font: normal normal normal 1rem/1.5rem FontAwesome;
     font-size: inherit;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: #999;
-    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+    text-shadow: none;
 }
 .monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-closed>.jstree-ocl:before {
     content: "\F196";
@@ -336,6 +366,13 @@
 .monster-visual-builder .button_checked {
     border-color: #3FB2FF;
     color: #3FB2FF;
+}
+.monster-visual-builder .tree-control-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    width: 6.25rem;
+    z-index: 10;
 }
 
 

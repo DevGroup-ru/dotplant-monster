@@ -8,6 +8,7 @@ class PageStructureEnvironment extends BaseEnvironment {
   }
 
   initPageStructureElement() {
+    this.$header = $('<div class="monster-stackable-container__pane-header">Page structure</div>');
     this.$pageStructure = $('<div class="page-structure"></div>');
   }
 
@@ -15,6 +16,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     super.activate();
 
     this.$structurePane = this.visualBuilder.createStackablePane();
+    this.$structurePane.append(this.$header);
     this.$structurePane.append(this.$pageStructure);
   }
 
@@ -102,6 +104,28 @@ class PageStructureEnvironment extends BaseEnvironment {
       });
       this.target.FrontendMonster.VisualFrame.pageStructureJson = this.pageStructureJson;
     });
+    const controlButtons = $(`<div class="tree-control-buttons" role="presentation"> EDIT and etc.</div>`);
+    this.$pageStructure.on('select_node.jstree', (e, obj) => {
+      const $anchor = $(`#${obj.node.id}`);
+      $anchor.prepend(controlButtons);
+      const type = obj.node.type;
+      switch (type) {
+        case 'material':
+          const materialPath = obj.node.data.materialPath;
+          this.target$.smoothScroll({
+            scrollTarget: this.target$(`[data-material-path="${materialPath}"]`)
+          });
+          break;
+        case 'templateRegion':
+        case 'contentTemplateRegion':
+          const regionKey = obj.node.data.regionKey;
+          this.target$.smoothScroll({
+            scrollTarget: this.target$(`[data-region-key="${regionKey}"]`)
+          });
+          break;
+      }
+    });
+
 
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
   }

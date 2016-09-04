@@ -63,6 +63,12 @@ $editor-accent-color: #EC5035;
     bottom: 0;
     min-width: 200px;
     color: $editor-text-color;
+    @e pane-header {
+      font-size: calc($base-line-height*1.5);
+      line-height: calc($base-line-height*3);
+      padding: 0 calc($base-line-height*2);
+      color: $editor-section-color;
+    }
     @e pane {
       background: $editor-base-bg;
       min-width: 300px;
@@ -250,45 +256,79 @@ $editor-accent-color: #EC5035;
     border-color: $editor-link-color;
     color: $editor-link-color;
   }
+  .tree-control-buttons {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    width: 100px;
+    z-index: 10;
+  }
   @b page-structure {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     background-color: transparent;
+    padding: 0 2px;
+
     ul {
       padding-left: 0;
     }
+    >ul {
+      padding-right: 120px;
+    }
     &.jstree-default-dark {
       .jstree-icon:empty, .jstree-icon, .jstree-anchor, .jstree-wholerow{
-        height: 1.25rem;
-        line-height: 1.25rem;
+        height: 1.5rem;
+        line-height: 1.5rem;
+        color: $editor-base-bg;
+        text-shadow: none;
+      }
+      .jstree-anchor {
+        max-width: 260px;
+        text-overflow: ellipsis;
+      }
+      .jstree-wholerow-hovered + .jstree-icon, .jstree-anchor.jstree-hovered
+      .jstree-wholerow-clicked + .jstree-icon, .jstree-anchor.jstree-clicked {
+        color: $editor-text-color !important;
+      }
+      .jstree-anchor.jstree-hovered .jstree-icon,
+      .jstree-anchor.jstree-clicked .jstree-icon {
+        color: $editor-text-color;
+      }
+      
+      .jstree-wholerow.jstree-wholerow-hovered,.jstree-wholerow.jstree-wholerow-clicked {
+        background: $editor-section-color;
+      }
+      .jstree-wholerow {
+        background: $editor-text-color;
       }
       .jstree-node {
-        min-height: 1.25rem;
-        line-height: 1.25rem;
+        min-height: 1.5rem;
+        line-height: 1.5rem;
       }
 
       .jstree-node {
-        margin-left: 1.25rem;
-        min-width: 1.25rem;
+        margin-left: 1.5rem;
+        min-width: 1.5rem;
+        margin-top: 2px;
       }
       > .jstree-container-ul > .jstree-node {
         margin-left: 0;
         margin-right: 0;
       }
       .jstree-icon:empty, .jstree-icon {
-        width: 1.25rem;
+        width: 1.5rem;
       }
       @define-mixin fontawesome {
         background-color: transparent;
         background-image: none;
         background-position: 0 0;
         display: inline-block;
-        font: normal normal normal 14px/1.25rem FontAwesome;
+        font: normal normal normal 16px/1.5rem FontAwesome;
         font-size: inherit;
         text-rendering: auto;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         color: #999;
-        text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+        text-shadow: none;
 
       }
       &>.jstree-no-dots .jstree-open>.jstree-ocl {
