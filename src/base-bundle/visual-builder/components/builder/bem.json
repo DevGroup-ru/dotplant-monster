@@ -55,38 +55,6 @@
           ]
         },
         {
-          "block": "edit-mode",
-          "content": [
-            {
-              "elem": "label",
-              "tag": "label",
-              "content": "Edit mode:"
-            },
-            {
-              "block": "radio-group",
-              "mods": {
-                "size": "s",
-                "type": "button"
-              },
-              "val": "content",
-              "options": [
-                {
-                  "val": "content",
-                  "text": "Content"
-                },
-                {
-                  "val": "template",
-                  "text": "Template"
-                },
-                {
-                  "val": "layout",
-                  "text": "Layout"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "block": "controls",
           "content": [
             {
