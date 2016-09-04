@@ -249,13 +249,66 @@
     color: #666773;
 }
 .monster-visual-builder .page-structure {
+    font-size: 0.75rem;
     background-color: transparent;
 }
 .monster-visual-builder .page-structure ul {
     padding-left: 0;
 }
-.monster-visual-builder .page-structure .jstree-default .jstree-hovered, .monster-visual-builder .page-structure .jstree-default .jstree-clicked {
-    color: #000;
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-icon:empty, .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor, .monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow {
+    height: 1.25rem;
+    line-height: 1.25rem;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-node {
+    min-height: 1.25rem;
+    line-height: 1.25rem;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-node {
+    margin-left: 1.25rem;
+    min-width: 1.25rem;
+}
+.monster-visual-builder .page-structure.jstree-default-dark > .jstree-container-ul > .jstree-node {
+    margin-left: 0;
+    margin-right: 0;
+}
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-icon:empty, .monster-visual-builder .page-structure.jstree-default-dark .jstree-icon {
+    width: 1.25rem;
+}
+.monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-open>.jstree-ocl {
+    background-color: transparent;
+    background-image: none;
+    background-position: 0 0;
+    display: inline-block;
+    font: normal normal normal 14px/20px FontAwesome;
+    font: normal normal normal 14px/20px FontAwesome;
+    font: normal normal normal 0.875rem/1.25rem FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #999;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+}
+.monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-open>.jstree-ocl:before {
+    content: "\F147";
+}
+.monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-closed>.jstree-ocl {
+    background-color: transparent;
+    background-image: none;
+    background-position: 0 0;
+    display: inline-block;
+    font: normal normal normal 14px/20px FontAwesome;
+    font: normal normal normal 14px/20px FontAwesome;
+    font: normal normal normal 0.875rem/1.25rem FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #999;
+    text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+}
+.monster-visual-builder .page-structure.jstree-default-dark>.jstree-no-dots .jstree-closed>.jstree-ocl:before {
+    content: "\F196";
 }
 .monster-visual-builder .button {
     padding: 0 0.625rem;

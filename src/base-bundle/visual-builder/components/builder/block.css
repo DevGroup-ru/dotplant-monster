@@ -251,14 +251,59 @@ $editor-accent-color: #EC5035;
     color: $editor-link-color;
   }
   @b page-structure {
+    font-size: 0.75rem;
     background-color: transparent;
     ul {
       padding-left: 0;
     }
-    .jstree-default {
-      .jstree-hovered, .jstree-clicked {
-          color: #000;
+    &.jstree-default-dark {
+      .jstree-icon:empty, .jstree-icon, .jstree-anchor, .jstree-wholerow{
+        height: 1.25rem;
+        line-height: 1.25rem;
+      }
+      .jstree-node {
+        min-height: 1.25rem;
+        line-height: 1.25rem;
+      }
+
+      .jstree-node {
+        margin-left: 1.25rem;
+        min-width: 1.25rem;
+      }
+      > .jstree-container-ul > .jstree-node {
+        margin-left: 0;
+        margin-right: 0;
+      }
+      .jstree-icon:empty, .jstree-icon {
+        width: 1.25rem;
+      }
+      @define-mixin fontawesome {
+        background-color: transparent;
+        background-image: none;
+        background-position: 0 0;
+        display: inline-block;
+        font: normal normal normal 14px/1.25rem FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        color: #999;
+        text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+
+      }
+      &>.jstree-no-dots .jstree-open>.jstree-ocl {
+        @mixin fontawesome;
+        &:before {
+          content: "\f147";
+        }
+      }
+      &>.jstree-no-dots .jstree-closed>.jstree-ocl {
+        @mixin fontawesome;
+        &:before{
+          content: "\f196";
+        }
       }
     }
+
   }
 }

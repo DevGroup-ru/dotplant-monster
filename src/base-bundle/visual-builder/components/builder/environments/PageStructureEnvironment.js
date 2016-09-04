@@ -71,6 +71,7 @@ class PageStructureEnvironment extends BaseEnvironment {
       },
       plugins: [
         'types',
+        'wholerow',
       ],
       types: {
         layout: {
