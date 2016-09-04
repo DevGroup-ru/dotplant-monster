@@ -73,6 +73,7 @@ class MainEntity extends UniversalAction
         }
 
         /** @var Template $template */
+        $template = null;
         if ($this->forceTemplate !== false) {
             $template = Template::findByKey($this->forceTemplate);
         } elseif ($templateId = $entity->getTemplateId()) {

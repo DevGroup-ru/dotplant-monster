@@ -1,3 +1,8 @@
 <?php
-// no configuration for now
-return [];
+return [
+    [
+        'sectionName' => 'DotPlant Monster',
+        'configurationView' => 'src/views/_configuration.php',
+        'configurationModel' => \DotPlant\Monster\models\MonsterConfiguration::class,
+    ],
+];
