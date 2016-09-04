@@ -5,6 +5,8 @@ class PageStructureEnvironment extends BaseEnvironment {
     super(visualBuilder, name);
     this.initPageStructureElement();
     this.editModeData = {};
+    this.selectedRegionKey = null;
+    this.selectedEntity = null;
   }
 
   initPageStructureElement() {
@@ -18,6 +20,11 @@ class PageStructureEnvironment extends BaseEnvironment {
     this.$structurePane = this.visualBuilder.createStackablePane();
     this.$structurePane.append(this.$header);
     this.$structurePane.append(this.$pageStructure);
+  }
+  deactivate() {
+    this.$pageStructure.detach();
+    this.$header.detach();
+    super.deactivate();
   }
 
   pageChanged() {
@@ -52,6 +59,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     };
 
     const $layoutRegions = this.target$('.m-monster-content__layout');
+
     $layoutRegions.each(function iter() {
       const result = PageStructureEnvironment.processLayout($(this));
       layoutItem.children.push(result.item);
@@ -95,6 +103,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     });
 
     const jstreeObj = this.$pageStructure.jstree();
+
     this.$pageStructure.on('loaded.jstree', () => {
       this.pageStructureJson = jstreeObj.get_json(this.$pageStructure, {
         no_state: true,
@@ -103,25 +112,36 @@ class PageStructureEnvironment extends BaseEnvironment {
         no_a_attr: true,
       });
       this.target.FrontendMonster.VisualFrame.pageStructureJson = this.pageStructureJson;
+      let isContentRegionFound = false;
+      this.pageStructure[1].children.forEach((region) => {
+        if (region.data.entityDependent && isContentRegionFound === false) {
+          isContentRegionFound = true;
+          jstreeObj.select_node(region.id);
+        }
+      });
     });
-    const controlButtons = $(`<div class="tree-control-buttons" role="presentation"> EDIT and etc.</div>`);
+    const controlButtons = $('<div class="tree-control-buttons" role="presentation"> EDIT and etc.</div>');
     this.$pageStructure.on('select_node.jstree', (e, obj) => {
       const $anchor = $(`#${obj.node.id}`);
       $anchor.prepend(controlButtons);
       const type = obj.node.type;
+      this.selectedEntity = obj.node.data.entityType || null;
       switch (type) {
         case 'material':
-          const materialPath = obj.node.data.materialPath;
           this.target$.smoothScroll({
-            scrollTarget: this.target$(`[data-material-path="${materialPath}"]`)
+            scrollTarget: this.target$(`[data-material-path="${obj.node.data.materialPath}"]`),
           });
+          this.selectedRegionKey = obj.node.data.regionKey;
           break;
         case 'templateRegion':
         case 'contentTemplateRegion':
-          const regionKey = obj.node.data.regionKey;
           this.target$.smoothScroll({
-            scrollTarget: this.target$(`[data-region-key="${regionKey}"]`)
+            scrollTarget: this.target$(`[data-region-key="${obj.node.data.regionKey}"]`),
           });
+          this.selectedRegionKey = obj.node.data.regionKey;
+          break;
+        default:
+          this.selectedRegionKey = null;
           break;
       }
     });
@@ -137,13 +157,15 @@ class PageStructureEnvironment extends BaseEnvironment {
     };
     item.children = [];
     item.data.id = `layout.templateRegion.${item.data.regionKey}`;
+    item.id = `psj_${item.data.id}`;
+    item.data.entityType = 'layout';
     const templateRegions = [];
 
     // find materials
     const $layoutMaterials = $layoutRegion.find('>[data-is-material]');
     $layoutMaterials.each(function iter() {
       const $layoutMaterial = $(this);
-      const result = PageStructureEnvironment.processLayoutMaterial($layoutMaterial, item.id);
+      const result = PageStructureEnvironment.processLayoutMaterial($layoutMaterial, item.id, item.data.regionKey);
       const layoutMaterialItem = result.layoutMaterial;
       result.templateRegions.forEach(region => {
         templateRegions.push(region);
@@ -157,7 +179,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     };
   }
 
-  static processLayoutMaterial($layoutMaterial, prefix) {
+  static processLayoutMaterial($layoutMaterial, prefix, regionKey) {
     const materialIndex = $layoutMaterial.data('materialIndex');
     const materialPath = $layoutMaterial.data('materialPath');
     const item = {
@@ -173,7 +195,10 @@ class PageStructureEnvironment extends BaseEnvironment {
         materialPath,
         editableKeys: $layoutMaterial.data('editableKeys'),
         node: $layoutMaterial,
+        regionKey,
+        entityType: 'layout',
       },
+      id: `psj_${prefix}.${materialIndex}`,
     };
     const templateRegions = [];
     const $regions = $layoutMaterial.find('> .m-monster-content__content');
@@ -198,25 +223,29 @@ class PageStructureEnvironment extends BaseEnvironment {
     item.children = [];
     item.data.entityDependent = $templateRegion.data('regionEntityDependent') === 1;
 
-    const prefix = item.data.entityDependent ? 'template' : 'content';
+    const prefix = item.data.entityDependent ? 'content' : 'template';
+    item.data.entityType = prefix;
     item.data.id = `${prefix}.templateRegion.${item.data.regionKey}`;
+    item.id = `psj_${item.data.id}`;
 
     if (item.data.entityDependent) {
       item.type = 'contentTemplateRegion';
     }
     const $regionMaterials = $templateRegion.find('>[data-is-material]');
     $regionMaterials.each(function iter() {
-      item.children.push(
-        PageStructureEnvironment.processTemplateRegionMaterial(
-          $(this),
-          item.data.id
-        )
+      const material = PageStructureEnvironment.processTemplateRegionMaterial(
+        $(this),
+        item.data.id,
+        prefix
       );
+      material.data.regionKey = item.data.regionKey;
+      material.id = `psj_${material.data.id}`;
+      item.children.push(material);
     });
     return item;
   }
 
-  static processTemplateRegionMaterial($regionMaterial, prefix) {
+  static processTemplateRegionMaterial($regionMaterial, prefix, entityType) {
     const materialIndex = $regionMaterial.data('materialIndex');
     const materialPath = $regionMaterial.data('materialPath');
     return {
@@ -228,6 +257,7 @@ class PageStructureEnvironment extends BaseEnvironment {
         materialPath,
         editableKeys: $regionMaterial.data('editableKeys'),
         node: $regionMaterial,
+        entityType,
       },
     };
   }

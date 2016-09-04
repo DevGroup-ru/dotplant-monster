@@ -1,22 +1,28 @@
 :root {
 
 
+
     /* grid */
 
 
+
     /* typography */
+
 
 
     /*vertical rhytm*/
 }
 
 
+
 /* typography */
+
 
 
 /* custom media queries */
 
 
+
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -39,12 +45,15 @@
 */
 
 
+
 /* generate grid mixins */
+
 
 
 /* grid order helpers */
 
 
+
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -67,7 +76,9 @@
 */
 
 
+
 /* generate grid mixins */
+
 
 
 /* grid order helpers */
@@ -275,8 +286,7 @@
     max-width: 260px;
     text-overflow: ellipsis;
 }
-.monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow-hovered + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-hovered
-      .jstree-wholerow-clicked + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-clicked {
+.monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow-hovered + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-hovered, .monster-visual-builder .page-structure.jstree-default-dark .jstree-wholerow-clicked + .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-clicked {
     color: #F7F7FC !important;
 }
 .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-hovered .jstree-icon, .monster-visual-builder .page-structure.jstree-default-dark .jstree-anchor.jstree-clicked .jstree-icon {
@@ -374,6 +384,7 @@
     width: 6.25rem;
     z-index: 10;
 }
+
 
 
 /* */

@@ -258,7 +258,7 @@ class VisualFrame
     };
   }
 
-  newBlock(materialName, regionName) {
+  newBlock(materialName, selectedEntity, regionName) {
     // @todo Add loader here as we are using form post !
     const randomIndex = uniqueId('mat');
     const newData = this.iterateTemplateType(this.pageStructureJson);

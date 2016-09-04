@@ -59,6 +59,7 @@ class MaterialsEnvironment extends BaseEnvironment {
     });
 
     const that = this;
+    /* global document: false */
     $(document).on('click', '.materials-groups__switch-group', function clickHandler() {
       const $this = $(this);
       $this.toggleMod('active');
@@ -84,14 +85,26 @@ class MaterialsEnvironment extends BaseEnvironment {
       }
       return false;
     });
+
+
     $(document).on('click', '.materials-list__item', function clickHandler() {
-      that.sendMessage(
-        'newBlock',
-        [
-          $(this).data('materialPath'),
-          'content',
-        ]
-      );
+      const PageStructureEnv = that.visualBuilder.environments.get('page-structure');
+
+      const selectedRegionKey = PageStructureEnv.selectedRegionKey;
+      const selectedEntity = PageStructureEnv.selectedEntity;
+
+      alert(`${selectedRegionKey} of ${selectedEntity}`);
+      if (selectedRegionKey !== null && selectedEntity !== null) {
+        return;
+        that.sendMessage(
+          'newBlock',
+          [
+            $(this).data('materialPath'),
+            selectedEntity,
+            selectedRegionKey,
+          ]
+        );
+      }
     });
   }
 
@@ -104,6 +117,15 @@ class MaterialsEnvironment extends BaseEnvironment {
     this.$materialsPane = this.visualBuilder.createStackablePane();
     this.$materialsPane.append(this.$materialsList);
     this.$materialsPane.hide();
+
+    /*
+    const PageStructureEnv = that.visualBuilder.environments.get('page-structure');
+
+    const selectedRegionKey = PageStructureEnv.selectedRegionKey;
+    const selectedEntity = PageStructureEnv.selectedEntity;
+
+    @todo check for selectedRegion if not - we must not add block here
+    */
 
     $('.materials-groups__switch-group').mod('active', false);
   }

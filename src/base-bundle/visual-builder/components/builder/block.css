@@ -285,7 +285,7 @@ $editor-accent-color: #EC5035;
         max-width: 260px;
         text-overflow: ellipsis;
       }
-      .jstree-wholerow-hovered + .jstree-icon, .jstree-anchor.jstree-hovered
+      .jstree-wholerow-hovered + .jstree-icon, .jstree-anchor.jstree-hovered,
       .jstree-wholerow-clicked + .jstree-icon, .jstree-anchor.jstree-clicked {
         color: $editor-text-color !important;
       }
@@ -293,7 +293,7 @@ $editor-accent-color: #EC5035;
       .jstree-anchor.jstree-clicked .jstree-icon {
         color: $editor-text-color;
       }
-      
+
       .jstree-wholerow.jstree-wholerow-hovered,.jstree-wholerow.jstree-wholerow-clicked {
         background: $editor-section-color;
       }
