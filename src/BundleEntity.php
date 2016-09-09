@@ -32,7 +32,7 @@ abstract class BundleEntity
     public $assetBundles = [];
 
     protected $published = false;
-    
+
     const MANIFEST_FILENAME = 'monster.json';
 
     /** @var null|array */
@@ -63,7 +63,7 @@ abstract class BundleEntity
     {
         return $this->manifest;
     }
-    
+
     public function loadManifest()
     {
         if ($this->manifest !== null) {
@@ -112,7 +112,7 @@ abstract class BundleEntity
     abstract public function publishAssets();
 
     abstract public function publishEntityAssets($jsAtHead = false);
-    
+
     protected function publishAssetBundles()
     {
         if (count($this->assetBundles) > 0) {
@@ -124,7 +124,7 @@ abstract class BundleEntity
     }
 
     /**
-     * @return array|null
+     * @return array
      * @throws \InvalidArgumentException
      */
     public function getChildrenDirectories()

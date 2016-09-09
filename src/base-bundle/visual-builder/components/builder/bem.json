@@ -56,6 +56,22 @@
         },
         {
           "block": "controls",
+          "mods": {
+            "right": true
+          },
+          "content": [
+            {
+              "elem": "clear-cache",
+              "button": true,
+              "content": "<i class=\"fa fa-eraser\"></i>"
+            }
+          ]
+        },
+        {
+          "block": "controls",
+          "mods": {
+            "left": true
+          },
           "content": [
             {
               "elem": "refresh",
@@ -69,6 +85,7 @@
               "button": true,
               "content": "<i class=\"fa fa-floppy-o\"></i>"
             }
+
           ]
         }
       ]

@@ -21,7 +21,7 @@ class Repository extends Component
     public $coreBundlesLocation = '';
 
     public $bundlesLocation = '@app/monster/bundles/';
-    
+
     const CACHE_KEY_BUNDLES = 'bundles';
     const CACHE_LIFETIME_BUNDLES = 2592000; // 7days
 
@@ -36,7 +36,7 @@ class Repository extends Component
         if ($this->coreBundlesLocation === '') {
             $this->coreBundlesLocation = __DIR__ . '/base-bundle/';
         }
-        
+
         if (count($this->bundles) !== 0) {
             $this->bundlesLoaded = true;
         } else {
@@ -69,7 +69,7 @@ class Repository extends Component
         }
 
     }
-    
+
     public function autoloadAssets()
     {
         Yii::trace("Autoload assets");
@@ -117,6 +117,7 @@ class Repository extends Component
                 ->followLinks()
                 ->sortByName()
                 ->depth('== 0');
+
             foreach ($finder as $directory) {
                 /** @var SplFileInfo $directory */
                 $this->loadBundle(dirname($directory->getRealPath()));

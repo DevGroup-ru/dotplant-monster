@@ -3,6 +3,8 @@
 namespace DotPlant\Monster\models;
 
 use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
+use DevGroup\Entity\traits\EntityTrait;
+use DevGroup\Entity\traits\SoftDeleteTrait;
 use DevGroup\TagDependencyHelper\LazyCache;
 use DevGroup\TagDependencyHelper\TagDependencyTrait;
 use DotPlant\Monster\Universal\MonsterContentTrait;
@@ -23,8 +25,10 @@ use yii;
  */
 class Template extends \yii\db\ActiveRecord
 {
+    use EntityTrait;
     use TagDependencyTrait;
     use MonsterProvidersTrait;
+    use SoftDeleteTrait;
 
     public $templateRegionsOverride = null;
 
@@ -57,7 +61,7 @@ class Template extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['is_layout'], 'filter', 'filter' => 'boolval'],
+            [['is_layout', 'is_deleted'], 'filter', 'filter' => 'boolval'],
             [['name', 'key'], 'trim'],
             [['name'], 'required'],
             [['providers'], 'safe'],
@@ -132,10 +136,11 @@ class Template extends \yii\db\ActiveRecord
 
     /**
      * @param string $key
+     * @param boolean $throwException
      *
      * @return \DotPlant\Monster\models\Template
      */
-    public static function findByKey($key)
+    public static function findByKey($key, $throwException = true)
     {
         /** @var LazyCache $cache */
         $cache = Yii::$app->cache;
@@ -153,18 +158,19 @@ class Template extends \yii\db\ActiveRecord
             86400,
             static::commonTag()
         );
-        if ($template === null) {
-            throw new \RuntimeException("Template $key not found");
+        if ($template === null && $throwException === true) {
+            throw new \RuntimeException("Template key: '$key' not found");
         }
         return $template;
     }
 
     /**
      * @param integer $id
+     * @param boolean $throwException
      *
      * @return \DotPlant\Monster\models\Template
      */
-    public static function findById($id)
+    public static function findById($id, $throwException = true)
     {
         /** @var LazyCache $cache */
         $cache = Yii::$app->cache;
@@ -182,8 +188,8 @@ class Template extends \yii\db\ActiveRecord
             86400,
             static::commonTag()
         );
-        if ($template === null) {
-            throw new \RuntimeException("Template ID:$id not found");
+        if ($template === null && $throwException === true) {
+            throw new \RuntimeException("Template ID: '$id' not found");
         }
         return $template;
     }

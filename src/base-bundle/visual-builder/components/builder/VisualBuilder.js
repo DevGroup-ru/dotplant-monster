@@ -184,7 +184,7 @@ class VisualBuilder {
   }
 
   controls() {
-    this.$controls = this.$builder.find('.controls').first();
+    this.$controls = this.$builder.find('.controls_left').first();
     this.$controls.elem('refresh').click(() => {
       this.frameContentWindow.location.reload();
       return false;
@@ -192,6 +192,26 @@ class VisualBuilder {
 
     this.$controls.elem('save').click(() => {
       FrameApi.sendMessage(this.frameContentWindow, 'save');
+      return false;
+    });
+    this.$controlsRight = this.$builder.find('.controls_right').first();
+    this.$controlsRight.elem('clear-cache').click(() => {
+      /* global window: false */
+      /* eslint-disable no-param-reassign, no-unused-vars */
+      window.DialogHelper
+        .builderDialog()
+        .onAjaxLoad((data, $target, dialog, dataChanger) => {
+          dataChanger(data ? '<div>OK</div>' : '<div>Error</div>');
+          return true;
+        })
+        .ajax({
+          url: '/monster/bundles/clear-cache',
+          method: 'POST',
+          dataType: 'json',
+        })
+        .autoDestroy()
+        .show();
+      /* eslint-enable no-param-reassign, no-unused-vars */
       return false;
     });
   }

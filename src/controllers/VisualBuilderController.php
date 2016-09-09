@@ -2,11 +2,11 @@
 
 namespace DotPlant\Monster\controllers;
 
+use DevGroup\Frontend\controllers\FrontendController;
 use yii;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 
-class VisualBuilderController extends Controller
+class VisualBuilderController extends FrontendController
 {
     public function behaviors()
     {

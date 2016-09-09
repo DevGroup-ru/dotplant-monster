@@ -1,28 +1,22 @@
 :root {
 
 
-
     /* grid */
 
 
-
     /* typography */
-
 
 
     /*vertical rhytm*/
 }
 
 
-
 /* typography */
-
 
 
 /* custom media queries */
 
 
-
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -45,15 +39,12 @@
 */
 
 
-
 /* generate grid mixins */
-
 
 
 /* grid order helpers */
 
 
-
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -76,9 +67,7 @@
 */
 
 
-
 /* generate grid mixins */
-
 
 
 /* grid order helpers */
@@ -265,6 +254,12 @@
     cursor: pointer;
     color: #666773;
 }
+.monster-visual-builder .controls {
+    display: inline-block;
+}
+.monster-visual-builder .controls_right {
+    float: right;
+}
 .monster-visual-builder .page-structure {
     font-size: 0.875rem;
     background-color: transparent;
@@ -384,7 +379,6 @@
     width: 6.25rem;
     z-index: 10;
 }
-
 
 
 /* */

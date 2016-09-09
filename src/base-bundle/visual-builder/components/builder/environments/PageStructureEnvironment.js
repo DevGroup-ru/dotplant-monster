@@ -157,7 +157,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     };
     item.children = [];
     item.data.id = `layout.templateRegion.${item.data.regionKey}`;
-    item.id = `psj_${item.data.id}`;
+    item.id = `psj_${item.data.id}`.replace(/\./g, '_');
     item.data.entityType = 'layout';
     const templateRegions = [];
 
@@ -198,7 +198,7 @@ class PageStructureEnvironment extends BaseEnvironment {
         regionKey,
         entityType: 'layout',
       },
-      id: `psj_${prefix}.${materialIndex}`,
+      id: `psj_${prefix}_${materialIndex}`,
     };
     const templateRegions = [];
     const $regions = $layoutMaterial.find('> .m-monster-content__content');
@@ -226,7 +226,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     const prefix = item.data.entityDependent ? 'content' : 'template';
     item.data.entityType = item.data.entityDependent ? 'entity' : 'template';
     item.data.id = `${prefix}.templateRegion.${item.data.regionKey}`;
-    item.id = `psj_${item.data.id}`;
+    item.id = `psj_${item.data.id}`.replace(/\./g, '_');
 
     if (item.data.entityDependent) {
       item.type = 'contentTemplateRegion';
@@ -239,7 +239,7 @@ class PageStructureEnvironment extends BaseEnvironment {
         prefix
       );
       material.data.regionKey = item.data.regionKey;
-      material.id = `psj_${material.data.id}`;
+      material.id = `psj_${material.data.id}`.replace(/\./g, '_');
       item.children.push(material);
     });
     return item;

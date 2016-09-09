@@ -2,8 +2,6 @@
 
 namespace DotPlant\Monster\models;
 
-use yii;
-
 /**
  * This is the ActiveQuery class for [[Template]].
  *
@@ -15,7 +13,7 @@ class TemplateQuery extends \yii\db\ActiveQuery
 
     public function prepare($builder)
     {
-        $this->andWhere(['is_layout' => (int) $this->isLayout]);
+        $this->andWhere(['is_layout' => (boolean) $this->isLayout]);
         return parent::prepare($builder);
     }
 
@@ -35,5 +33,11 @@ class TemplateQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    public function notDeleted()
+    {
+        $this->andWhere(['is_deleted' => false]);
+        return $this;
     }
 }

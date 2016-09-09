@@ -8,6 +8,23 @@
  *   .autoDestroy()
  *   .show();
  * ```
+ *
+ * Another simple usage:
+ * ```
+ * window.DialogHelper
+ *   .builderDialog()
+ *   .onAjaxLoad((data, $target, dialog, dataChanger) => {
+ *       dataChanger(data ? '<div>OK</div>' : '<div>Error</div>');
+ *       return true;
+ *     })
+ *   .ajax({
+ *     url: '/monster/bundles/clear-cache',
+ *     method: 'POST',
+ *     dataType: 'json', // true or false is returned
+ *   })
+ *   .autoDestroy()
+ *   .show();
+ * ```
  */
 class DialogHelper {
   /**
@@ -63,6 +80,7 @@ class DialogHelper {
     this.$node = null;
     this.autoDestroyOnClose = false;
     this.onCloseChain = [];
+    this.onAjaxLoadChain = [];
     this.$loader = null;
     this.$body = null;
     this.$title = null;
@@ -208,7 +226,7 @@ class DialogHelper {
 
     const $target = target instanceof $ ? target : this.$body;
     /* eslint-disable no-unused-vars, no-param-reassign */
-    $ajax.dataType = 'html';
+    $ajax.dataType = $ajax.dataType || 'html';
 
     $
       .ajax($ajax)
@@ -216,11 +234,32 @@ class DialogHelper {
         // @todo: display error somehow
       })
       .done((data, textStatus, jqXHR) => {
-        const $data = $(data);
-        $target.append($data);
+        let ok = true;
+        let ajaxData = data;
+        const changeData = (newData) => {
+          ajaxData = newData;
+        };
+        this.onAjaxLoadChain.forEach(f => {
+          ok = ok && f(ajaxData, $target, this, changeData);
+        });
+        if (ok) {
+          const $data = $(ajaxData);
+          $target.append($data);
+        }
         this.$loader.hide();
       });
     /* eslint-enable no-unused-vars, no-param-reassign */
+    return this;
+  }
+
+  /**
+   * Add callback to chain on ajax.
+   *
+   * @param f
+   * @returns {DialogHelper}
+   */
+  onAjaxLoad(f) {
+    this.onAjaxLoadChain.push(f);
     return this;
   }
 

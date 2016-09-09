@@ -43,6 +43,8 @@ $editor-accent-color: #EC5035;
 
   }
 
+
+
   @b edit-mode {
     float: left;
 
@@ -230,6 +232,12 @@ $editor-accent-color: #EC5035;
 }
 
 .monster-visual-builder {
+  @b controls {
+    display: inline-block;
+    @m right {
+      float: right;
+    }
+  }
   .button {
     padding: 0 $base-line-height;
     line-height: calc(3 * $base-line-height);
