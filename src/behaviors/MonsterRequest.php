@@ -29,6 +29,9 @@ $(function() {
   $('a').each(function() {
     var LINK = $(this);
     var href = originalHref = LINK.attr('href');
+    if (typeof(href) == 'undefined') {
+        return false;
+    }
     var anchorPart = href.match(/#(.*)$/);
     if (anchorPart) {
       href = href.replace(/#(.*)$/, '');
