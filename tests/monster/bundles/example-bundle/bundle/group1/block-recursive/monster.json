@@ -1,0 +1,14 @@
+{
+  "name": "Example block #1",
+  "id": "block-recursive",
+  "modifiers": {
+    "red": {
+      "name": "Red",
+      "desc": "Makes background red"
+    },
+    "green": {
+      "name": "Green",
+      "desc": "Makes background green"
+    }
+  }
+}

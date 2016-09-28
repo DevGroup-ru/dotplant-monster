@@ -1,5 +1,7 @@
 <?php
 
+use yii\rbac\DbManager;
+
 return [
     'id' => 'test',
     'basePath' => __DIR__ . '/../',
@@ -8,6 +10,7 @@ return [
             'class' => dmstr\console\controllers\MigrateController::class,
             'migrationPath' => '@app',
             'migrationLookup' => [
+                '@app/../vendor/yiisoft/yii2/rbac/migrations',
                 '@app/../vendor/devgroup/yii2-multilingual/src/migrations',
                 '@app/../vendor/devgroup/yii2-data-structure-tools/src/migrations',
                 '@app/migrations',
@@ -15,11 +18,14 @@ return [
         ],
     ],
     'components' => [
+        'authManager' => [
+            'class' => DbManager::className(),
+        ],
         'db' => [
             'class' => yii\db\Connection::class,
             'dsn' => 'mysql:host=localhost;dbname=dotplant_monster',
             'username' => 'root',
-            'password' => '',
+            'password' => 'password',
             'charset' => 'utf8',
         ],
         'filedb' => [

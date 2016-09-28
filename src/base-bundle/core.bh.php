@@ -36,7 +36,7 @@ return [
                     $type = isset($editable['type'])
                         ? $editable['type']
                         : 'string';
-                    
+
                     /** @var Repository $repository */
                     $repository = Yii::$app->get('monsterRepository');
                     $editableFactory = $repository->editable();
@@ -61,6 +61,7 @@ return [
             if ($ctx->param('recursive') !== null && $ctx->param('itemTemplate') !== null) {
 
                 $recursive = (string) $ctx->param('recursive');
+                $target = '$' . ($ctx->param('target') ?: 'data');
 
                 $isBem = $ctx->json()->block || $ctx->json()->elem;
                 $js = [
@@ -131,6 +132,7 @@ PHP;
 
                 $itemTemplateJson = Yii::$app->monsterBh->expander()->bh()->processBemJson($itemTemplateJson);
                 $itemTemplate = $ctx->bh->apply($ctx->process($itemTemplateJson));
+                /** @var array $target */
                 $php = <<<PHP
 
 
@@ -146,7 +148,9 @@ PHP;
     };
     
     // run first loop
-    $uniq(\$data['$recursive']);
+    if (isset({$target}['$recursive']) && is_array({$target}['$recursive'])) {
+        $uniq({$target}['$recursive']);
+    }
 
 ?>
 

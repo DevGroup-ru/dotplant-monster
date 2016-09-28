@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "name": "first",
+      "colors": [
+        "red",
+        "blue"
+      ]
+    },
+    {
+      "name": "second",
+      "sizes": {
+        "X": true,
+        "XL": true,
+        "S": false
+      }
+    }
+  ]
+}

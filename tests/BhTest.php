@@ -4,8 +4,10 @@ namespace DotPlant\Monster\tests;
 
 use BEM\BH;
 use DotPlant\Monster\Bundle;
+use DotPlant\Monster\MonsterContent;
 use yii;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 
 class BhTest extends \PHPUnit_Framework_TestCase
 {
@@ -164,8 +166,51 @@ php
 ////        var_dump($material->getManifest());
 //        echo "\n\n\n";
 //        die();
-        
 
-        
+
+
+    }
+
+    public function testRecursive()
+    {
+        // clear cache
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+        $out = MonsterContent::widget([
+            'uniqueContentId' => 'rtest',
+//            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
+            'materials' => [
+                'foo' => [
+                    'material' => 'example.example-bundle.group1.block-recursive',
+                ],
+            ],
+        ]);
+        $expected = <<<html
+<div class="cart">
+
+            <div class="cart__item" data-recursive-item-key="0">first
+            <div data-recursive-item-key="0">COLOR: red</div>
+                        <div data-recursive-item-key="1">COLOR: blue</div>
+
+
+
+
+</div>
+                        <div class="cart__item" data-recursive-item-key="1">second
+
+
+
+            <div data-recursive-item-key="X">Size X</div>
+                        <div data-recursive-item-key="XL">Size XL</div>
+                        <div data-recursive-item-key="S">Size S</div>
+
+</div>
+
+</div>
+html;
+        $expected = preg_replace('/\s+/', ' ', $expected);
+        $out = preg_replace('/\s+/', ' ', $out);
+        static::assertSame($expected, $out);
+
     }
 }

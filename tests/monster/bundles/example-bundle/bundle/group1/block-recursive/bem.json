@@ -1,0 +1,24 @@
+{
+  "block": "cart",
+  "recursive": "items",
+  "itemTemplate": {
+    "elem": "item",
+    "content": [
+      "<?= $item[\"name\"] ?>",
+      {
+        "recursive": "colors",
+        "target": "item",
+        "itemTemplate": {
+          "content": "COLOR: <?= $item ?>"
+        }
+      },
+      {
+        "recursive": "sizes",
+        "target": "item",
+        "itemTemplate": {
+          "content": "Size <?= $key ?>"
+        }
+      }
+    ]
+  }
+}

@@ -74,7 +74,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     'block' => 'nav',
                     'tag' => 'ul',
-                    'recursive' => '$data["tree"]',
+                    'recursive' => 'tree',
                     'itemTemplate' => [
                         'elem' => 'item',
                         'tag' => 'li',
@@ -131,7 +131,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
                     '_stop' => false,
                     '_matcherCalls' => 0,
                     '_m' => [],
-                    'recursive' => '$data["tree"]',
+                    'recursive' => 'tree',
                     'itemTemplate' => [
                         'elem' => 'item',
                         'tag' => 'li',
@@ -177,25 +177,28 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
 
         $out = MonsterContent::widget([
             'uniqueContentId' => 'site-index',
-            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
+//            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
             'materials' => [
                 'foo' => [
                     'material' => 'example.example-bundle.group1.block1',
                 ],
             ],
         ]);
-        $expected = <<<html
-<div class="test" data-bem-match="test"><div class="foo-tst" data-bem-match="foo-tst">Hello, bar</div><ul class="nav" data-bem-match="nav">
 
-            <li class="nav__item" data-bem-match="nav__item">One<ul class="nav__subnav nav__subnav--nest_1" data-bem-match="nav__subnav">            <li class="nav__item" data-bem-match="nav__item">1.1</li>
-                        <li class="nav__item" data-bem-match="nav__item">1.2<ul class="nav__subnav nav__subnav--nest_2" data-bem-match="nav__subnav">            <li class="nav__item" data-bem-match="nav__item">1.2.1</li>
-                        <li class="nav__item" data-bem-match="nav__item">1.2.2</li>
+        $expected = <<<html
+<div class="test"><div class="foo-tst">Hello, bar</div><ul class="nav">
+
+            <li class="nav__item" data-recursive-item-key="0">One<ul class="nav__subnav nav__subnav_nest_1">            <li class="nav__item" data-recursive-item-key="0">1.1</li>
+                        <li class="nav__item" data-recursive-item-key="1">1.2<ul class="nav__subnav nav__subnav_nest_2">            <li class="nav__item" data-recursive-item-key="0">1.2.1</li>
+                        <li class="nav__item" data-recursive-item-key="1">1.2.2</li>
             </ul></li>
             </ul></li>
-            
+
 </ul></div>
 html;
-        
+
+        $expected = preg_replace('/\s+/', ' ', $expected);
+        $out = preg_replace('/\s+/', ' ', $out);
         static::assertSame($expected, $out);
 
     }
