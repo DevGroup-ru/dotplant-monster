@@ -178,6 +178,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use DotPlant\Monster\components\ViewHelpers;
 
 
 /**

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b1fbc0c081b513a379ef887807a0a5a",
-    "content-hash": "9b50dbfbd6aa4fcd6bc1701e5881cb6e",
+    "hash": "0b85c1dba6be0ec9a3496366c1490c86",
+    "content-hash": "de45363d3641f2abff7adeb74ee74e27",
     "packages": [
         {
             "name": "2amigos/yii2-transliterator-helper",
@@ -477,16 +477,16 @@
         },
         {
             "name": "devgroup/bh",
-            "version": "5.1.1",
+            "version": "5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/DevGroup-ru/bh-php.git",
-                "reference": "487ff9201c6d4117435bc9a785611cd102120854"
+                "reference": "b5c27d37519131f2ca3883357159fc3ee9372419"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DevGroup-ru/bh-php/zipball/487ff9201c6d4117435bc9a785611cd102120854",
-                "reference": "487ff9201c6d4117435bc9a785611cd102120854",
+                "url": "https://api.github.com/repos/DevGroup-ru/bh-php/zipball/b5c27d37519131f2ca3883357159fc3ee9372419",
+                "reference": "b5c27d37519131f2ca3883357159fc3ee9372419",
                 "shasum": ""
             },
             "require": {
@@ -518,7 +518,7 @@
                 "bemjson",
                 "bh"
             ],
-            "time": "2016-06-02 16:17:13"
+            "time": "2016-09-28 12:55:52"
         },
         {
             "name": "devgroup/yii2-admin-utils",
@@ -2646,12 +2646,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "9726d292245f38868ca9d23dccf61b1029ad951a"
+                "reference": "c522572f84bc2896419fd70599616558436cb8cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/9726d292245f38868ca9d23dccf61b1029ad951a",
-                "reference": "9726d292245f38868ca9d23dccf61b1029ad951a",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/c522572f84bc2896419fd70599616558436cb8cd",
+                "reference": "c522572f84bc2896419fd70599616558436cb8cd",
                 "shasum": ""
             },
             "require": {
@@ -2732,7 +2732,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2016-09-27 10:19:46"
+            "time": "2016-09-28 12:38:38"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -3481,12 +3481,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "d3be8294e4729abcf8e6e207f25cdcb299cd1c88"
+                "reference": "c1016e6501312201ede77e3911748024d78cdd31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/d3be8294e4729abcf8e6e207f25cdcb299cd1c88",
-                "reference": "d3be8294e4729abcf8e6e207f25cdcb299cd1c88",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/c1016e6501312201ede77e3911748024d78cdd31",
+                "reference": "c1016e6501312201ede77e3911748024d78cdd31",
                 "shasum": ""
             },
             "require": {
@@ -3497,7 +3497,8 @@
                 "sebastian/recursion-context": "^1.0"
             },
             "require-dev": {
-                "phpspec/phpspec": "^2.0"
+                "phpspec/phpspec": "^2.0",
+                "phpunit/phpunit": "^4.8 || ^5"
             },
             "type": "library",
             "extra": {
@@ -3535,7 +3536,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2016-09-21 19:41:08"
+            "time": "2016-09-28 11:19:12"
         },
         {
             "name": "phpunit/dbunit",

@@ -1,0 +1,31 @@
+{
+  "foo": "bar",
+  "tree": [
+    {
+      "label": "One",
+      "__monster__mods__": {
+        "blue": true,
+        "size": "big"
+      },
+      "children": [
+        {
+          "label": "1.1"
+        },
+        {
+          "label": "1.2",
+          "children": [
+            {
+              "label": "1.2.1",
+              "__monster__mods__": [
+                "red"
+              ]
+            },
+            {
+              "label": "1.2.2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

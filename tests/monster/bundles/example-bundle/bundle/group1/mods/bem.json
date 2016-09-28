@@ -1,0 +1,33 @@
+{
+  "block": "test",
+  "content": [
+    {
+      "block": "foo-tst",
+      "elem": "baa",
+      "mods": {
+        "one": true,
+        "b": "s"
+      },
+      "content": "Hello, <?= $data['foo'] ?>"
+    },
+    {
+      "block": "nav",
+      "tag": "ul",
+      "recursive": "tree",
+      "itemTemplate": {
+        "elem": "item",
+        "tag": "li",
+        "content": "<?= $item[\"label\"] ?>",
+        "monsterMods": "item"
+      },
+      "wrapTemplate": {
+        "elem": "subnav",
+        "tag": "ul",
+        "mods": {
+          "nest": "<?=$recursiveNestingLevel?>"
+        }
+      },
+      "childrenAttribute": "children"
+    }
+  ]
+}

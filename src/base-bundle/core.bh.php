@@ -190,5 +190,25 @@ PHP;
             }
         }
     ),
+    'dataMods' => new Matcher(
+        '$after',
+        function(Context $ctx, Json $json) {
+            if ($ctx->json()->block && $target = $ctx->param('monsterMods')) {
+                if ($target === true) {
+                    $target = 'data';
+                }
+                $bem = $ctx->json()->block;
+                if ($ctx->json()->elem) {
+                    $bem .= '__' . $ctx->json()->elem;
+                }
+                $ctx->cls(
+                    $ctx->cls() . ' ' . "<?= ViewHelpers::modsClass('$bem', \${$target}) ?>"
+                );
+
+//                die("ELEM[$target]: ".$ctx->json()->elem);
+
+            }
+        }
+    )
     // other matchers will be here
 ];

@@ -213,4 +213,36 @@ html;
         static::assertSame($expected, $out);
 
     }
+
+    public function testDataMods()
+    {
+        // clear cache
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+        $out = MonsterContent::widget([
+            'uniqueContentId' => 'modstest',
+//            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
+            'materials' => [
+                'foo' => [
+                    'material' => 'example.example-bundle.group1.mods',
+                ],
+            ],
+        ]);
+
+        $expected = <<<html
+<div class="test"><div class="foo-tst__baa foo-tst__baa_one foo-tst__baa_b_s">Hello, bar</div><ul class="nav">
+
+            <li class="nav__item nav__item_blue nav__item_size_big" data-recursive-item-key="0">One<ul class="nav__subnav nav__subnav_nest_1">            <li class="nav__item " data-recursive-item-key="0">1.1</li>
+                        <li class="nav__item " data-recursive-item-key="1">1.2<ul class="nav__subnav nav__subnav_nest_2">            <li class="nav__item nav__item_red" data-recursive-item-key="0">1.2.1</li>
+                        <li class="nav__item " data-recursive-item-key="1">1.2.2</li>
+            </ul></li>
+            </ul></li>
+
+</ul></div>
+html;
+        $expected = preg_replace('/\s+/', ' ', $expected);
+        $out = preg_replace('/\s+/', ' ', $out);
+        static::assertSame($expected, $out);
+
+    }
 }
