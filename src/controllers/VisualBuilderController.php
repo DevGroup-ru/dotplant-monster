@@ -11,11 +11,24 @@ class VisualBuilderController extends FrontendController
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => 'yii\filters\AccessControl',
+                'rules' => [
+                    [
+                        'actions' => ['index', 'new-block'],
+                        'allow' => true,
+                        'roles' => ['dotplant-monster-template'],
+                    ],
+                    [
+                        'allow' => false,
+                        'roles' => ['*'],
+                    ],
+                ],
+            ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => 'yii\filters\VerbFilter',
                 'actions' => [
-                    'index' => ['get'],
-                    'new-block' => ['post'],
+                    'delete' => ['POST'],
                 ],
             ],
         ];
@@ -23,7 +36,6 @@ class VisualBuilderController extends FrontendController
 
     public function actionIndex($url = '/')
     {
-//        $this->title = Yii::t('monster', 'Visual Builder');
         return $this->render(
             'index',
             [
