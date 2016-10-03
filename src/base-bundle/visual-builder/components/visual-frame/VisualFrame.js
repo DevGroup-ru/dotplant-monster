@@ -161,14 +161,6 @@ class VisualFrame
     $form[0].submit();
   }
 
-  constructTemplateData() {
-    return {
-      providersEntities: this.parentBuilder.serialize(),
-      regionsMaterials: this.parentBuilder
-        .environments.get('page-structure').materialsByRegions(),
-    };
-  }
-
   newBlock(materialName, selectedEntity, regionName) {
     // @todo Add loader here as we are using form post !
     const randomIndex = uniqueId('mat');
@@ -184,9 +176,13 @@ class VisualFrame
       };
       data[selectedEntity].templateRegions[regionName].materialsDecls.materialsOrder.push(randomIndex);
     }
-    data.action = 'preview';
-    VisualFrame.formSubmit(data);
+    return this.preview(data);
+  }
 
+  preview(data = null) {
+    const newData = data || this.iterateTemplateType(this.pageStructureJson);
+    newData.action = 'preview';
+    VisualFrame.formSubmit(newData);
     return false;
   }
 

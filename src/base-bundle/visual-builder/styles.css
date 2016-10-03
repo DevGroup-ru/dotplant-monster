@@ -227,7 +227,7 @@
     box-shadow: inset 0 0 0 2px #4FD18A;
 }
 .monster-block-handlers {
-    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-family: Verdana,sans-serif;
     position: absolute;
     background-color: #4FD18A;
     color: #F7F7FC;

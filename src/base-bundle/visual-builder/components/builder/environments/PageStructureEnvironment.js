@@ -32,6 +32,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     this.$pageStructure.jstree('destroy');
     const layout = this.target.MONSTER_EDIT_MODE_DATA.layout;
     const template = this.target.MONSTER_EDIT_MODE_DATA.template;
+    const that = this;
 
     const layoutItem = {
       data: {
@@ -74,6 +75,7 @@ class PageStructureEnvironment extends BaseEnvironment {
     ];
     this.$pageStructure.jstree({
       core: {
+        check_callback: true,
         data: this.pageStructure,
         themes: {
           name: 'default-dark',
@@ -102,32 +104,64 @@ class PageStructureEnvironment extends BaseEnvironment {
       },
     });
 
-    const jstreeObj = this.$pageStructure.jstree();
+    this.jstreeObj = this.$pageStructure.jstree();
 
     this.$pageStructure.on('loaded.jstree', () => {
-      this.pageStructureJson = jstreeObj.get_json(this.$pageStructure, {
-        no_state: true,
-        no_id: true,
-        no_li_attr: true,
-        no_a_attr: true,
-      });
-      this.target.FrontendMonster.VisualFrame.pageStructureJson = this.pageStructureJson;
+      this.updatePageStructureJson();
+
       let isContentRegionFound = false;
       this.pageStructure[1].children.forEach((region) => {
         if (region.data.entityDependent && isContentRegionFound === false) {
           isContentRegionFound = true;
-          jstreeObj.select_node(region.id);
+          this.jstreeObj.select_node(region.id);
         }
       });
     });
-    const controlButtons = $('<div class="tree-control-buttons" role="presentation"> EDIT and etc.</div>');
+    const controlButtons = $('<div class="tree-control-buttons" role="presentation"></div>');
+
+    const buttonsArray = [
+      {
+        icon: 'fa fa-arrow-right',
+        name: 'Select',
+        click: (jsTreeNode, $node) => {
+          this.target$.smoothScroll({
+            scrollTarget: this.target$(`[data-material-path="${jsTreeNode.data.materialPath}"]`),
+          });
+          return false;
+        }
+      },
+      {
+        icon: 'fa fa-trash-o',
+        name: 'Remove',
+        click: (jsTreeNode, $node) => {
+          this.jstreeObj.delete_node(this.jstreeObj.get_selected());
+          this.updatePageStructureJson();
+          this.target.FrontendMonster.VisualFrame.preview();
+          return false;
+        }
+      }
+    ];
+
+    buttonsArray.forEach(conf => {
+      const $button = $(`<a href="#" class="tree-control-buttons__button" title="${conf.name}">
+  <i class="${conf.icon}"></i>
+</a>`);
+      $button.click(function clickHandler(){
+        const $node = $(this).parent().parent();
+
+        return conf.click(that.jstreeObj.get_node($node), $node);
+      });
+      controlButtons.append($button);
+    });
+
     this.$pageStructure.on('select_node.jstree', (e, obj) => {
-      const $anchor = $(`#${obj.node.id}`);
-      $anchor.prepend(controlButtons);
+
       const type = obj.node.type;
       this.selectedEntity = obj.node.data.entityType || null;
       switch (type) {
         case 'material':
+          const $anchor = $(`#${obj.node.id}`);
+          $anchor.prepend(controlButtons);
           this.target$.smoothScroll({
             scrollTarget: this.target$(`[data-material-path="${obj.node.data.materialPath}"]`),
           });
@@ -148,6 +182,16 @@ class PageStructureEnvironment extends BaseEnvironment {
 
 
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
+  }
+
+  updatePageStructureJson() {
+    this.pageStructureJson = this.jstreeObj.get_json(this.$pageStructure, {
+      no_state: true,
+      no_id: true,
+      no_li_attr: true,
+      no_a_attr: true,
+    });
+    this.target.FrontendMonster.VisualFrame.pageStructureJson = this.pageStructureJson;
   }
 
   static processLayout($layoutRegion) {
