@@ -17,13 +17,16 @@ html, body, .m-container {
 
 
 .m-row {
-  /*outline: 1px solid green;*/
+  outline: 1px solid green;
   /* removed margin-left|right: auto */
   @media (--null-breakpoint) {
     width: 320px;
   }
   @media (--greater-than-mobile) {
-    width: 39.9375em;
+    width: 29.9375em;
+  }
+  @media (--greater-than-tablet-portrait) {
+    width: 46.9375em;
   }
   @media (--greater-than-tablet) {
     width: calc(59.9375em - var(--window-gutter) * 2);

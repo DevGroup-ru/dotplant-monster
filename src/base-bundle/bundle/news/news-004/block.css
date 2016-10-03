@@ -1,18 +1,24 @@
-$news002-fon: #eee;
+$news004-fon: #ddd;
 
 .m-wrapper {
-  /** @define news-002 */
-  @b news-002 {
+  /** @define news-004 */
+  @b news-004 {
     @mixin setupCols nested-wrap;
+    @mixin setupCols nested;
     @mixin setupCols title;
     @mixin setupCols date;
+    @mixin setupCols img-link;
+    @mixin setupCols text-wrap;
 
     @e nested-wrap {
-      @_ 3 3 6 6 12;
+      @_ 6 6 6 12 12;
     }
 
     @e nested {
-      background: $news002-fon;
+      background: $news004-fon;
+      @mixin cellRow;
+      @mixin cellColumn;
+      padding: 0;
     }
 
     @e title {
@@ -21,11 +27,12 @@ $news002-fon: #eee;
     }
 
     @e img-link {
-      display: block;
+      @_ 6 6 6 6 12;
     }
 
     @e img {
       display: block;
+      min-height: 100%;
       height: calc($base-line-height * 22);
       width: 100%;
       overflow: hidden;
@@ -46,7 +53,13 @@ $news002-fon: #eee;
     }
 
     @e text-wrap {
-      padding: calc($base-line-height * 2);
+      @_ 6 6 6 6 12;
+      padding-top: 0;
+
+      @media (--greater-than-mobile) {
+        padding-left: 0;
+        padding-top: calc($base-line-height * 2);
+      }
     } 
 
     @e date {
@@ -75,7 +88,11 @@ $news002-fon: #eee;
 
     @e title-nested {
       @mixin %title-nested;
-    }  
+    } 
+
+    @e nested-link-wrap {
+      margin-top: calc($base-line-height * 3);
+    } 
 
     @e btn-wrap {
       text-align: center;
@@ -92,7 +109,7 @@ $news002-fon: #eee;
   }
 
   @at-root {
-    :--allLinksWithButtons.news-002__title-nested {
+    :--allLinksWithButtons.news-004__title-nested {
       @mixin %title-nested;
       text-decoration: none;
       display: block;
@@ -102,7 +119,15 @@ $news002-fon: #eee;
       }
     }
 
-    :--allLinksWithButtons.news-002__full-link {
+    :--allLinksWithButtons.news-004__nested-link {
+      display: block;
+
+      @media (--greater-than-mobile) {
+        display: inline-block;
+      }
+    }
+
+    :--allLinksWithButtons.news-004__full-link {
       display: block;
 
       @media (--greater-than-mobile) {

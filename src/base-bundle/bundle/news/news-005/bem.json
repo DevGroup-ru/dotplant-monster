@@ -1,0 +1,113 @@
+{
+  "container": true,
+  "content": {
+    "block": "news-005",
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "elem": "title",
+        "utils": [
+          "no-margin--top"
+        ],
+        "editable": {
+          "type": "text",
+          "key": "title"
+        }
+      },
+      {
+        "recursive": "blocks",
+        "itemTemplate": {
+          "elem": "nested-wrap",
+          "content": [
+            {
+              "elem": "nested",
+              "content": [
+                {
+                  "elem": "img-link",
+                  "editable": {
+                    "type": "link",
+                    "key": "img-link",
+                    "target": "item"
+                  },
+                  "content": [
+                    {
+                      "elem": "img",
+                      "editable": {
+                        "type": "image",
+                        "key": "img",
+                        "target": "item"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "elem": "text-wrap",
+                  "content": [
+                    {
+                      "elem": "date",
+                      "content": [
+                        {
+                          "elem": "time",
+                          "editable": {
+                            "key": "time",
+                            "target": "item"
+                          }
+                        },
+                        {
+                          "elem": "day",
+                          "editable": {
+                            "key": "day",
+                            "target": "item"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "title-nested",
+                      "editable": {
+                        "type": "link",
+                        "key": "title-nested",
+                        "target": "item"
+                      }
+                    },
+                    {
+                      "elem": "nested-link-wrap",
+                      "content": [
+                        {
+                          "elem": "nested-link",
+                          "cls": "button-simple",
+                          "editable": {
+                            "type": "link",
+                            "key": "nested-link",
+                            "target": "item"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "elem": "btn-wrap",
+        "utils": ["one-line--top"],
+        "content": [
+          {
+            "elem": "full-link",
+            "cls": "button-simple",
+            "editable": {
+              "type": "link",
+              "key": "full-link"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -16,7 +16,7 @@ $breakpoint-width-fix: 0.0625em;
 /* typography */
 $base-font-size: 1rem;
 $base-line-height: 0.625rem;
-$font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font-family: Verdana, sans-serif;
 
 /* custom media queries */
 @custom-media --big (width > 84em);
@@ -25,7 +25,8 @@ $font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 @custom-media --desktop (width <= 75em);
 @custom-media --tablet (width <= 60em);
-@custom-media --mobile (width <= 40em);
+@custom-media --tablet-portrait (width <= 47em);
+@custom-media --mobile (width <= 30em);
 @custom-media --null-breakpoint (width >= 1em);
 
 
@@ -34,7 +35,8 @@ $font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 @custom-media --greater-than-desktop (width >= 75em);
 @custom-media --greater-than-tablet (width >= 60em);
-@custom-media --greater-than-mobile (width >= 40em);
+@custom-media --greater-than-tablet-portrait (width >= 47em);
+@custom-media --greater-than-mobile (width >= 30em);
 @custom-media --null-breakpoint (width >= 1em);
 
 @custom-selector :--allLinks a, a:link, a:hover, a:visited, a:active, a:focus;

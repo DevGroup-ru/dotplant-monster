@@ -1,0 +1,91 @@
+{
+  "container": true,
+  "content": {
+    "row": true,
+    "utils": [
+      "one-line--top-bottom"
+    ],
+    "content": [
+      {
+        "block": "news-007",
+        "content": [
+          {
+            "elem": "title",
+            "utils": [
+              "no-margin--top"
+            ],
+            "editable": {
+              "type": "text",
+              "key": "title"
+            }
+          },
+          {
+            "elem": "nested-wrap",
+            "content": [
+              {
+                "recursive": "blocks",
+                "itemTemplate": {
+                  "elem": "nested",
+                  "content" :[
+                    {
+                      "elem": "img-link",
+                      "editable": {
+                        "type": "link",
+                        "key": "img-link",
+                        "target": "item"
+                      },
+                      "content": [
+                        {
+                          "elem": "img",
+                          "editable": {
+                            "type": "image",
+                            "key": "img",
+                            "target": "item"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "elem": "text-wrap",
+                      "content": [
+                        {
+                          "elem": "day",
+                          "editable": {
+                            "key": "day",
+                            "target": "item"
+                          }
+                        },
+                        {
+                          "elem": "title-nested",
+                          "editable": {
+                            "type": "link",
+                            "key": "title-nested",
+                            "target": "item"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "elem": "btn-wrap",
+            "utils": ["one-line--top"],
+            "content": [
+              {
+                "elem": "full-link",
+                "cls": "button-simple",
+                "editable": {
+                  "type": "link",
+                  "key": "full-link"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

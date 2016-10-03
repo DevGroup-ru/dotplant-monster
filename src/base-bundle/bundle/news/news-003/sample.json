@@ -1,0 +1,85 @@
+{
+  "title": "Новости",
+  "blocks": [
+    {
+      "img-link": {
+        "href": "/"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats",
+        "alt": "Image ALT #1"
+      },
+      "time": "12:00",
+      "day": "28 ноября 2015",
+      "title-nested": {
+        "anchor": "Краткий заголовок, умещающийся в 2-3 строки",
+        "href": "/"
+      },
+      "nested-link": {
+        "anchor": "Подробнее",
+        "href": "/"
+      }
+    },
+    {
+      "img-link": {
+        "href": "/"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats",
+        "alt": "Image ALT #1"
+      },
+      "time": "12:00",
+      "day": "28 ноября 2015",
+      "title-nested": {
+        "anchor": "Краткий заголовок, умещающийся в 2-3 строки",
+        "href": "/"
+      },
+      "nested-link": {
+        "anchor": "Подробнее",
+        "href": "/"
+      }
+    },
+    {
+      "img-link": {
+        "href": "/"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats",
+        "alt": "Image ALT #1"
+      },
+      "time": "12:00",
+      "day": "28 ноября 2015",
+      "title-nested": {
+        "anchor": "Краткий заголовок, умещающийся в 2-3 строки",
+        "href": "/"
+      },
+      "nested-link": {
+        "anchor": "Подробнее",
+        "href": "/"
+      }
+    },
+    {
+      "img-link": {
+        "href": "/"
+      },
+      "img": {
+        "src": "http://lorempixel.com/200/300/cats",
+        "alt": "Image ALT #1"
+      },
+      "time": "12:00",
+      "day": "28 ноября 2015",
+      "title-nested": {
+        "anchor": "Краткий заголовок, умещающийся в 2-3 строки",
+        "href": "/"
+      },
+      "nested-link": {
+        "anchor": "Подробнее",
+        "href": "/"
+      }
+    }
+  ],
+  "full-link": {
+    "anchor": "Все новости",
+    "href": "/"
+  }
+}

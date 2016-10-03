@@ -21,6 +21,7 @@ class Repository extends Component
     public $coreBundlesLocation = '';
 
     public $bundlesLocation = '@app/monster/bundles/';
+    public $bundleLocationLookup = '*/bundle/';
 
     const CACHE_KEY_BUNDLES = 'bundles';
     const CACHE_LIFETIME_BUNDLES = 2592000; // 7days
@@ -111,7 +112,7 @@ class Repository extends Component
                     HasFilesystemRepresentation::normalizePath(
                         Yii::getAlias($this->bundlesLocation)
                     ) .
-                    '*/bundle/'
+                    $this->bundleLocationLookup
                 )
                 ->ignoreUnreadableDirs()
                 ->followLinks()

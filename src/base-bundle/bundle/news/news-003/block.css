@@ -1,18 +1,12 @@
-$news002-fon: #eee;
-
 .m-wrapper {
-  /** @define news-002 */
-  @b news-002 {
-    @mixin setupCols nested-wrap;
+  /** @define news-003 */
+  @b news-003 {
+    @mixin setupCols nested;
     @mixin setupCols title;
     @mixin setupCols date;
 
-    @e nested-wrap {
-      @_ 3 3 6 6 12;
-    }
-
     @e nested {
-      background: $news002-fon;
+      @_ 3 3 6 6 12;
     }
 
     @e title {
@@ -46,18 +40,14 @@ $news002-fon: #eee;
     }
 
     @e text-wrap {
-      padding: calc($base-line-height * 2);
-    } 
+      margin-top: calc($base-line-height * 2);
+    }
 
     @e date {
       margin-bottom: $base-line-height;
       padding: 0;
       @mixin cellRow;
       @mixin cellColumn;
-
-      @media (--greater-than-tablet) {
-        margin-bottom: calc($base-line-height * 2);
-      }
     }
 
     @e time {
@@ -77,6 +67,10 @@ $news002-fon: #eee;
       @mixin %title-nested;
     }  
 
+    @e nested-link-wrap {
+      margin-top: calc($base-line-height * 3);
+    }
+
     @e btn-wrap {
       text-align: center;
       @mixin col_12_of_12;
@@ -92,7 +86,7 @@ $news002-fon: #eee;
   }
 
   @at-root {
-    :--allLinksWithButtons.news-002__title-nested {
+    :--allLinksWithButtons.news-003__title-nested {
       @mixin %title-nested;
       text-decoration: none;
       display: block;
@@ -102,7 +96,15 @@ $news002-fon: #eee;
       }
     }
 
-    :--allLinksWithButtons.news-002__full-link {
+    :--allLinksWithButtons.news-003__nested-link {
+      display: block;
+
+      @media (--greater-than-mobile) {
+        display: inline-block;
+      }
+    }
+
+    :--allLinksWithButtons.news-003__full-link {
       display: block;
 
       @media (--greater-than-mobile) {

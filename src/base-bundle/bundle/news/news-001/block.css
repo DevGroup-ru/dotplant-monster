@@ -5,18 +5,14 @@ $news001-fon: #eee;
   @b news-001 {
     @mixin setupCols nested-wrap;
     @mixin setupCols title;
-    @mixin setupCols nested;
     @mixin setupCols date;
 
     @e nested-wrap {
-      @_ 3 3 6 12 12;
+      @_ 3 3 6 6 12;
     }
 
     @e nested {
       background: $news001-fon;
-      padding: 0;
-      @mixin cellRow;
-      @mixin cellColumn;
     }
 
     @e title {
@@ -26,7 +22,6 @@ $news001-fon: #eee;
 
     @e img-link {
       display: block;
-      @_ 12 12 12 6 12;
     }
 
     @e img {
@@ -52,7 +47,6 @@ $news001-fon: #eee;
 
     @e text-wrap {
       padding: calc($base-line-height * 2);
-      @_ 12 12 12 6 12;
     } 
 
     @e date {
@@ -77,8 +71,6 @@ $news001-fon: #eee;
 
     @define-mixin %title-nested {
       @mixin type-setting "accent-text";
-      margin-bottom: $base-line-height;
-      overflow: hidden;
     }
 
     @e title-nested {

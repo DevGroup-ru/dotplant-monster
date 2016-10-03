@@ -1,3 +1,7 @@
+:root {
+  --window-gutter: 1em;
+}
+
 @define-mixin flex $grow: 0, $shrink: 1, $basis: auto {
   @if $basis == 0px {
     /*ie10 needs auto*/
@@ -70,3 +74,30 @@
   white-space: normal;
 }
 
+@define-mixin %m-row {
+
+  @media (--null-breakpoint) {
+    width: 320px;
+  }
+  @media (--greater-than-mobile) {
+    width: 29.9375em;
+  }
+  @media (--greater-than-tablet-portrait) {
+    width: 46.9375em;
+  }
+  @media (--greater-than-tablet) {
+    width: calc(59.9375em - var(--window-gutter) * 2);
+  }
+  @media (--greater-than-desktop) {
+    width: calc(74.9375em - var(--window-gutter) * 2);
+  }
+  @media (--greater-than-desktop-wide) {
+    width: calc(83.9375em - var(--window-gutter) * 2);
+  }
+}
+
+@define-mixin setupWhitespace {
+  letter-spacing: -0.31em !important;
+  ie7-hack-letter-spacing: normal !important;
+  word-spacing: -0.43em !important;
+}

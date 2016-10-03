@@ -58,7 +58,7 @@ class BundlesController extends BaseController
         /** @var Repository $repository */
         $repository = Yii::$app->get('monsterRepository');
         $repository->reloadBundles();
-        return true;
+        return array_keys($repository->bundles);
     }
 
     public function actionClearCache()
