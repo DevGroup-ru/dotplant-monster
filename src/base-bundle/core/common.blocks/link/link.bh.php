@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('link', function($ctx, $json) use ($bh) {
+    $bh->match('link', function ($ctx, $json) use ($bh) {
         $ctx
             ->tag('a')
             ->mix([ 'elem' => 'control' ]); // satisfy interface of `control`
@@ -13,7 +13,7 @@ return function ($bh) {
 
         $tabIndex = null;
         if (!$ctx->mod('disabled')) {
-            if($url) {
+            if ($url) {
                 $attrs['href'] = $url;
                 $tabIndex = $json->tabIndex;
             } else {

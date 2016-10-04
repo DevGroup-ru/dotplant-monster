@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('radio-group', function($ctx, $json) {
+    $bh->match('radio-group', function ($ctx, $json) {
         $ctx
             ->tag('span')
             ->attrs([ 'role' => 'radiogroup' ])

@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('radio', function($ctx, $json) {
+    $bh->match('radio', function ($ctx, $json) {
         $ctx
             ->tag('label')
             ->js(true)

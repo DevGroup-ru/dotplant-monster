@@ -2,9 +2,12 @@
 
 namespace DotPlant\Monster\models;
 
+use DevGroup\TagDependencyHelper\CacheableActiveRecord;
+use DevGroup\TagDependencyHelper\TagDependencyTrait;
 use DotPlant\Monster\Universal\MonsterContentTrait;
 use yii;
 use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%template_region}}".
@@ -20,9 +23,9 @@ use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
  *
  * @property Template $template
  */
-class TemplateRegion extends \yii\db\ActiveRecord
+class TemplateRegion extends ActiveRecord
 {
-    use \DevGroup\TagDependencyHelper\TagDependencyTrait;
+    use TagDependencyTrait;
     use MonsterContentTrait;
 
     /**
@@ -32,7 +35,7 @@ class TemplateRegion extends \yii\db\ActiveRecord
     {
         return [
             'CacheableActiveRecord' => [
-                'class' => \DevGroup\TagDependencyHelper\CacheableActiveRecord::className(),
+                'class' => CacheableActiveRecord::className(),
             ],
             'packedJson' => [
                 'class' => PackedJsonAttributes::className(),

@@ -2,8 +2,6 @@
 
 namespace DotPlant\Monster\models;
 
-use yii;
-
 class Layout extends BaseTemplate
 {
     /** @inheritdoc */

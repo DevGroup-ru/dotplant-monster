@@ -126,7 +126,6 @@ class Bundle extends BundleEntity
             $jsOptions = [];
 
             Yii::$app->view->registerJsFile($publishedUrl, $jsOptions);
-
         }
 
         if ($this->hasCss) {
@@ -137,7 +136,6 @@ class Bundle extends BundleEntity
             $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->stylesFilename());
 
             Yii::$app->view->registerCssFile($publishedUrl);
-
         }
         
         $this->publishAssetBundles();

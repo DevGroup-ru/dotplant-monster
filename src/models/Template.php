@@ -2,15 +2,6 @@
 
 namespace DotPlant\Monster\models;
 
-use DevGroup\DataStructure\behaviors\PackedJsonAttributes;
-use DevGroup\Entity\traits\EntityTrait;
-use DevGroup\Entity\traits\SoftDeleteTrait;
-use DevGroup\TagDependencyHelper\LazyCache;
-use DevGroup\TagDependencyHelper\TagDependencyTrait;
-use DotPlant\Monster\Universal\MonsterProvidersTrait;
-use yii;
-
-
 class Template extends BaseTemplate
 {
     /**
@@ -21,5 +12,4 @@ class Template extends BaseTemplate
     {
         return new TemplateQuery(get_called_class());
     }
-
 }

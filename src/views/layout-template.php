@@ -11,6 +11,7 @@ use DotPlant\Monster\MonsterContent;
 use DotPlant\Monster\Universal\MonsterEntityTrait;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+
 AppAsset::register($this);
 ?>
 <?php $this->beginPage(); ?>

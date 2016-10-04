@@ -27,5 +27,4 @@ class MaterializeEvent extends Event
 
     /** @var boolean */
     public $editMode = false;
-
 }

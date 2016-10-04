@@ -36,9 +36,6 @@ abstract class BaseBh extends Component
 
     abstract public function initCoreMatchers();
 
-    /**
-     * @param BH $bh
-     */
     public function configureBhBase()
     {
         $this->bh->setOptions([
@@ -57,7 +54,7 @@ abstract class BaseBh extends Component
      */
     public function loadMatchersFile($fileName)
     {
-        return $this->bh->addMatcherList(include($fileName));
+        return $this->bh->addMatcherList(include $fileName);
     }
 
     /**
@@ -103,7 +100,7 @@ abstract class BaseBh extends Component
         if ($material->hasJs && $isExpander) {
             $mJs = new Matcher(
                 $material->id,
-                function(Context $ctx) {
+                function (Context $ctx) {
                     $ctx->cls($ctx->cls() . ' m-js', true);
                 }
             );

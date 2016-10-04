@@ -66,6 +66,4 @@ class BemBlock extends BemTemplatable
             ]
         );
     }
-
-
 }

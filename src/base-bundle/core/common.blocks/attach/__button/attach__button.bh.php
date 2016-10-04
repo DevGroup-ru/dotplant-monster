@@ -1,8 +1,8 @@
 <?php
 return function ($bh) {
 
-    $bh->match('button', function($ctx) {
-        if($ctx->tParam('_attach')) {
+    $bh->match('button', function ($ctx) {
+        if ($ctx->tParam('_attach')) {
             $ctx
                 ->tag('span', true)
                 ->applyBase()

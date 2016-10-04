@@ -96,5 +96,4 @@ class BemDescribable extends Object implements \JsonSerializable
     {
         $this->setGroupMapper($this->serializationGroupMapper);
     }
-
 }

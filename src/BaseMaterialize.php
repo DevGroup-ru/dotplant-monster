@@ -117,7 +117,7 @@ class BaseMaterialize extends yii\base\Widget
             // find editables and add them to js of block
             if ($this->editMode === true) {
                 $editableKeys = [];
-                $fillEditable = function($editable, $root = null) use (&$editableKeys) {
+                $fillEditable = function ($editable, $root = null) use (&$editableKeys) {
                     $editableKey = $editable['key'];
                     $editableType = isset($editable['type']) ? $editable['type'] : 'string';
                     $target = isset($editable['target']) ? $editable['target'] : null;
@@ -126,7 +126,7 @@ class BaseMaterialize extends yii\base\Widget
                             $editableKeys[$root] = [];
                         }
                         $editableKeys[$root][$editableKey] = $editableType;
-                    } else if ($target !== null) {
+                    } elseif ($target !== null) {
                         if (isset($editableKeys[$target]) === false) {
                             $editableKeys[$target] = [];
                         }

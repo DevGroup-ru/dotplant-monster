@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('progressbar', function($ctx, $json) {
+    $bh->match('progressbar', function ($ctx, $json) {
         $val = $json->val ?: 0;
         $ctx
             ->js([ 'val' => $val ])

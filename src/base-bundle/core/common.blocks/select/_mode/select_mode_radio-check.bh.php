@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select_mode_radio-check', function($ctx, $json) {
+    $bh->match('select_mode_radio-check', function ($ctx, $json) {
         $ctx->applyBase();
         $ctx->js($ctx->extend($ctx->js(), [ 'text' => $json->text ]));
 
@@ -18,7 +18,7 @@ return function ($bh) {
         }
     });
 
-    $bh->match('select_mode_radio-check__button', function($ctx) {
+    $bh->match('select_mode_radio-check__button', function ($ctx) {
         $checkedOptions = $ctx->tParam('checkedOptions');
 
         $content = (array)(@$checkedOptions[0] ?: $ctx->tParam('select'));

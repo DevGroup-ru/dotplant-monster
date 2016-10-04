@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match(['button_togglable_check', 'button_togglable_radio'], function($ctx) {
+    $bh->match(['button_togglable_check', 'button_togglable_radio'], function ($ctx) {
         $ctx->attr('aria-pressed', $ctx->mod('checked')? 'true' : 'false');
     });
 

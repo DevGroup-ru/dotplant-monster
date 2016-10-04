@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select__button', function($ctx, $json) {
+    $bh->match('select__button', function ($ctx, $json) {
         $mods = $json->blockMods ?: $json->mods;
         $select = $ctx->tParam('select');
         $refs = $ctx->tParam('refs');
@@ -36,8 +36,8 @@ return function ($bh) {
         ];
     });
 
-    $bh->match('button__text', function($ctx) {
-        if($ctx->tParam('select')) {
+    $bh->match('button__text', function ($ctx) {
+        if ($ctx->tParam('select')) {
             $ctx->attr('id', $ctx->tParam('selectTextId'));
         }
     });

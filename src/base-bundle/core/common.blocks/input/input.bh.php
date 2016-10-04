@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('input', function($ctx, $json) {
+    $bh->match('input', function ($ctx, $json) {
         $ctx
             ->tag('span')
             ->js(true)

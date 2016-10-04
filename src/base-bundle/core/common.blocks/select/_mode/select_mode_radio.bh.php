@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select_mode_radio', function($ctx) {
+    $bh->match('select_mode_radio', function ($ctx) {
         $ctx->applyBase();
 
         $refs = $ctx->tParam('refs');
@@ -24,7 +24,7 @@ return function ($bh) {
             ], true);
     });
 
-    $bh->match('select_mode_radio__button', function($ctx) {
+    $bh->match('select_mode_radio__button', function ($ctx) {
         $ctx->content([
             'elem' => 'text',
             'content' => @$ctx->tParam('refs')->checkedOption['text']
