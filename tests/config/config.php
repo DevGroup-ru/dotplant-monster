@@ -25,7 +25,7 @@ return [
             'class' => yii\db\Connection::class,
             'dsn' => 'mysql:host=localhost;dbname=dotplant_monster',
             'username' => 'root',
-            'password' => 'password',
+            'password' => '',
             'charset' => 'utf8',
         ],
         'filedb' => [

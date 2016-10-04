@@ -10,5 +10,4 @@ class HeadBundle extends yii\web\AssetBundle
     public $jsOptions = [
         'position' => View::POS_HEAD,
     ];
-    
 }
