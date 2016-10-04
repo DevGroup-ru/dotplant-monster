@@ -3,16 +3,17 @@
 namespace DotPlant\Monster\DataEntity;
 
 use DotPlant\Monster\Universal\MonsterEntityTrait;
+use DotPlant\Monster\Universal\MonsterProvidersTrait;
 use yii\helpers\ArrayHelper;
 
 class ProvidersHelper
 {
     /**
-     * @param MonsterEntityTrait $entity
+     * @param MonsterProvidersTrait $entity
      *
      * @return array
      */
-    public static function hashEntityProviders($entity)
+    public static function hashEntityProviders(&$entity)
     {
         $hash = [];
         $providers = $entity->getEntityDataProviders();
@@ -29,7 +30,7 @@ class ProvidersHelper
     }
 
     /**
-     * @param MonsterEntityTrait $entity
+     * @param MonsterProvidersTrait $entity
      *
      * @return int|string
      */

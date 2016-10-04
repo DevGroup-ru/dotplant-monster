@@ -55,7 +55,7 @@ class TemplateRegion extends \yii\db\ActiveRecord
     {
         return [
             [['template_id'], 'required'],
-            [['template_id', 'sort_order', 'name'], 'integer'],
+            [['template_id', 'sort_order'], 'integer'],
             [['entity_dependent'], 'filter', 'filter'=>'boolval'],
             [['content'], 'safe'],
             [['name', 'key'], 'string', 'max' => 255],
@@ -63,7 +63,7 @@ class TemplateRegion extends \yii\db\ActiveRecord
                 ['template_id'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => Template::className(),
+                'targetClass' => BaseTemplate::className(),
                 'targetAttribute' => ['template_id' => 'id'],
             ],
         ];

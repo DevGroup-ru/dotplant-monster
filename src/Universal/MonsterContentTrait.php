@@ -19,7 +19,7 @@ trait MonsterContentTrait
         $this->content = $materials;
     }
 
-    public function saveMonsterContent()
+    public function saveMaterials()
     {
         /** @var \yii\base\Model $this */
         return $this->save();

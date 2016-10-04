@@ -18,4 +18,8 @@ trait MonsterProvidersTrait
         $this->providers = $providers;
     }
 
+    public function saveProviders()
+    {
+        return $this->save();
+    }
 }

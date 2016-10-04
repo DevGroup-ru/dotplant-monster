@@ -30,7 +30,7 @@ class MainEntity extends UniversalAction
     /**
      * @var null|array JSON from VisualFrame.formSubmit
      */
-    private $visualBuilderProvidedData = null;
+    private $visualBuilderProvidedData;
 
     const ACTION_VAR_NAME = 'action';
     const ACTION_DEFAULT = 'default';
@@ -67,7 +67,7 @@ class MainEntity extends UniversalAction
             throw new yii\web\NotFoundHttpException;
         }
 
-        $templateId = ArrayHelper::getValue($this->visualBuilderProvidedData, 'template.templateId');
+        $templateId = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.templateId');
         if ($templateId !== null) {
             $entity->setTemplateId($templateId);
         }
@@ -93,11 +93,10 @@ class MainEntity extends UniversalAction
 
             $this->providersSupplied($template, 'template');
             $this->templateRegions($template, 'template');
-
         }
 
 
-        $this->handleRegionsMaterials($entity, $entity);
+        $this->handleMaterialsProviders($entity, $entity);
 
         $packedTemplateProviders = [];
         $providedKeysTemplate = [];
@@ -125,12 +124,6 @@ class MainEntity extends UniversalAction
         );
         $actionData->result['model'] = &$entity;
 
-
-        if ($this->action() === self::ACTION_SAVE) {
-            // perform actual saving
-            $entity->saveMonsterContent();
-        }
-
         if (YII_ENV === 'dev') {
             Yii::$app->params['actionData'] = &$actionData;
 //            Yii::$app->params['providers'] = $packed;
@@ -141,8 +134,9 @@ class MainEntity extends UniversalAction
         $actionData->viewFile = '@DotPlant/Monster/views/monster-template.php';
         $actionData->result['templateRegions'] = $template->templateRegions;
 
-
-        if (Yii::$app->request->isEditMode()) {
+        /** @var \yii\web\Request|\DotPlant\Monster\behaviors\MonsterRequest $request */
+        $request = Yii::$app->request;
+        if ($request->isEditMode()) {
             $view = $actionData->controller->view;
             $jsonData = yii\helpers\Json::encode([
                 'template' => [
@@ -178,6 +172,9 @@ class MainEntity extends UniversalAction
 
     protected function action()
     {
+        if (Yii::$app->user->can('dotplant-monster-template') === false) {
+            return self::ACTION_DEFAULT;
+        }
         if ($this->actionType === null) {
             $this->actionType = ArrayHelper::getValue(
                 $this->visualBuilderProvided(),
@@ -189,7 +186,8 @@ class MainEntity extends UniversalAction
     }
 
     /**
-     * @param MonsterProvidersTrait|MonsterEntityTrait $model
+     * @param MonsterProvidersTrait $model
+     * @param string                $postKey
      */
     protected function providersSupplied(&$model, $postKey)
     {
@@ -208,18 +206,22 @@ class MainEntity extends UniversalAction
             return;
         }
 
-        //! @todo add check for proper classnames and properties here
+        //! @todo add check for proper class names and properties here
 //        echo "<pre><h2>$postKey</h2>";
 //        var_export($providers);
 //        echo '</pre>';
         $model->setEntityDataProviders($providers);
+
+        if ($this->action() === self::ACTION_SAVE) {
+            $model->saveProviders();
+        }
     }
 
     /**
-     * @param MonsterEntityTrait|MonsterContentTrait $entity
-     * @todo rewrite it to work also with template regions
+     * @param MonsterContentTrait $entityWithMaterials
+     * @param MonsterProvidersTrait $entityWithProviders
      */
-    protected function handleRegionsMaterials(&$entityWithMaterials, &$entityWithProviders)
+    protected function handleMaterialsProviders(&$entityWithMaterials, &$entityWithProviders)
     {
         $hash = ProvidersHelper::hashEntityProviders($entityWithProviders);
         // check all entity materials for existing providers
@@ -231,11 +233,15 @@ class MainEntity extends UniversalAction
             ];
         }
 
+        /** @var string $region */
+        /** @var array $materials */
+        /** @var array $entityMaterials */
         foreach ($entityMaterials as $region => $materials) {
+            /** @var string $key */
+            /** @var array $materialConfiguration */
             foreach ($materials as $key => $materialConfiguration) {
                 $hashToSearch = "$region.$key";
                 if (in_array($hashToSearch, $hash, true) === false) {
-
                     $providerId = ProvidersHelper::ensureStaticProvider($entityWithProviders);
                     $providers = $entityWithProviders->getEntityDataProviders();
                     if (array_key_exists($region, $providers[$providerId]['entities']) === false) {
@@ -250,12 +256,15 @@ class MainEntity extends UniversalAction
                 }
             }
         }
-
+        if ($this->action() === self::ACTION_SAVE) {
+            $entityWithProviders->saveProviders();
+        }
     }
 
     /**
      * @param MonsterContentTrait $model
-     * @param string $path
+     * @param string              $path
+     * @param bool                $byRegions
      */
     public function materialsSupplied(&$model, $path, $byRegions = false)
     {
@@ -280,6 +289,9 @@ class MainEntity extends UniversalAction
         }
 
         $model->setMaterials($result);
+        if ($this->action() === self::ACTION_SAVE) {
+            $model->saveMaterials();
+        }
     }
 
     /**
@@ -304,7 +316,7 @@ class MainEntity extends UniversalAction
         $decl = (array) ArrayHelper::getValue($materials, 'decl', []);
 
         foreach ($order as $index) {
-            if (isset($decl[$index])) {
+            if (array_key_exists($index, $decl)) {
                 //! @todo check for correct declaration here
                 $result[$index] = $decl[$index];
             }
@@ -329,10 +341,12 @@ class MainEntity extends UniversalAction
 
         $counter = 0;
 
+        /** @var string $regionKey */
+        /** @var array $regionsOrder */
         foreach ($regionsOrder as $regionKey) {
             /** @var TemplateRegion $regionModel */
             $regionModel = null;
-            if (isset($currentRegions[$regionKey])) {
+            if (array_key_exists($regionKey, $currentRegions)) {
                 $regionModel = $currentRegions[$regionKey];
             } else {
                 $regionModel = Yii::createObject([
@@ -349,7 +363,7 @@ class MainEntity extends UniversalAction
             );
             $this->materialsSupplied($regionModel, "$path.templateRegions.{$regionModel->key}.materialsDecls");
 
-            $this->handleRegionsMaterials($regionModel, $model);
+            $this->handleMaterialsProviders($regionModel, $model);
             $newRegions[$regionKey] = $regionModel;
         }
         //!@todo add delete for deleted regions(foreach by order, if not exist - delete) -- only on save$path action
@@ -360,7 +374,7 @@ class MainEntity extends UniversalAction
     protected function applyLayout(&$entity, &$actionData, $dataEntity)
     {
         /** @var \yii\base\Model|MonsterEntityTrait $entity */
-        $layoutId = ArrayHelper::getValue($this->visualBuilderProvidedData, 'layout.templateId');
+        $layoutId = ArrayHelper::getValue($this->visualBuilderProvided(), 'layout.templateId');
         if ($layoutId !== null) {
             $entity->setLayoutId($layoutId);
         }
@@ -377,7 +391,6 @@ class MainEntity extends UniversalAction
             if ($this->action() !== self::ACTION_DEFAULT) {
                 $this->providersSupplied($layout, 'layout');
                 $this->templateRegions($layout, 'layout');
-
             }
 
             Yii::$app->params['layoutTemplateRegions'] = $layout->templateRegions;
@@ -422,7 +435,6 @@ class MainEntity extends UniversalAction
 
     protected function visualBuilderProvided()
     {
-        //! @todo add RBAC check here
         if ($this->visualBuilderProvidedData === null) {
             $this->negotiate();
             $this->visualBuilderProvidedData = is_array($this->requestJson) ? $this->requestJson : [];
