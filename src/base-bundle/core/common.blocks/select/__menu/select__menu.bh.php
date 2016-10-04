@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select__menu', function($ctx, $json) {
+    $bh->match('select__menu', function ($ctx, $json) {
         $mods = $ctx->mods();
         $select = $ctx->tParam('select');
         $optionToMenuItem = function ($option) use ($mods) {

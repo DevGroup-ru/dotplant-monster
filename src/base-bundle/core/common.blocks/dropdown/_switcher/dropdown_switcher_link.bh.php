@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('dropdown_switcher_link__switcher', function($ctx, $json) {
+    $bh->match('dropdown_switcher_link__switcher', function ($ctx, $json) {
         $dropdown = $ctx->tParam('dropdown');
         $switcher = $dropdown->switcher;
 
@@ -18,7 +18,9 @@ return function ($bh) {
             $switcher;
 
         $res = $ctx->phpize($res);
-        if (empty($res->attrs)) $res->attrs = [];
+        if (empty($res->attrs)) {
+            $res->attrs = [];
+        }
 
         if ($res->block === 'link') {
             $resMods = $res->mods;

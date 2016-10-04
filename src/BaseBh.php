@@ -103,7 +103,7 @@ abstract class BaseBh extends Component
         if ($material->hasJs && $isExpander) {
             $mJs = new Matcher(
                 $material->id,
-                function(Context $ctx) {
+                function (Context $ctx) {
                     $ctx->cls($ctx->cls() . ' m-js', true);
                 }
             );

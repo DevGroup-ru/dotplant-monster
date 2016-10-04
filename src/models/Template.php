@@ -10,7 +10,6 @@ use DevGroup\TagDependencyHelper\TagDependencyTrait;
 use DotPlant\Monster\Universal\MonsterProvidersTrait;
 use yii;
 
-
 class Template extends BaseTemplate
 {
     /**
@@ -21,5 +20,4 @@ class Template extends BaseTemplate
     {
         return new TemplateQuery(get_called_class());
     }
-
 }

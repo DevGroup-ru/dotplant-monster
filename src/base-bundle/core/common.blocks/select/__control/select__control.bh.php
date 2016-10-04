@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select__control', function($ctx, $json) {
+    $bh->match('select__control', function ($ctx, $json) {
         $mods = $json->blockMods ?: $json->mods;
         $ctx
             ->tag('input')

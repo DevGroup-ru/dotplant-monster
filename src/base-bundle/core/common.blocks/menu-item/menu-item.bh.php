@@ -1,6 +1,6 @@
 <?php
 return function ($bh) {
-    $bh->match('menu-item', function($ctx, $json) {
+    $bh->match('menu-item', function ($ctx, $json) {
         $menuMods = (array)$ctx->tParam('menuMods');
         $menuMode = @$menuMods['mode'];
         $role = $menuMode?

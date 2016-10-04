@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('textarea', function($ctx, $json) {
+    $bh->match('textarea', function ($ctx, $json) {
         $attrs = [
             'id' => $json->id,
             'name' => $json->name,

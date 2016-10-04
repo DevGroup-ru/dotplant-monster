@@ -118,7 +118,7 @@ abstract class BundleEntity
         if (count($this->assetBundles) > 0) {
             foreach ($this->assetBundles as $bundleName) {
                 /** @var yii\web\AssetBundle $object */
-                Yii::$app->view->registerAssetBundle(ltrim($bundleName,'\\'));
+                Yii::$app->view->registerAssetBundle(ltrim($bundleName, '\\'));
             }
         }
     }

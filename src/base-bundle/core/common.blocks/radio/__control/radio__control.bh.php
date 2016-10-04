@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('radio__control', function($ctx, $json) {
+    $bh->match('radio__control', function ($ctx, $json) {
         $ctx->tag('input');
 
         // NOTE: don't remove autocomplete attribute, otherwise js and DOM may be desynced

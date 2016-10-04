@@ -1,8 +1,10 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select', function($ctx, $json) {
-        if (!$ctx->mod('mode')) throw new \Exception('Can\'t build select without mode modifier');
+    $bh->match('select', function ($ctx, $json) {
+        if (!$ctx->mod('mode')) {
+            throw new \Exception('Can\'t build select without mode modifier');
+        }
 
         $isValDef = key_exists('val', $json);
         $isModeCheck = $ctx->mod('mode') === 'check';
@@ -22,12 +24,12 @@ return function ($bh) {
 
         $iterateOptions = function (&$content) use ($containsVal, &$iterateOptions, $refs, $ctx) {
             foreach ($content as $_ => $option) {
-                if(isset($option['group'])) {
+                if (isset($option['group'])) {
                     $iterateOptions($content[$_]['group']);
                 } else {
                     $refs->firstOption || ($refs->firstOption =& $content[$_]);
                     $refs->optionIds[] = $content[$_]['id'] = $ctx->generateId();
-                    if(isset($option['val']) and $containsVal($option['val'])) {
+                    if (isset($option['val']) and $containsVal($option['val'])) {
                         $content[$_]['checked'] = true;
                         $refs->checkedOptions[] =& $content[$_];
                     }

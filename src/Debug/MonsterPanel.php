@@ -51,7 +51,6 @@ html;
 <td>$dependent</td>
 </tr>
 html;
-
         }
         $result .= <<<html
 </tbody>
@@ -88,7 +87,7 @@ html;
             'templateRegions' => ArrayHelper::map(
                 ArrayHelper::getValue($actionData->result, 'templateRegions', []),
                 'id',
-                function(TemplateRegion $item) {
+                function (TemplateRegion $item) {
                     return $item->getAttributes();
                 }
             ),

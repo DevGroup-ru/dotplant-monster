@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('button_type_link', function($ctx, $json) {
+    $bh->match('button_type_link', function ($ctx, $json) {
         $ctx
             ->tag('a')
             ->attr('role', 'link');

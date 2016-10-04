@@ -1,10 +1,10 @@
 <?php
 return function ($bh) {
 
-    $bh->match('menu__group', function($ctx, $json) {
+    $bh->match('menu__group', function ($ctx, $json) {
         $ctx->attr('role', 'group');
 
-        if(key_exists('title', $json)) {
+        if (key_exists('title', $json)) {
             $title = $json->title;
             $titleId = $ctx->generateId();
             $ctx

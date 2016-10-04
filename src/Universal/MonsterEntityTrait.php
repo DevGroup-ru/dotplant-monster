@@ -2,7 +2,6 @@
 
 namespace DotPlant\Monster\Universal;
 
-
 trait MonsterEntityTrait
 {
     use MonsterContentTrait;

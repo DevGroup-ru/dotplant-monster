@@ -23,7 +23,7 @@ class Image extends BaseEditableType
         $ctx->content(<<<php
 <img src="<?= ArrayHelper::getValue(\${$this->target($editable)}, "{$editable['key']}.src", 'UNDEFINED') ?>" alt="<?= ArrayHelper::getValue(\${$this->target($editable)}, "{$editable['key']}.alt", 'UNDEFINED') ?>">
 php
-);
+        );
        
     }
 

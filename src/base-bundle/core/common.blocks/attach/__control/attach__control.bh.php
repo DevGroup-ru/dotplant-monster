@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('attach__control', function($ctx) {
+    $bh->match('attach__control', function ($ctx) {
         $attrs = [ 'type' => 'file' ];
         $attach = $ctx->tParam('_attach');
 

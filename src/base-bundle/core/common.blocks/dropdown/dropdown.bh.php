@@ -2,14 +2,16 @@
 return function ($bh) {
 
     $bh->match([
-        'dropdown' => function($ctx) {
+        'dropdown' => function ($ctx) {
             $dropdown = $ctx->json();
 
             $mix = $ctx->phpize([$dropdown]);
             if (is_array($dropdown->switcher) && array_key_exists('mix', $dropdown->switcher)) {
                 $mix->append($dropdown->switcher['mix']);
             }
-            if (key_exists('mix', $dropdown)) $mix->append($dropdown->mix);
+            if (key_exists('mix', $dropdown)) {
+                $mix->append($dropdown->mix);
+            }
 
             $ctx
                 ->js($ctx->extend([ 'id' => $ctx->generateId() ], $ctx->js()))
@@ -21,7 +23,7 @@ return function ($bh) {
             return [[ 'elem' => 'switcher' ], [ 'elem' => 'popup' ]];
         },
 
-        'dropdown__popup' => function($ctx) {
+        'dropdown__popup' => function ($ctx) {
             $dropdown = $ctx->tParam('dropdown');
             $popup = $dropdown->popup;
 
@@ -30,7 +32,9 @@ return function ($bh) {
             }
 
             $dropdown->popup = $popup = $ctx->phpize($popup);
-            if (empty($popup->attrs)) $popup->attrs = [];
+            if (empty($popup->attrs)) {
+                $popup->attrs = [];
+            }
 
             $popupMods = $popup->mods;
             $popupAttrs = &$popup->attrs;
@@ -46,11 +50,13 @@ return function ($bh) {
             return $popup;
         },
 
-        'dropdown__switcher' => function($ctx) {
+        'dropdown__switcher' => function ($ctx) {
             $dropdown = $ctx->tParam('dropdown');
             $dropdown->switcher = $switcher = $ctx->phpize($dropdown->switcher);
 
-            if (key_exists('block', $switcher)) $swticher->mix = $ctx->tParam('mix');
+            if (key_exists('block', $switcher)) {
+                $swticher->mix = $ctx->tParam('mix');
+            }
 
             return $switcher;
         }

@@ -7,7 +7,7 @@ use BEM\Matcher;
 return [
     'commonHelpers' => new Matcher(
         '$before',
-        function(Context $ctx) {
+        function (Context $ctx) {
             if ($ctx->param('button')) {
                 $ctx->tag('button');
                 $ctx->mix([
@@ -22,7 +22,7 @@ return [
     ),
     'gridHelpers' => new Matcher(
         '$after',
-        function(Context $ctx) {
+        function (Context $ctx) {
             $cls = explode(' ', $ctx->cls());
             $originalClsCount = count($cls);
             if ($ctx->param('row') === true) {

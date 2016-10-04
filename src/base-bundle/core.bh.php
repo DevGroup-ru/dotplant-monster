@@ -10,7 +10,7 @@ use yii\helpers\VarDumper;
 return [
     'editables' => new Matcher(
         '$after',
-        function(Context $ctx, Json $json) {
+        function (Context $ctx, Json $json) {
             $json = $ctx->json();
             $editMode = false;
             if (Yii::$app instanceof yii\web\Application) {
@@ -26,10 +26,10 @@ return [
                     if ($editMode) {
                         $ctx->attr('data-editable', 1);
 
-//
-//                        $ctx->js([
-//                            'editable' => $editable
-//                        ]);
+        //
+        //                        $ctx->js([
+        //                            'editable' => $editable
+        //                        ]);
                         $ctx->attr('data-editable-params', \yii\helpers\Json::encode($editable));
                     }
 
@@ -47,19 +47,17 @@ return [
                         return $result;
                     }
                 }
-
             }
         }
     ),
     'recursiveIterator' => new Matcher(
         '$before',
-        function(Context $ctx, Json $json) {
+        function (Context $ctx, Json $json) {
             $editMode = false;
             if (Yii::$app instanceof yii\web\Application) {
                 $editMode = Yii::$app->request->isEditMode();
             }
             if ($ctx->param('recursive') !== null && $ctx->param('itemTemplate') !== null) {
-
                 $recursive = (string) $ctx->param('recursive');
                 $target = '$' . ($ctx->param('target') ?: 'data');
 
@@ -161,7 +159,6 @@ PHP;
                         $ctx->node->parentNode->json->attrs['data-monster-debug'] = \yii\helpers\Json::encode($js);
                         $ctx->node->parentNode->json->attrs['data-recursive'] = 1;
                         $ctx->node->parentNode->json->attrs['data-editable-key'] = $recursive;
-
                     } else {
                         $ctx->attr('data-monster-debug', $js);
                         $ctx->attr('data-recursive', 1);
@@ -192,7 +189,7 @@ PHP;
     ),
     'dataMods' => new Matcher(
         '$after',
-        function(Context $ctx, Json $json) {
+        function (Context $ctx, Json $json) {
             if ($ctx->json()->block && $target = $ctx->param('monsterMods')) {
                 if ($target === true) {
                     $target = 'data';
@@ -205,8 +202,7 @@ PHP;
                     $ctx->cls() . ' ' . "<?= ViewHelpers::modsClass('$bem', \${$target}) ?>"
                 );
 
-//                die("ELEM[$target]: ".$ctx->json()->elem);
-
+        //                die("ELEM[$target]: ".$ctx->json()->elem);
             }
         }
     )

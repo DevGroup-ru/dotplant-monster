@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('attach', function($ctx, $json) {
+    $bh->match('attach', function ($ctx, $json) {
         $ctx
             ->tParam('_attach', $json)
             ->tag('span')

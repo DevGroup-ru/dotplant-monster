@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('checkbox', function($ctx, $json) {
+    $bh->match('checkbox', function ($ctx, $json) {
         $ctx->tag('label')
             ->js(true)
             ->content([

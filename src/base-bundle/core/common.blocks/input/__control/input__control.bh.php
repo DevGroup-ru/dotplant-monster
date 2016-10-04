@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('input__control', function($ctx) {
+    $bh->match('input__control', function ($ctx) {
         $ctx->tag('input');
 
         $input = $ctx->tParam('_input');
@@ -16,7 +16,7 @@ return function ($bh) {
 
         $input->autocomplete === false && ($attrs['autocomplete'] = 'off');
 
-        if(isset($input->mods) && $input->mods->disabled) {
+        if (isset($input->mods) && $input->mods->disabled) {
             $attrs['disabled'] = 'disabled';
         }
 

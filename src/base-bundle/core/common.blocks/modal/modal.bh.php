@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('modal', function($ctx, $json) {
+    $bh->match('modal', function ($ctx, $json) {
         $ctx
             ->js(true)
             ->mix([

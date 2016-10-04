@@ -46,8 +46,7 @@ class VisualBuilderController extends FrontendController
 
     public function actionNewBlock()
     {
-        if (
-            isset($_POST['block'], $_POST['uniqueContentId'], $_POST['materialIndex']) === false
+        if (isset($_POST['block'], $_POST['uniqueContentId'], $_POST['materialIndex']) === false
             || Yii::$app->request->isAjax === false
         ) {
             throw new yii\web\BadRequestHttpException;

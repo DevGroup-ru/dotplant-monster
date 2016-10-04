@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="DevGroupRU-Yii2">
+    <description>Yii 2 Web Application Framework Coding Standard modified for DevGroup.ru</description>
+    <exclude-pattern>*/tests/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <rule ref="vendor/yiisoft/yii2-coding-standards/Yii2">
+        <!-- Property names MUST NOT start with an initial underscore if they are private. -->
+        <exclude name="Yii2.Properties.PrivatePropertiesUnderscore"/>
+    </rule>
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps">
+        <exclude-pattern>*/migrations/*</exclude-pattern>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>*/migrations/*</exclude-pattern>
+    </rule>
+</ruleset>

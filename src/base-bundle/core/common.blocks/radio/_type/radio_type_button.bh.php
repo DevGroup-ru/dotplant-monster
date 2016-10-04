@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('radio_type_button', function($ctx, $json) {
+    $bh->match('radio_type_button', function ($ctx, $json) {
         $mods = $ctx->mods();
 
         $ctx->content([[

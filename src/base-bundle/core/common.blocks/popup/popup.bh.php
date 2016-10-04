@@ -1,6 +1,6 @@
 <?php
 return function ($bh) {
-    $bh->match('popup', function($ctx, $json) {
+    $bh->match('popup', function ($ctx, $json) {
         $ctx
             ->js([
                 'mainOffset' => $json->mainOffset,

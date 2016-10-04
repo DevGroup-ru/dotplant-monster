@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('button', function($ctx, $json) {
+    $bh->match('button', function ($ctx, $json) {
         $ctx->tag($json->tag ?: 'button'); // NOTE: need to predefine tag
 
         $json->icon = $ctx->phpize($json->icon);

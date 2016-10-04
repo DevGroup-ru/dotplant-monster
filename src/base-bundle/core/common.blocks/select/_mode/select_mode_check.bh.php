@@ -1,14 +1,14 @@
 <?php
 return function ($bh) {
 
-    $bh->match('select_mode_check', function($ctx, $json) {
+    $bh->match('select_mode_check', function ($ctx, $json) {
         $ctx
             ->applyBase()
             ->js($ctx->extend($ctx->js(), [ 'text' => $json->text ]));
 
         $checkedOptions = $ctx->tParam('refs')->checkedOptions;
 
-        if(is_array($checkedOptions) && isset($checkedOptions[0])) {
+        if (is_array($checkedOptions) && isset($checkedOptions[0])) {
             $res = array_map(function ($option) {
                 return [
                     'elem' => 'control',
@@ -23,7 +23,7 @@ return function ($bh) {
         }
     });
 
-    $bh->match('select_mode_check__button', function($ctx) {
+    $bh->match('select_mode_check__button', function ($ctx) {
         $checkedOptions = $ctx->tParam('refs')->checkedOptions;
         $ctx->content([
             'elem' => 'text',

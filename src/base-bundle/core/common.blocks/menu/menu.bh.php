@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('menu', function($ctx, $json) {
+    $bh->match('menu', function ($ctx, $json) {
         $mods = $ctx->mods();
         $attrs = [ 'role' => 'menu' ];
 
@@ -20,7 +20,7 @@ return function ($bh) {
         $refs->firstItem = null;
         $refs->checkedItems = [];
 
-        if($json->content) {
+        if ($json->content) {
             $isValDef = key_exists('val', $json);
             $isModeCheck = $ctx->mod('mode') === 'check';
 
@@ -52,7 +52,9 @@ return function ($bh) {
                 }
             };
 
-            if(is_array($json->content)) throw new \Exception('menu: content must be an array of the menu items');
+            if (is_array($json->content)) {
+                throw new \Exception('menu: content must be an array of the menu items');
+            }
 
             $iterateItems($json->content);
         }

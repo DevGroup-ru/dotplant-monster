@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('checkbox__text', function($ctx) {
+    $bh->match('checkbox__text', function ($ctx) {
         $ctx
             ->tag('span')
             ->attrs([ 'role' => 'presentation' ]);

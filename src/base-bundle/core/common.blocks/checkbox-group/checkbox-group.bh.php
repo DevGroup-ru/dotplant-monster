@@ -1,7 +1,7 @@
 <?php
 return function ($bh) {
 
-    $bh->match('checkbox-group', function($ctx, $json) {
+    $bh->match('checkbox-group', function ($ctx, $json) {
         $ctx
             ->tag('span')
             ->attrs([ 'role' => 'group' ])
@@ -12,7 +12,9 @@ return function ($bh) {
         $val = $json->val;
         $isValDef = key_exists('val', $json);
 
-        if ($isValDef && !is_array($val)) throw new \Exception('checkbox-group: val must be an array');
+        if ($isValDef && !is_array($val)) {
+            throw new \Exception('checkbox-group: val must be an array');
+        }
 
         $content = [];
         if ($json->options) {
