@@ -2,15 +2,13 @@
 
 namespace DotPlant\Monster\assets;
 
-use yii;
-
 /**
- * Asset bundle for Owlslider
+ * Asset bundle for OwlSlider
  * An awesome, fully responsive jQuery slider toolkit.
  *
  * @package DotPlant\Monster\assets
  */
-class Owlslider extends HeadBundle
+class OwlSlider extends HeadBundle
 {
     public $sourcePath = null;
     public $js = [
