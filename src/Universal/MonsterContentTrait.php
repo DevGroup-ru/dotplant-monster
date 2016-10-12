@@ -2,6 +2,13 @@
 
 namespace DotPlant\Monster\Universal;
 
+use yii\db\ActiveRecord;
+
+/**
+ * Class MonsterContentTrait
+ * @mixin ActiveRecord
+ * @package DotPlant\Monster\Universal
+ */
 trait MonsterContentTrait
 {
     public function getMaterials()
@@ -9,7 +16,6 @@ trait MonsterContentTrait
         /** @var \yii\base\Model $this */
         return $this->content;
     }
-
 
     /**
      * @param array $materials
@@ -28,6 +34,6 @@ trait MonsterContentTrait
     public function uniqueContentIdPrefix()
     {
         /** @var \yii\base\Model $this */
-        return static::tableName() . '/' . $this->id;
+        return $this->db->schema->getRawTableName(static::tableName()) . '/' . $this->id;
     }
 }
