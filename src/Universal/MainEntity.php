@@ -362,7 +362,7 @@ class MainEntity extends UniversalAction
                 ]);
             }
             $regionModel->sort_order = $counter++;
-            echo "<br>Setting {$regionModel->sort_order} for {$regionModel->key}<br>";
+
 
             $regionModel->entity_dependent = (bool) ArrayHelper::getValue(
                 $this->visualBuilderProvided(),
@@ -375,9 +375,7 @@ class MainEntity extends UniversalAction
             $newRegions[$regionKey] = $regionModel;
 
             if ($this->action() === self::ACTION_SAVE) {
-                if ($regionModel->save() === false) {
-                    var_dump($regionModel->errors);
-                }
+                $regionModel->save();
             }
             if ($regionModel->id) {
                 $newRegionsIds[] = (int) $regionModel->id;
@@ -388,10 +386,9 @@ class MainEntity extends UniversalAction
 
         if ($this->action() === self::ACTION_SAVE || true) {
             // delete removed regions here
-            echo 'New ids:' . implode(', ', $newRegionsIds);
             foreach ($oldRegions as $region) {
                 if (in_array((int) $region->id, $newRegionsIds, true) === false) {
-//                    $region->delete();
+                    $region->delete();
                 }
             }
         }
