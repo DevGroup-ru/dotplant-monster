@@ -345,7 +345,7 @@ class MainEntity extends UniversalAction
         $counter = 0;
         $oldRegions = $model->templateRegions;
         $newRegionsIds = [];
-        echo str_repeat('<br>', 10);
+        
 
         /** @var string $regionKey */
         /** @var array $regionsOrder */
