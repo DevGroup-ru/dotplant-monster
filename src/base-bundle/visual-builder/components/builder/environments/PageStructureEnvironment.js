@@ -73,9 +73,20 @@ class PageStructureEnvironment extends BaseEnvironment {
       layoutItem,
       templateItem,
     ];
+
     this.$pageStructure.jstree({
       core: {
-        check_callback: true,
+        check_callback: (operation, node, node_parent, node_position, more) => {
+          if (operation === 'move_node') {
+            if (node.type === 'material') {
+              return node_parent.type === 'templateRegion' || node_parent.type === 'contentTemplateRegion';
+            } else if (node.type === 'templateRegion' || node.type === 'contentTemplateRegion') {
+              return node_parent.type === 'default';
+            }
+            return false;
+          }
+          return true;
+        },
         data: this.pageStructure,
         themes: {
           name: 'default-dark',
@@ -84,7 +95,24 @@ class PageStructureEnvironment extends BaseEnvironment {
       plugins: [
         'types',
         'wholerow',
+        'dnd',
       ],
+      dnd: {
+        open_timeout: 200,
+        large_drop_target: true,
+        large_drag_target: true,
+        check_while_dragging: true,
+        copy: false,
+        is_draggable: function(nodes) {
+          const node = nodes[0] || undefined;
+          if (node === undefined) {
+            return false;
+          }
+          return node.type === 'material'
+            || node.type === 'contentTemplateRegion'
+            || node.type === 'templateRegion';
+        }
+      },
       types: {
         layout: {
           icon: 'fa fa-columns',
@@ -106,17 +134,41 @@ class PageStructureEnvironment extends BaseEnvironment {
 
     this.jstreeObj = this.$pageStructure.jstree();
 
-    this.$pageStructure.on('loaded.jstree', () => {
-      this.updatePageStructureJson();
+    this.$pageStructure
+      .on('loaded.jstree', () => {
+        this.updatePageStructureJson();
 
-      let isContentRegionFound = false;
-      this.pageStructure[1].children.forEach((region) => {
-        if (region.data.entityDependent && isContentRegionFound === false) {
-          isContentRegionFound = true;
-          this.jstreeObj.select_node(region.id);
-        }
+        let isContentRegionFound = false;
+        this.pageStructure[1].children.forEach((region) => {
+          if (region.data.entityDependent && isContentRegionFound === false) {
+            isContentRegionFound = true;
+            this.jstreeObj.select_node(region.id);
+          }
+        });
+      })
+
+      .on('move_node.jstree', () => {
+        console.log('move node');
+        return false;
       });
-    });
+    $(document)
+      .on('dnd_stop.vakata.jstree', () => {
+        console.log('dnd_stop.vakata.jstree')
+        return false;
+      })
+      .on('dnd_stop', () => {
+        console.log('dnd_stop');
+        return false;
+      })
+      .on('dnd_stop.jstree', () => {
+        console.log('asd');
+      })
+      .on('dnd_stop.vakata', () => {
+        console.log('dnd_stop');
+        this.updatePageStructureJson();
+        this.target.FrontendMonster.VisualFrame.preview();
+        return true;
+      });
     const controlButtons = $('<div class="tree-control-buttons" role="presentation"></div>');
 
     const buttonsArray = [
@@ -124,9 +176,7 @@ class PageStructureEnvironment extends BaseEnvironment {
         icon: 'fa fa-arrow-right',
         name: 'Select',
         click: (jsTreeNode, $node) => {
-          this.target$.smoothScroll({
-            scrollTarget: this.target$(`[data-material-path="${jsTreeNode.data.materialPath}"]`),
-          });
+          this.selectMaterial(jsTreeNode.data.materialIndex);
           return false;
         }
       },
@@ -162,9 +212,7 @@ class PageStructureEnvironment extends BaseEnvironment {
         case 'material':
           const $anchor = $(`#${obj.node.id}`);
           $anchor.prepend(controlButtons);
-          this.target$.smoothScroll({
-            scrollTarget: this.target$(`[data-material-path="${obj.node.data.materialPath}"]`),
-          });
+          this.selectMaterial(obj.node.data.materialIndex);
           this.selectedRegionKey = obj.node.data.regionKey;
           break;
         case 'templateRegion':
@@ -182,6 +230,22 @@ class PageStructureEnvironment extends BaseEnvironment {
 
 
     this.editModeData = this.target.MONSTER_EDIT_MODE_DATA;
+  }
+
+  selectMaterial(index) {
+    const $targetMaterial = this.target$(`[data-material-index="${index}"]`);
+    $('.m-monster-material_selected').removeClass('m-monster-material_selected');
+    this.target$.smoothScroll({
+      scrollTarget: $targetMaterial,
+    });
+    // restart animation magic. see https://css-tricks.com/restart-css-animation/
+    $targetMaterial
+      .removeClass('m-monster-material_selected');
+
+    void $targetMaterial[0].offsetWidth;
+
+    $targetMaterial
+      .addClass('m-monster-material_selected');
   }
 
   updatePageStructureJson() {

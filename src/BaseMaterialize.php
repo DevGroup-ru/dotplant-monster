@@ -109,6 +109,7 @@ class BaseMaterialize extends yii\base\Widget
                 $expandedBemJson->attrs['data-is-material'] = 1;
                 $expandedBemJson->attrs['data-material-index'] = $this->materialIndex;
                 $expandedBemJson->attrs['data-material-path'] = $this->material->fullPath;
+                $expandedBemJson->cls .= ' m-monster-material';
             }
             //! @todo Add contextual customization code here(we will need to introduce new param for materialize)
 

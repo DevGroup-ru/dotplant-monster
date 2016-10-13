@@ -124,7 +124,6 @@ html, body, .m-container {}
     zoom: 1;
 }
 .m-row {
-    outline: 1px solid green;
     /* removed margin-left|right: auto */
 }
 @media (min-width: 1em) {
@@ -155,6 +154,41 @@ html, body, .m-container {}
 @media (min-width: 84em) {
     .m-row {
         width: 81.9375em;
+    }
+}
+.m-wrapper.m-wrapper_monster-edit-mode .m-monster-material {}
+.m-wrapper.m-wrapper_monster-edit-mode .m-monster-material_selected {
+    -webkit-animation: selection-highlight ease-in-out 1s;
+            animation: selection-highlight ease-in-out 1s;
+    -webkit-animation-iteration-count: 1;
+            animation-iteration-count: 1;
+}
+@-webkit-keyframes selection-highlight {
+    0% {
+        outline: 1px solid rgba(0, 255, 0, 0);
+        background-color: rgba(255, 255, 255, 0);
+    }
+    50% {
+        outline: 1px solid rgba(0, 255, 0, 1);
+        background-color: #8fc31b;
+    }
+    100% {
+        outline: 1px solid rgba(0, 255, 0, 0);
+        background-color: rgba(255, 255, 255, 0);
+    }
+}
+@keyframes selection-highlight {
+    0% {
+        outline: 1px solid rgba(0, 255, 0, 0);
+        background-color: rgba(255, 255, 255, 0);
+    }
+    50% {
+        outline: 1px solid rgba(0, 255, 0, 1);
+        background-color: #8fc31b;
+    }
+    100% {
+        outline: 1px solid rgba(0, 255, 0, 0);
+        background-color: rgba(255, 255, 255, 0);
     }
 }
 /** @define chosen */
@@ -707,6 +741,7 @@ html, body, .m-container {}
     display: inline-block;
     white-space: nowrap;
 }
+
 
 /* */
 

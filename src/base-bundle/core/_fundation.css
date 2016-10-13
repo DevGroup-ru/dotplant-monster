@@ -17,7 +17,6 @@ html, body, .m-container {
 
 
 .m-row {
-  outline: 1px solid green;
   /* removed margin-left|right: auto */
   @media (--null-breakpoint) {
     width: 320px;
@@ -36,5 +35,29 @@ html, body, .m-container {
   }
   @media (--greater-than-desktop-wide) {
     width: calc(83.9375em - var(--window-gutter) * 2);
+  }
+}
+
+.m-wrapper.m-wrapper_monster-edit-mode {
+  @b m-monster-material {
+    @m selected {
+      animation: selection-highlight ease-in-out 1s;
+      animation-iteration-count: 1;
+    }
+  }
+}
+
+@keyframes selection-highlight{
+  0% {
+    outline: 1px solid rgba(0, 255, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
+  }
+  50% {
+    outline: 1px solid rgba(0, 255, 0, 1);
+    background-color: #8fc31b;
+  }
+  100% {
+    outline: 1px solid rgba(0, 255, 0, 0);
+    background-color: rgba(255, 255, 255, 0);
   }
 }

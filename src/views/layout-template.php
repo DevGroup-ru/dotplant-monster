@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 AppAsset::register($this);
+$mods = Yii::$app->request->isEditMode() ? 'm-wrapper_monster-edit-mode' : '';
 ?>
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
@@ -24,7 +25,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <meta http-equiv="content-language" content="<?=Yii::$app->language?>">
     <meta name="generator" content="DotPlant CMS">
-    
+
     <?= Html::csrfMetaTags() ?>
     <?= HrefLang::widget() ?>
     <?php $this->head(); ?>
@@ -32,7 +33,7 @@ AppAsset::register($this);
 </head>
 <body itemscope itemtype="http://schema.org/WebPage">
 <?php $this->beginBody(); ?>
-<div class="m-wrapper">
+<div class="m-wrapper <?=$mods?>">
 <?php
 /** @var TemplateRegion $templateRegions */
 $templateRegions = Yii::$app->params['layoutTemplateRegions'];
@@ -62,7 +63,7 @@ foreach ($templateRegions as $region) {
     $config['data'] = ArrayHelper::getValue($dataByTemplateRegion, $region->key, []);
 
     $config['materials'] = $materials;
-    
+
     echo MonsterContent::widget(
         $config
     );
