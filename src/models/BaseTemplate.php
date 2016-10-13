@@ -105,12 +105,20 @@ class BaseTemplate extends ActiveRecord
      */
     public function getTemplateRegions()
     {
-        return $this->templateRegionsOverride !== null
-            ? $this->templateRegionsOverride
-            : $this
+        return $this
                 ->hasMany(TemplateRegion::className(), ['template_id' => 'id'])
                 ->orderBy(['sort_order' => SORT_ASC])
                 ->inverseOf('template');
+    }
+
+    /**
+     * @return \DotPlant\Monster\models\TemplateRegion[]
+     */
+    public function iterateTemplateRegions()
+    {
+        return $this->templateRegionsOverride !== null
+            ? $this->templateRegionsOverride
+            : $this->templateRegions;
     }
 
     /**
