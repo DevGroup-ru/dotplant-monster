@@ -79,6 +79,7 @@ class MainEntity extends UniversalAction
             ],
             'description'
         );
+        $actionData->controller->view->params['breadcrumbs'] = $entity->getSeoBreadcrumbs();
 
         $templateId = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.templateId');
         if ($templateId !== null) {
@@ -145,10 +146,7 @@ class MainEntity extends UniversalAction
         $layoutData = $this->applyLayout($entity, $actionData, $dataEntity);
 
         $actionData->viewFile = '@DotPlant/Monster/views/monster-template.php';
-        foreach ($template->iterateTemplateRegions() as $region) {
-            echo "Region: $region->key<BR>";
-        }
-        $actionData->result['templateRegions'] = $template->iterateTemplateRegions();
+        $actionData->result['templateRegions'] = $template->templateRegions;
 
         /** @var \yii\web\Request|\DotPlant\Monster\behaviors\MonsterRequest $request */
         $request = Yii::$app->request;
@@ -160,7 +158,7 @@ class MainEntity extends UniversalAction
                     'key' => $template->key,
 //                    'dataByTemplateRegion' => $dataTemplate,
                     'providedKeys' => $providedKeysTemplate,
-                    'regions' => ArrayHelper::map($template->iterateTemplateRegions(), 'id', function (TemplateRegion $item) {
+                    'regions' => ArrayHelper::map($template->templateRegions, 'id', function (TemplateRegion $item) {
                         return [
                             'id' => $item->id,
                             'name' => $item->name,
@@ -356,9 +354,6 @@ class MainEntity extends UniversalAction
         );
 
         $counter = 0;
-        $oldRegions = $model->templateRegions;
-        $newRegionsIds = [];
-        
 
         /** @var string $regionKey */
         /** @var array $regionsOrder */
@@ -374,9 +369,7 @@ class MainEntity extends UniversalAction
                     'template_id' => $model->id,
                 ]);
             }
-            $regionModel->sort_order = $counter++;
-
-
+            $regionModel->sort_order = $counter;
             $regionModel->entity_dependent = (bool) ArrayHelper::getValue(
                 $this->visualBuilderProvided(),
                 "$path.templateRegions.$regionKey.entityDependent",
@@ -386,25 +379,9 @@ class MainEntity extends UniversalAction
 
             $this->handleMaterialsProviders($regionModel, $model);
             $newRegions[$regionKey] = $regionModel;
-
-            if ($this->action() === self::ACTION_SAVE) {
-                $regionModel->save();
-            }
-            if ($regionModel->id) {
-                $newRegionsIds[] = (int) $regionModel->id;
-            }
         }
         //!@todo add delete for deleted regions(foreach by order, if not exist - delete) -- only on save$path action
         $model->templateRegionsOverride = $newRegions;
-
-        if ($this->action() === self::ACTION_SAVE || true) {
-            // delete removed regions here
-            foreach ($oldRegions as $region) {
-                if (in_array((int) $region->id, $newRegionsIds, true) === false) {
-                    $region->delete();
-                }
-            }
-        }
 
     }
 
@@ -430,7 +407,7 @@ class MainEntity extends UniversalAction
                 $this->templateRegions($layout, 'layout');
             }
 
-            Yii::$app->params['layoutTemplateRegions'] = $layout->iterateTemplateRegions();
+            Yii::$app->params['layoutTemplateRegions'] = $layout->templateRegions;
             Yii::$app->params['layoutMainEntity'] = &$entity;
 
             $packedLayoutProviders = [];
@@ -455,7 +432,7 @@ class MainEntity extends UniversalAction
                 'id' => $layout->id,
                 'providers' => $packedLayoutProviders,
                 'key' => $layout->key,
-                'regions' => ArrayHelper::map($layout->iterateTemplateRegions(), 'id', function (TemplateRegion $item) {
+                'regions' => ArrayHelper::map($layout->templateRegions, 'id', function (TemplateRegion $item) {
                     return [
                         'id' => $item->id,
                         'name' => $item->name,
