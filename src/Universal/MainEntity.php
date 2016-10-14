@@ -5,6 +5,7 @@ namespace DotPlant\Monster\Universal;
 use DevGroup\Frontend\traits\ContentNegotiator;
 use DevGroup\Frontend\Universal\ActionData;
 use DevGroup\Frontend\Universal\UniversalAction;
+use DotPlant\EntityStructure\interfaces\MainEntitySeoInterface;
 use DotPlant\Monster\DataEntity\ProvidersHelper;
 use DotPlant\Monster\DataProviderProcessor;
 use DotPlant\Monster\models\Layout;
@@ -58,7 +59,7 @@ class MainEntity extends UniversalAction
         }
 
         // first we need to find our entity
-        /** @var \yii\base\Model|MonsterEntityTrait $entity */
+        /** @var \yii\base\Model|MonsterEntityTrait|MainEntitySeoInterface $entity */
         $entity = null;
         if (array_key_exists($this->mainEntityKey, $actionData->entities)) {
             $entity = ($actionData->entities[$this->mainEntityKey] ?: null);
@@ -66,6 +67,18 @@ class MainEntity extends UniversalAction
         if ($entity === null) {
             throw new yii\web\NotFoundHttpException;
         }
+        if (!$entity instanceof MainEntitySeoInterface) {
+            throw new yii\base\Exception('Entity does not implement `MainEntitySeoInterface`');
+        }
+
+        $actionData->controller->view->title = $entity->getSeoTitle();
+        $actionData->controller->view->registerMetaTag(
+            [
+                'content' => $entity->getSeoMetaDescription(),
+                'name' => 'description',
+            ],
+            'description'
+        );
 
         $templateId = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.templateId');
         if ($templateId !== null) {
