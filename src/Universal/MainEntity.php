@@ -227,7 +227,15 @@ class MainEntity extends UniversalAction
         $model->setEntityDataProviders($providers);
 
         if ($this->action() === self::ACTION_SAVE) {
-            $model->saveProviders();
+            $result = true;
+            if ($model->hasMethod('saveMonsterContent')) {
+                $result = $model->saveMonsterContent();
+            } else {
+                $result = $model->saveProviders();
+            }
+            if ($result === false) {
+                throw new \Exception(var_export($model->errors, true));
+            }
         }
     }
 
@@ -304,7 +312,9 @@ class MainEntity extends UniversalAction
 
         $model->setMaterials($result);
         if ($this->action() === self::ACTION_SAVE) {
-            $model->saveMaterials();
+            if ($model->saveMaterials() === false) {
+                throw new \Exception(var_export($model->errors, true));
+            }
         }
     }
 
