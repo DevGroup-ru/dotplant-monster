@@ -20,11 +20,11 @@ class ServiceMonsterAction extends MainEntity
      */
     public function defineMainEntity(&$actionData)
     {
-        if (is_callable($this->serviceTemplateKey) === false || empty($this->serviceTemplateKey)) {
+        if (is_callable($this->serviceTemplateKey) === false && empty($this->serviceTemplateKey)) {
             throw new \RuntimeException("ServiceTemplateKey is not set");
         }
 
-        $key = is_callable($this->serviceTemplateKey, true)
+        $key = is_callable($this->serviceTemplateKey)
             ? Yii::$container->invoke($this->serviceTemplateKey, [&$this, &$actionData])
             : $this->serviceTemplateKey;
 
