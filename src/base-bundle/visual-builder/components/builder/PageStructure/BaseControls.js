@@ -3,6 +3,8 @@ class BaseControls {
     this.env = env;
     this.controlButtons = $('<div class="tree-control-buttons" role="presentation"></div>');
 
+    this.preInit();
+
     const thatEnv = this.env;
     this.buttonsArray.forEach(conf => {
       const $button = $(`<a href="#" class="tree-control-buttons__button" title="${conf.name}">
@@ -19,6 +21,10 @@ class BaseControls {
 
   get buttonsArray() {
     throw "You must implement buttonsArray";
+  }
+
+  preInit() {
+
   }
 }
 

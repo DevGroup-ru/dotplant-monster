@@ -43,22 +43,20 @@ class MainEntity extends UniversalAction
     private $actionType;
 
     /**
+     * Defines main entity for rendering all the stuff.
+     *
      * @param ActionData $actionData
      *
+     * @return \DotPlant\EntityStructure\interfaces\MainEntitySeoInterface|\DotPlant\Monster\Universal\MonsterEntityTrait|null|\yii\base\Model
+     * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
-     * @throws bool
      */
-    public function run(&$actionData)
+    public function defineMainEntity(&$actionData)
     {
         if ($this->mainEntityKey === null) {
             throw new yii\base\InvalidConfigException('You must set main entity key');
         }
-        if ($this->defaultTemplateKey === null) {
-            throw new yii\base\InvalidConfigException('You must provide default template key');
-        }
-
-        // first we need to find our entity
         /** @var \yii\base\Model|MonsterEntityTrait|MainEntitySeoInterface $entity */
         $entity = null;
         if (array_key_exists($this->mainEntityKey, $actionData->entities)) {
@@ -80,6 +78,25 @@ class MainEntity extends UniversalAction
             'description'
         );
         $actionData->controller->view->params['breadcrumbs'] = $entity->getSeoBreadcrumbs();
+
+        return $entity;
+    }
+
+    /**
+     * @param ActionData $actionData
+     *
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     * @throws bool
+     */
+    public function run(&$actionData)
+    {
+        // first we need to find our entity
+        $entity = $this->defineMainEntity($actionData);
+
+        if ($this->defaultTemplateKey === null) {
+            throw new yii\base\InvalidConfigException('You must provide default template key');
+        }
 
         $templateId = ArrayHelper::getValue($this->visualBuilderProvided(), 'template.templateId');
         if ($templateId !== null) {
@@ -200,7 +217,7 @@ class MainEntity extends UniversalAction
     }
 
     /**
-     * @param MonsterProvidersTrait $model
+     * @param MonsterProvidersTrait|yii\base\Model $model
      * @param string                $postKey
      */
     protected function providersSupplied(&$model, $postKey)
@@ -221,18 +238,10 @@ class MainEntity extends UniversalAction
         }
 
         //! @todo add check for proper class names and properties here
-//        echo "<pre><h2>$postKey</h2>";
-//        var_export($providers);
-//        echo '</pre>';
         $model->setEntityDataProviders($providers);
 
         if ($this->action() === self::ACTION_SAVE) {
-            $result = true;
-            if ($model->hasMethod('saveMonsterContent')) {
-                $result = $model->saveMonsterContent();
-            } else {
-                $result = $model->saveProviders();
-            }
+            $result = $model->hasMethod('saveMonsterContent') ? $model->saveMonsterContent() : $model->saveProviders();
             if ($result === false) {
                 throw new \Exception(var_export($model->errors, true));
             }

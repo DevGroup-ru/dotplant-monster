@@ -155,6 +155,7 @@ class PageStructureEnvironment extends BaseEnvironment {
 
     this.controlButtons = {
       material: new MaterialControls(this),
+
     };
     console.log(this.controlButtons);
 
@@ -178,6 +179,7 @@ class PageStructureEnvironment extends BaseEnvironment {
           break;
         default:
           this.selectedRegionKey = null;
+          console.log(obj.node);
           break;
       }
     });

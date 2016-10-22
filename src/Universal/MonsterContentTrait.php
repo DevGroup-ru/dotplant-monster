@@ -31,6 +31,9 @@ trait MonsterContentTrait
         return $this->save();
     }
 
+    /**
+     * @return string
+     */
     public function uniqueContentIdPrefix()
     {
         /** @var \yii\base\Model $this */

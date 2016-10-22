@@ -8,6 +8,7 @@ use DevGroup\Entity\traits\SoftDeleteTrait;
 use DevGroup\TagDependencyHelper\CacheableActiveRecord;
 use DevGroup\TagDependencyHelper\LazyCache;
 use DevGroup\TagDependencyHelper\TagDependencyTrait;
+use DotPlant\Monster\traits\FindByKey;
 use DotPlant\Monster\Universal\MonsterProvidersTrait;
 use yii;
 use yii\db\ActiveRecord;
@@ -133,21 +134,22 @@ class BaseTemplate extends ActiveRecord
         return new Template();
     }
 
-
     /**
      * @param string $key
      * @param boolean $throwException
      *
-     * @return \DotPlant\Monster\models\Template
+     * @return ActiveRecord
      */
     public static function findByKey($key, $throwException = true)
     {
         /** @var LazyCache $cache */
         $cache = Yii::$app->cache;
-        /** @var string|yii\db\ActiveRecord $className */
+
+        /** @var string|ActiveRecord $className */
         $className = static::class;
-        /** @var Template $template */
-        $template = $cache->lazy(
+
+        /** @var ActiveRecord $model */
+        $model = $cache->lazy(
             function () use ($key, $className) {
                 return $className::find()
                     ->where(['key' => $key])
@@ -158,10 +160,10 @@ class BaseTemplate extends ActiveRecord
             86400,
             static::commonTag()
         );
-        if ($template === null && $throwException === true) {
+        if ($model === null && $throwException === true) {
             throw new \RuntimeException("Template key: '$key' not found");
         }
-        return $template;
+        return $model;
     }
 
     /**
