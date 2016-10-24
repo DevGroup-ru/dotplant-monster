@@ -14,6 +14,11 @@ class ServiceMonsterAction extends MainEntity
     public $serviceTemplateKey = '';
 
     /**
+     * @var callable
+     */
+    public $serviceEntityCallback;
+
+    /**
      * @param \DevGroup\Frontend\Universal\ActionData $actionData
      *
      * @return \DotPlant\Monster\models\ServiceEntity
@@ -34,9 +39,20 @@ class ServiceMonsterAction extends MainEntity
         $this->defaultLayoutKey = $serviceTemplate->layout_id;
         $this->defaultTemplateKey = $serviceTemplate->template_id;
 
-        return new ServiceEntity([
+        $entity = new ServiceEntity([
             'template_id' => $serviceTemplate->template_id,
             'layout_id' => $serviceTemplate->layout_id,
         ]);
+
+        if (is_callable($this->serviceEntityCallback)) {
+            Yii::$container->invoke(
+                $this->serviceEntityCallback,
+                [
+                    &$entity
+                ]
+            );
+        }
+
+        return $entity;
     }
 }
