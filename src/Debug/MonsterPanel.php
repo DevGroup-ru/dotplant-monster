@@ -78,7 +78,7 @@ html;
         /** @var  yii\base\Model|\yii\db\ActiveRecord $entity */
         $entity = $actionData->result['model'];
         $entityName = $entity ? $entity->formName() : 'unknown';
-        $entityPk = $entity->hasAttribute('id') ? $entity->id : "N/A";
+        $entityPk = isset($entity->id) ? $entity->id : "N/A";
         $providers = ArrayHelper::getValue(Yii::$app->params, 'providers', []);
 
         $result = [
