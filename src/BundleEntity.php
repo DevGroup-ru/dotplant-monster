@@ -148,6 +148,9 @@ abstract class BundleEntity
                     $this->childrenDirectories[] = $realPath;
                 }
             }
+            $finder = null;
+            unset($finder);
+            gc_collect_cycles();
         }
         return $this->childrenDirectories;
     }

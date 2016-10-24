@@ -125,6 +125,10 @@ class Repository extends Component
             }
         } catch (\InvalidArgumentException $e) {
         }
+        $finder = null;
+        unset($finder);
+        gc_collect_cycles();
+
 
         $this->updateBundlesCache();
     }
