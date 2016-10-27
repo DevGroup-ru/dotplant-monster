@@ -12,11 +12,11 @@ class OwlSlider extends HeadBundle
 {
     public $sourcePath = null;
     public $js = [
-        'http://www.owlgraphic.com/owlcarousel/owl-carousel/owl.carousel.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js',
     ];
     public $css = [
-        'http://www.owlgraphic.com/owlcarousel/owl-carousel/owl.carousel.css',
-        'http://www.owlgraphic.com/owlcarousel/owl-carousel/owl.theme.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.css',
     ];
     public $depends = [
         'yii\web\JqueryAsset'
