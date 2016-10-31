@@ -105,7 +105,7 @@ return [
 
                 $itemTemplateJson['content'][] = <<<PHP
 <?php
-if (isset(\$item['$childrenAttribute'])) {
+if ((is_array(\$item) || \$item instanceof \\yii\\base\\Arrayable) && isset(\$item['$childrenAttribute'])) {
                 // go recursive
                 ?>$goRecursive<?php
             }
