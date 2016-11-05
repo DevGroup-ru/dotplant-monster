@@ -23,6 +23,18 @@ class BhTest extends \PHPUnit_Framework_TestCase
         ]);
     }
 
+    protected function clearCache()
+    {
+        // clear cache
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
+        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+    }
+
+    protected function trimSpaces($string)
+    {
+        return preg_replace('/\s+/', ' ', $string);
+    }
+
     public function testOne()
     {
         $this->assertTrue(true);
@@ -149,33 +161,10 @@ php
         self::assertFalse(true);
     }
 
-    public function testBundle()
-    {
-//        $bundle = new Bundle(__DIR__.'/bundles/example-bundle/');
-//        $bundle->process();
-//        $encoded = serialize($bundle);
-//        echo "$encoded\n\n======\ndecoded:\n\n";
-//        /** @var Bundle $decoded */
-//        $decoded = unserialize($encoded);
-//        var_dump($decoded);
-//        echo "\n\n\n";
-//        /** @var Bundle\Material $material */
-//        $material = ArrayHelper::getValue($decoded, 'groups.group1.materials.block1');
-//        var_dump($material);
-////        $material->loadManifest();
-////        var_dump($material->getManifest());
-//        echo "\n\n\n";
-//        die();
-
-
-
-    }
 
     public function testRecursive()
     {
-        // clear cache
-        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
-        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+        $this->clearCache();
         $out = MonsterContent::widget([
             'uniqueContentId' => 'rtest',
 //            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
@@ -208,17 +197,15 @@ php
 
 </div>
 html;
-        $expected = preg_replace('/\s+/', ' ', $expected);
-        $out = preg_replace('/\s+/', ' ', $out);
+        $expected = $this->trimSpaces($expected);
+        $out = $this->trimSpaces($out);
         static::assertSame($expected, $out);
 
     }
 
     public function testDataMods()
     {
-        // clear cache
-        FileHelper::removeDirectory(Yii::getAlias('@app/monster/templates/'));
-        FileHelper::removeDirectory(Yii::getAlias('@app/monster/cache/'));
+        $this->clearCache();
         $out = MonsterContent::widget([
             'uniqueContentId' => 'modstest',
 //            'data' => $this->getSampleData('example.example-bundle.group1.block1'),
@@ -240,9 +227,56 @@ html;
 
 </ul></div>
 html;
-        $expected = preg_replace('/\s+/', ' ', $expected);
-        $out = preg_replace('/\s+/', ' ', $out);
+        $expected = $this->trimSpaces($expected);
+        $out = $this->trimSpaces($out);
         static::assertSame($expected, $out);
+
+    }
+
+    public function testConditions()
+    {
+        $this->clearCache();
+        $dataTrue = [
+            'fooRegion' => [
+                'foo' => 'bar',
+                'bar' => 'bar',
+            ]
+        ];
+        $dataFalse = [
+            'fooRegion' => [
+                'foo' => 'fasdgfalsdf',
+                'bar' => 'bar',
+            ]
+        ];
+        $testMaterial = [
+            'fooRegion' => [
+                'material' => 'example.example-bundle.group1.conditions1',
+            ],
+        ];
+        $out = MonsterContent::widget([
+            'uniqueContentId' => 'conditionsTest',
+            'data' => $dataTrue,
+            'materials' => $testMaterial,
+        ]);
+        $expected = <<<html
+<div class="test">
+<div class="test__true">OK</div>
+</div>
+html;
+
+        static::assertSame($this->trimSpaces($expected), $this->trimSpaces($out));
+
+        $out = MonsterContent::widget([
+            'uniqueContentId' => 'conditionsTest',
+            'data' => $dataFalse,
+            'materials' => $testMaterial,
+        ]);
+        $expected = <<<html
+<div class="test">
+<div class="test__false">not ok</div>
+</div>
+html;
+        static::assertSame($this->trimSpaces($expected), $this->trimSpaces($out));
 
     }
 }

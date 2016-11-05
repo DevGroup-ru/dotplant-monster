@@ -1,0 +1,16 @@
+{
+  "block": "test",
+  "content": [
+    {
+      "if": "$data['foo'] === $data['bar']",
+      "true": {
+        "elem": "true",
+        "content": "OK"
+      },
+      "false": {
+        "elem": "false",
+        "content": "not ok"
+      }
+    }
+  ]
+}

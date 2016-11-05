@@ -8,6 +8,26 @@ use DotPlant\Monster\Repository;
 use yii\helpers\VarDumper;
 
 return [
+    'conditions' => new Matcher(
+        '$before',
+        function (Context $ctx, Json $Json) {
+            $if = $ctx->param('if');
+            if ($if !== null) {
+                $true = $ctx->param('true');
+                $false = $ctx->param('false');
+                $content = [
+                    "\n\n<?php if ($if): ?>\n",
+                    $true,
+                ];
+                if ($false !== null) {
+                    $content[] = "\n\n<?php else: ?>\n\n";
+                    $content[] = $false;
+                }
+                $content[] = "\n<?php endif; ?>\n\n";
+                return $content;
+            }
+        }
+    ),
     'editables' => new Matcher(
         '$after',
         function (Context $ctx, Json $json) {
@@ -205,6 +225,6 @@ PHP;
         //                die("ELEM[$target]: ".$ctx->json()->elem);
             }
         }
-    )
+    ),
     // other matchers will be here
 ];
