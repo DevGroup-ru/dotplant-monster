@@ -7,6 +7,7 @@ use BEM\Json;
 use BEM\JsonCollection;
 use BEM\Matcher;
 use DotPlant\Monster\Bundle\Material;
+use DotPlant\Monster\exceptions\MonsterViewException;
 use yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -211,7 +212,11 @@ php;
         }
         $this->trigger(static::EVENT_BEFORE_MATERIALIZE, $event);
         Yii::beginProfile('Materialize -> Template render');
-        $content = $this->renderFile($templateFilename, ['data' => &$this->data]);
+        try {
+            $content = $this->renderFile($templateFilename, ['data' => &$this->data]);
+        } catch (\Exception $e) {
+            throw new MonsterViewException($templateFilename, $this->data, $e);
+        }
         Yii::endProfile('Materialize -> Template render');
 
         $this->trigger(static::EVENT_AFTER_MATERIALIZE, $event);
