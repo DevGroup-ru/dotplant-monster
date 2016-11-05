@@ -9,7 +9,6 @@ use yii\web\View;
 
 class ExtensionBootstrap implements BootstrapInterface
 {
-
     /**
      * Bootstrap method to be called during application bootstrap stage.
      *
@@ -17,7 +16,7 @@ class ExtensionBootstrap implements BootstrapInterface
      */
     public function bootstrap($app)
     {
-        
+
         if ($app instanceof yii\web\Application) {
             $app->on(Application::EVENT_BEFORE_REQUEST, function () use ($app) {
                 $app->request->attachBehavior('monsterRequest', 'DotPlant\Monster\behaviors\MonsterRequest');

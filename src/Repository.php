@@ -146,7 +146,6 @@ class Repository extends Component
             return;
         }
         if (array_key_exists($bundle->id, $this->bundles)) {
-            Yii::error("Bundle with id {$bundle->id} already loaded.");
             return;
         }
 
