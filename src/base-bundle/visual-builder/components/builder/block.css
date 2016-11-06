@@ -11,6 +11,7 @@ $editor-link-color: #3FB2FF;
 $editor-section-color: #4FD18A;
 $editor-accent-color: #EC5035;
 
+@import "dialog.pcss";
 
 .m-wrapper {
 

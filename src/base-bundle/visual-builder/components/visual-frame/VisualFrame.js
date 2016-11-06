@@ -193,6 +193,20 @@ class VisualFrame
     return false;
   }
 
+  serializeDebug() {
+    const data = this.iterateTemplateType(this.pageStructureJson);
+    const $obj = $(`<div class="m-json-editor"></div>`);
+    this.parentWindow.DialogHelper
+      .builderDialog()
+      .html($obj)
+      .autoDestroy()
+      .show();
+    const editor = new JSONEditor($obj[0], {
+      mode: 'tree'
+    });
+    editor.set(data);
+  }
+
   iterateTemplateType(arr) {
     const result = {
       entity: {

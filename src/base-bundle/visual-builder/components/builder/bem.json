@@ -64,6 +64,11 @@
               "elem": "clear-cache",
               "button": true,
               "content": "<i class=\"fa fa-eraser\"></i>"
+            },
+            {
+              "elem": "debug-serialize",
+              "button": true,
+              "content": "<i class=\"fa fa-barcode\"></i>"
             }
           ]
         },

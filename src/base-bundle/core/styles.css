@@ -733,6 +733,9 @@ html, body, .m-container {}
     background: #fff;
     padding: 1em;
 }
+.monster-dialog__body {
+    overflow: auto;
+}
 .radio {}
 .radio_type_button.radio {
     display: inline-block;
@@ -741,7 +744,6 @@ html, body, .m-container {}
     display: inline-block;
     white-space: nowrap;
 }
-
 
 /* */
 

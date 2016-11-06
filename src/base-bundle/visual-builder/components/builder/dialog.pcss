@@ -1,0 +1,12 @@
+/* Dialogs are not inside .m-wrapper */
+@b monster-dialog {
+  @m theme_builder {
+    min-height: 25%;
+    min-width: 50%;
+
+    .monster-dialog__body {
+      max-height: calc(100vh - calc($base-line-height*8));
+      max-width: calc(100vw - calc($base-line-height*12));
+    }
+  }
+}

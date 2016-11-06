@@ -214,6 +214,20 @@ class VisualBuilder {
       /* eslint-enable no-param-reassign, no-unused-vars */
       return false;
     });
+    this.$controlsRight.elem('debug-serialize').click(() => {
+      /* global window: false */
+      /* eslint-disable no-param-reassign, no-unused-vars */
+
+      const serializedData = FrameApi.sendMessage(
+        this.frameContentWindow,
+        'serializeDebug'
+      );
+      console.log(serializedData);
+
+
+      /* eslint-enable no-param-reassign, no-unused-vars */
+      return false;
+    });
   }
 }
 

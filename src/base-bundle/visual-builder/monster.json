@@ -1,5 +1,8 @@
 {
   "id": "visual-builder",
   "namespace": "core",
-  "hidden": true
+  "hidden": true,
+  "assetBundles": [
+    "DotPlant\\Monster\\assets\\JsonEditor"
+  ]
 }

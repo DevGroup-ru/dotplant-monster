@@ -1,22 +1,10 @@
 :root {
-
-
     /* grid */
-
-
     /* typography */
-
-
     /*vertical rhytm*/
 }
-
-
 /* typography */
-
-
 /* custom media queries */
-
-
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -37,14 +25,8 @@
   }
   ```
 */
-
-
 /* generate grid mixins */
-
-
 /* grid order helpers */
-
-
 /*
   Every m-row block MUST use setupCols!
   $element is the name of element-column
@@ -65,12 +47,18 @@
   }
   ```
 */
-
-
 /* generate grid mixins */
-
-
 /* grid order helpers */
+/* Dialogs are not inside .m-wrapper */
+.monster-dialog {}
+.monster-dialog_theme_builder {
+    min-height: 25%;
+    min-width: 50%;
+}
+.monster-dialog_theme_builder .monster-dialog__body {
+    max-height: calc(100vh - 5rem);
+    max-width: calc(100vw - 7.5rem);
+}
 .m-wrapper .monster-visual-builder {
     line-height: 1.25rem;
     font-size: 1rem;
@@ -379,7 +367,6 @@
     width: 6.25rem;
     z-index: 10;
 }
-
 
 /* */
 

@@ -23,7 +23,7 @@ class StaticContent extends DataProvider {
     dataKeys.forEach(key => {
       const obj = materialEditableKeys[key] || 'NO_SUCH_KEY';
       if (obj === 'NO_SUCH_KEY') {
-        debugger;
+        // debugger;
         return;
       }
       if (obj === Object(obj)) {
