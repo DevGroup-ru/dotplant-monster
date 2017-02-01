@@ -15,7 +15,7 @@ class Repository extends Component
     /** @var Bundle[] */
     public $bundles = [];
 
-    /** @var bool  */
+    /** @var bool */
     public $bundlesLoaded = false;
 
     public $coreBundlesLocation = '';
@@ -104,7 +104,7 @@ class Repository extends Component
         }
 
         // load third-party bundles
-        $finder = new Finder();
+        $finder = Yii::createObject(Finder::class);
         try {
             $finder
                 ->directories()
@@ -139,7 +139,7 @@ class Repository extends Component
      */
     protected function loadBundle($path)
     {
-        $bundle = new Bundle($path);
+        $bundle = Yii::createObject(Bundle::class, [$path]);
         $bundle->process();
         if ($bundle->id === null) {
             Yii::error("Bundle for path $path is in unknown format(no id or bad manifest)");

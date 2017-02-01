@@ -17,6 +17,19 @@ class Bundle extends BundleEntity
      */
     public $groups;
 
+
+    /**
+     * @var array
+     */
+    public $jsOptions = [];
+
+
+    /**
+     * @var array
+     */
+    public $cssOptions = [];
+
+
     /**
      * Returns Manifest instance. Loads it if needed.
      * @return \DotPlant\Monster\Manifest
@@ -88,6 +101,8 @@ class Bundle extends BundleEntity
                 'groups',
                 'namespace',
                 'isCore',
+                'jsOptions',
+                'cssOptions'
             ]
         );
     }
@@ -123,9 +138,7 @@ class Bundle extends BundleEntity
             }
             $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->scriptsFilename());
 
-            $jsOptions = [];
-
-            Yii::$app->view->registerJsFile($publishedUrl, $jsOptions);
+            Yii::$app->view->registerJsFile($publishedUrl, $this->jsOptions);
         }
 
         if ($this->hasCss) {
@@ -135,7 +148,7 @@ class Bundle extends BundleEntity
             }
             $publishedUrl = Yii::$app->assetManager->getPublishedUrl($this->stylesFilename());
 
-            Yii::$app->view->registerCssFile($publishedUrl);
+            Yii::$app->view->registerCssFile($publishedUrl, $this->cssOptions);
         }
         
         $this->publishAssetBundles();
