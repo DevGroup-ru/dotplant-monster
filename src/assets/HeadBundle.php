@@ -8,6 +8,6 @@ use yii\web\View;
 class HeadBundle extends yii\web\AssetBundle
 {
     public $jsOptions = [
-        'position' => View::POS_HEAD,
+        'position' => View::POS_END,
     ];
 }
